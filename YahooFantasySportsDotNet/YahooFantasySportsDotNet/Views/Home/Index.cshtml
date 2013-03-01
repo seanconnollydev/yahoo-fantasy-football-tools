@@ -6,5 +6,8 @@
 <p>
     @Html.ActionLink("Login to Yahoo", "AuthenticateWithYahoo")
 
-    @ViewBag.AccessToken
+    @if (ViewBag.IsUserAuthenticated)
+    {
+        @Html.ActionLink("View user leagues", "ListLeagues")
+    }
 </p>

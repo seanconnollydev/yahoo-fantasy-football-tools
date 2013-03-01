@@ -8,6 +8,7 @@ using DotNetOpenAuth.OpenId.Extensions.OAuth;
 
 namespace YahooFantasySportsDotNet
 {
+    //TODO: This should probably be at application scope instead of session state scope (though a more persistent store is really appropriate)
     public class SessionStateTokenManager : IConsumerTokenManager, IOpenIdOAuthTokenManager
     {
         private HttpSessionStateBase _sessionState;

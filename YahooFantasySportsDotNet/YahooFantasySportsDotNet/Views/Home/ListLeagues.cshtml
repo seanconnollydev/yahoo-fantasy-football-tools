@@ -1,0 +1,16 @@
+﻿@model YahooFantasySportsDotNet.Models.LeagueModelList
+
+@{
+    ViewBag.Title = "ListLeagues";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ListLeagues</h2>
+<ul id="leagues">
+ @foreach (YahooFantasySportsDotNet.Models.LeagueModel league in Model)
+ {
+    <li>Id: @league.Id</li>
+    <li>Name: @league.Name</li>
+ }
+ </ul>
+     

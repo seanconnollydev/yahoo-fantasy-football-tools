@@ -5,13 +5,13 @@ using System.Web;
 using DotNetOpenAuth.OAuth;
 using DotNetOpenAuth.OAuth.Messages;
 using DotNetOpenAuth.OAuth.ChannelElements;
+using System.Net;
+using DotNetOpenAuth.Messaging;
 
 namespace YahooFantasySportsDotNet
 {
     public class OAuthWrapper
     {
-        private string _requestToken = "";
-
         public WebConsumer Consumer { get; set; }
         public string ConsumerKey { get; set; }
         public string ConsumerSecret { get; set; }
@@ -20,7 +20,7 @@ namespace YahooFantasySportsDotNet
         {
             this.ConsumerKey = consumerKey;
             this.ConsumerSecret = consumerSecret;
-
+            
             this.Consumer = new WebConsumer(YahooFantasySportsService.Description, new SessionStateTokenManager(sessionState, this.ConsumerKey, this.ConsumerSecret));
         }
 
@@ -35,6 +35,15 @@ namespace YahooFantasySportsDotNet
         {
             var response = this.Consumer.ProcessUserAuthorization();
             return response.AccessToken;
+        }
+
+        public WebRequest PrepareAuthorizedRequest(string uri, string accessToken)
+        {
+            return this.Consumer.PrepareAuthorizedRequest(
+                new MessageReceivingEndpoint(
+                    uri,
+                    HttpDeliveryMethods.GetRequest | HttpDeliveryMethods.AuthorizationHeaderRequest),
+                accessToken);
         }
 
         public IConsumerTokenManager TokenManager
