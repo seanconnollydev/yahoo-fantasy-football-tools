@@ -32,10 +32,11 @@ namespace YahooFantasySportsClient.Domain
 
             foreach (var leagueElement in xmlDoc.Descendants(ns + "league"))
             {
-                leagues.Add(new League()
+                leagues.Add(new League(_oAuthClient)
                 {
                     Id = Convert.ToInt32(leagueElement.Element(ns + "league_id").Value),
-                    Name = leagueElement.Element(ns + "name").Value
+                    Name = leagueElement.Element(ns + "name").Value,
+                    Key = leagueElement.Element(ns + "league_key").Value
                 });
             }
 

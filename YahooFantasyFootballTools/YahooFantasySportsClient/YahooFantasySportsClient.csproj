@@ -115,6 +115,9 @@
   <ItemGroup>
     <Compile Include="Domain\League.cs" />
     <Compile Include="Domain\AuthorizedUser.cs" />
+    <Compile Include="Domain\Player.cs" />
+    <Compile Include="Domain\Roster.cs" />
+    <Compile Include="Domain\Team.cs" />
     <Compile Include="IUserTokenStore.cs" />
     <Compile Include="OAuthClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

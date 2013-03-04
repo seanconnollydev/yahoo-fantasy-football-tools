@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="17d570dd-f1c2-4f38-bc04-f7b038f8b2a7" name="sconnolly@DEVSCONNOLLY 2013-03-04 17:00:10" runUser="VISTAPRINTUS\sconnolly" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Local" id="c11b4321-ff4f-4b50-9287-c46474555a37">
+    <Description>These are default test settings for a local test run.</Description>
+    <Deployment enabled="false" runDeploymentRoot="sconnolly_DEVSCONNOLLY 2013-03-04 17_00_10">
+      <DeploymentItem filename="C:\github\yahoo-fantasy-football-tools\YahooFantasyFootballTools\YahooFantasySportsClient\bin\Debug\YahooFantasySportsClient.dll" />
+    </Deployment>
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2013-03-04T17:00:10.9893874-05:00" queuing="2013-03-04T17:00:12.1673874-05:00" start="2013-03-04T17:00:12.2823874-05:00" finish="2013-03-04T17:00:30.7063874-05:00" />
+  <ResultSummary outcome="Error">
+    <Counters total="1" executed="1" error="0" failed="0" timeout="0" aborted="1" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" passed="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="DEVSCONNOLLY" outcome="Error" timestamp="2013-03-04T17:00:30.7053874-05:00">
+        <Text>Test host process exited unexpectedly.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="GetTeams" storage="c:\github\yahoo-fantasy-football-tools\yahoofantasyfootballtools\yahoofantasysportsclient.tests\bin\debug\yahoofantasysportsclient.tests.dll" id="1e74f9d9-461a-fbd2-6f98-47755a39c138">
+      <Execution id="2f184cbf-0368-4046-b801-9722e0a4efe4" />
+      <TestMethod codeBase="C:/github/yahoo-fantasy-football-tools/YahooFantasyFootballTools/YahooFantasySportsClient.Tests/bin/Debug/YahooFantasySportsClient.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="YahooFantasySportsClient.Tests.LeagueTests, YahooFantasySportsClient.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="GetTeams" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="1e74f9d9-461a-fbd2-6f98-47755a39c138" executionId="2f184cbf-0368-4046-b801-9722e0a4efe4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="2f184cbf-0368-4046-b801-9722e0a4efe4" testId="1e74f9d9-461a-fbd2-6f98-47755a39c138" testName="GetTeams" computerName="DEVSCONNOLLY" duration="00:00:18.3260000" startTime="2013-03-04T17:00:12.3803874-05:00" endTime="2013-03-04T17:00:30.7063874-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Aborted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2f184cbf-0368-4046-b801-9722e0a4efe4">
+    </UnitTestResult>
+  </Results>
+</TestRun>

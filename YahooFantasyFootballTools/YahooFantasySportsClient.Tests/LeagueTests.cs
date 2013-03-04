@@ -20,5 +20,14 @@ namespace YahooFantasySportsClient.Tests
             // This test isn't really deterministic since it may change when a new seasons starts.
             Assert.AreEqual(3, leagues.Count());
         }
+
+        [TestMethod]
+        public void GetTeams()
+        {
+            var client = new YahooFantasySportsService(ClientTestConfiguration.CONSUMER_KEY, ClientTestConfiguration.CONSUMER_SECRET, new TestUserTokenStore());
+            var league = client.CurrentUser.GetLeagues().First();
+            Assert.IsTrue(league.GetTeams().Count() > 0);
+        }
+
     }
 }
