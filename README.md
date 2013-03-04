@@ -1,4 +1,4 @@
-yahoo-fantasy-sports-dot-net
+yahoo-fantasy-football-tools
 ============================
 
-YahooFantasySports.NET is a .NET class library that provides an easy-to-use interface for the [Yahoo Fantasy Sports API](http://developer.yahoo.com/fantasysports/guide/).
+Yahoo Fantasy Footballs Tools is a web application to assist with managing Yahoo! Fantasy Football leagues and teams using the [Yahoo Fantasy Sports API](http://developer.yahoo.com/fantasysports/guide/).
