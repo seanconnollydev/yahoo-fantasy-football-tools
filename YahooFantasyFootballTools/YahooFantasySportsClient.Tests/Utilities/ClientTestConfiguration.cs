@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace YahooFantasySportsClient.Tests.Utilities
+{
+    internal class ClientTestConfiguration
+    {
+        public const string CONSUMER_KEY = "dj0yJmk9ZTAySXBKS1Z1SkJpJmQ9WVdrOU9YZGlPRmx4TXpJbWNHbzlPVEU1TnpReE9EWXkmcz1jb25zdW1lcnNlY3JldCZ4PTQx";
+        public const string CONSUMER_SECRET = "85ab28cc61cd2c48a977ea19c0cf5ce352124091";
+        public const string USER_ACCESS_TOKEN = "A=1X9Toa3L4TpO1_4kLabq036GKHtn59gE6iPVB.v7IbvRgrg34l3CVQfInjhIyQ6GJQeCjsvIVQBhi1KqgZQy7lGxPZB7atf434Bi1i4q_P8pQGgIvYJ8QPVtyoIJJRcUgigK2zxO.tozEzuX5kpXleGZd_d37jYZT_LyOSg6SBHrJsoNh9oR9UWNxa.xroBwzQ7yw3i1Q9ALzZWT7pe4pHljfFjeD9xyzmmQAjRg5UonkFEsnhldRl9MMmWuBvFgDdFJ2wgbcdSUIhqvERPIFyQF17r1M0Dy2c_mMG9UQVXDuDfFn2QZNDqtM.tGjYVlw27K.BwlRs1KO8DSH7XFGQ48957u6TniNq66.PvrtlC36Aev_bYCdmpZ0taap8HJYvsyRpgkOE0jI97OtE9bYhgjgNoeBWoMGJaVAHYZjxkt0AmLYk7uAd7vJBX4ffOE.uab8TJLq1s5W2e7dc9_Xe1YC4lwONoDSBQoJoOoHE_nLgMJ9in8Fc6Qw8Fq1YRs90walFJWxCf_XjIdiCGDmcH2pUREqdJZxI6BbXt1JMTRnSmLZvvRCbQOA36tzRM_K48F121BMmMDnnHS85R1sq2je71QMbdcggP7.Fa3EfISkEOrKaKcOrZwSkR8C5l_rdw3JsPLdzgNYl0dgHFLIkD5hSpoyueznvMjHCOqqq4JxkgKPD1XXGcsxMItPD6PaWI8tkRdq8ns1IOkSM7BdB9g7_TDhm4FORcS68GuuYmeA3V6ZxWqtoGqErH60TG7fXqr2Xc-";
+        public const string USER_ACCESS_TOKEN_SECRET = "3ec3974b690ab85c5294f0f69c690fce86f3fb78";
+    }
+}

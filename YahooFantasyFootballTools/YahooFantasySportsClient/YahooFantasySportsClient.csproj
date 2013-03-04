@@ -113,10 +113,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\League.cs" />
+    <Compile Include="Domain\AuthorizedUser.cs" />
+    <Compile Include="IUserTokenStore.cs" />
     <Compile Include="OAuthClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TokenManager.cs" />
+    <Compile Include="UserTokenManager.cs" />
     <Compile Include="YahooFantasySportsService.cs" />
+    <Compile Include="YahooFantasySportsConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -17,7 +17,6 @@ namespace YahooFantasyFootballTools.Controllers
         // TODO: Move these some where more configurey and secure
         private const string CONSUMER_KEY = "dj0yJmk9ZTAySXBKS1Z1SkJpJmQ9WVdrOU9YZGlPRmx4TXpJbWNHbzlPVEU1TnpReE9EWXkmcz1jb25zdW1lcnNlY3JldCZ4PTQx";
         private const string CONSUMER_SECRET = "85ab28cc61cd2c48a977ea19c0cf5ce352124091";
-        private const string ACCESS_TOKEN_SESSION_KEY = "ACCESS_TOKEN";
 
         public ActionResult Index()
         {
@@ -34,9 +33,9 @@ namespace YahooFantasyFootballTools.Controllers
 
         public ActionResult AuthenticateWithYahoo()
         {
-            var wrapper = new OAuthClient(SessionStateTokensAndSecretsStore.Current, CONSUMER_KEY, CONSUMER_SECRET);
+            var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
             var callbackUri = new Uri(Request.Url.Scheme + "://" + Request.Url.Authority + "/Home/YahooOAuthCallback");
-            wrapper.BeginAuth(callbackUri);
+            service.BeginAuthorization(callbackUri);
 
             // This will not get hit
             return null;
@@ -44,9 +43,8 @@ namespace YahooFantasyFootballTools.Controllers
 
         public ActionResult YahooOAuthCallback()
         {
-            var wrapper = new OAuthClient(SessionStateTokensAndSecretsStore.Current, CONSUMER_KEY, CONSUMER_SECRET);
-            this.Session[ACCESS_TOKEN_SESSION_KEY] = wrapper.CompleteAuth();
-
+            var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
+            service.CompleteAuthorization();
             ViewBag.IsUserAuthenticated = true;
             
             return View("Index");
@@ -54,31 +52,8 @@ namespace YahooFantasyFootballTools.Controllers
 
         public ActionResult ListLeagues()
         {
-            var leagues = new LeagueModelList();
-            var wrapper = new OAuthClient(SessionStateTokensAndSecretsStore.Current, CONSUMER_KEY, CONSUMER_SECRET);
-
-            var request = wrapper.PrepareAuthorizedRequest(
-                "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues",
-                (string)this.Session[ACCESS_TOKEN_SESSION_KEY]);
-
-            XDocument xmlDoc;
-            using (var response = request.GetResponse())
-            {
-                using (var responseStream = response.GetResponseStream())
-                {
-                    xmlDoc = XDocument.Load(responseStream);
-                }
-            }
-
-            XNamespace ns = "http://fantasysports.yahooapis.com/fantasy/v2/base.rng";
-
-            foreach (var leagueElement in xmlDoc.Descendants(ns + "league"))
-            {
-                leagues.Add(new LeagueModel() {
-                    Id = Convert.ToInt32(leagueElement.Element(ns + "league_id").Value),
-                    Name = leagueElement.Element(ns + "name").Value
-                });
-            }
+            var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
+            var leagues = LeagueModelList.ConvertToModel(service.CurrentUser.GetLeagues());
 
             return View(leagues);
         }

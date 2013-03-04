@@ -1,23 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using DotNetOpenAuth.OAuth;
-using DotNetOpenAuth.Messaging;
-using DotNetOpenAuth.OAuth.ChannelElements;
+using System.Text;
+using YahooFantasySportsClient.Domain;
 
 namespace YahooFantasySportsClient
 {
-    public static class YahooFantasySportsService
+    public class YahooFantasySportsService
     {
-        public static readonly ServiceProviderDescription Description = new ServiceProviderDescription()
+        private readonly string _consumerKey;
+        private readonly string _consumerSecret;
+        private OAuthClient _oAuthClient;
+        private AuthorizedUser _currentUser;
+
+        public YahooFantasySportsService(string consumerKey, string consumerSecret, IUserTokenStore userTokenStore)
         {
-            RequestTokenEndpoint = new MessageReceivingEndpoint("https://api.login.yahoo.com/oauth/v2/get_request_token", HttpDeliveryMethods.PostRequest),
-            UserAuthorizationEndpoint = new MessageReceivingEndpoint("https://api.login.yahoo.com/oauth/v2/request_auth", HttpDeliveryMethods.GetRequest),
-            AccessTokenEndpoint = new MessageReceivingEndpoint("https://api.login.yahoo.com/oauth/v2/get_token", HttpDeliveryMethods.GetRequest),
-            TamperProtectionElements = new ITamperProtectionChannelBindingElement[] {
-                new HmacSha1SigningBindingElement()
+            _consumerKey = consumerKey;
+            _consumerSecret = consumerSecret;
+            _oAuthClient = new OAuthClient(userTokenStore, consumerKey, consumerSecret);
+        }
+
+        public AuthorizedUser CurrentUser
+        {
+            get
+            {
+                if (_currentUser == null)
+                {
+                    _currentUser = new AuthorizedUser(_oAuthClient);
+                }
+
+                return _currentUser;
             }
-        };
+        }
+
+        public void BeginAuthorization(Uri callback)
+        {
+            _oAuthClient.BeginAuth(callback);
+        }
+
+        public void CompleteAuthorization()
+        {
+            _oAuthClient.CompleteAuth();
+        }
     }
 }

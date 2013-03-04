@@ -15,16 +15,20 @@ namespace YahooFantasySportsClient
     /// </summary>
     public class OAuthClient
     {
+        private readonly IUserTokenStore _userTokenStore;
+
         public WebConsumer Consumer { get; set; }
         public string ConsumerKey { get; set; }
         public string ConsumerSecret { get; set; }
 
-        public OAuthClient(IDictionary<string, string> tokensAndSecrets, string consumerKey, string consumerSecret)
+        public OAuthClient(IUserTokenStore userTokenStore, string consumerKey, string consumerSecret)
         {
+            _userTokenStore = userTokenStore;
+
             this.ConsumerKey = consumerKey;
             this.ConsumerSecret = consumerSecret;
-            
-            this.Consumer = new WebConsumer(YahooFantasySportsService.Description, new TokenManager(tokensAndSecrets, this.ConsumerKey, this.ConsumerSecret));
+
+            this.Consumer = new WebConsumer(YahooFantasySportsConfiguration.Description, new UserTokenManager(_userTokenStore, this.ConsumerKey, this.ConsumerSecret));
         }
 
         public void BeginAuth(Uri callback)
@@ -33,19 +37,18 @@ namespace YahooFantasySportsClient
             this.Consumer.Channel.Respond(request);
         }
 
-        public string CompleteAuth()
+        public void CompleteAuth()
         {
-            var response = this.Consumer.ProcessUserAuthorization();
-            return response.AccessToken;
+            this.Consumer.ProcessUserAuthorization();
         }
 
-        public WebRequest PrepareAuthorizedRequest(string uri, string accessToken)
+        public WebRequest PrepareAuthorizedRequest(string uri)
         {
             return this.Consumer.PrepareAuthorizedRequest(
                 new MessageReceivingEndpoint(
                     uri,
                     HttpDeliveryMethods.GetRequest | HttpDeliveryMethods.AuthorizationHeaderRequest),
-                accessToken);
+                _userTokenStore.AccessToken);
         }
 
         public IConsumerTokenManager TokenManager

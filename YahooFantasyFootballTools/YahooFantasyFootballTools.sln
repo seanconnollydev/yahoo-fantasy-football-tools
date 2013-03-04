@@ -7,7 +7,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooFantasyFootballTools.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooFantasySportsClient", "YahooFantasySportsClient\YahooFantasySportsClient.csproj", "{A4EECA87-E40D-4BD1-BA52-B0A1128739F7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{17AD1B8E-0C49-4049-BF6F-24CE49AC5ED8}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+		YahooFantasyFootballTools.vsmdi = YahooFantasyFootballTools.vsmdi
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooFantasySportsClient.Tests", "YahooFantasySportsClient.Tests\YahooFantasySportsClient.Tests.csproj", "{BC5E9C07-74F6-424C-8C0F-DD287CE64267}"
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = YahooFantasyFootballTools.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -25,6 +37,10 @@ Global
 		{A4EECA87-E40D-4BD1-BA52-B0A1128739F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4EECA87-E40D-4BD1-BA52-B0A1128739F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4EECA87-E40D-4BD1-BA52-B0A1128739F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC5E9C07-74F6-424C-8C0F-DD287CE64267}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC5E9C07-74F6-424C-8C0F-DD287CE64267}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC5E9C07-74F6-424C-8C0F-DD287CE64267}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC5E9C07-74F6-424C-8C0F-DD287CE64267}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
