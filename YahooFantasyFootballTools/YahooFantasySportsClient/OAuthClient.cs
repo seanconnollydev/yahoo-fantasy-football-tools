@@ -8,25 +8,27 @@ using DotNetOpenAuth.OAuth.ChannelElements;
 using System.Net;
 using DotNetOpenAuth.Messaging;
 
-namespace YahooFantasyFootballTools
+namespace YahooFantasySportsClient
 {
-    public class OAuthWrapper
+    /// <summary>
+    /// 
+    /// </summary>
+    public class OAuthClient
     {
         public WebConsumer Consumer { get; set; }
         public string ConsumerKey { get; set; }
         public string ConsumerSecret { get; set; }
 
-        public OAuthWrapper(HttpSessionStateBase sessionState, string consumerKey, string consumerSecret)
+        public OAuthClient(IDictionary<string, string> tokensAndSecrets, string consumerKey, string consumerSecret)
         {
             this.ConsumerKey = consumerKey;
             this.ConsumerSecret = consumerSecret;
             
-            this.Consumer = new WebConsumer(YahooFantasySportsService.Description, new SessionStateTokenManager(sessionState, this.ConsumerKey, this.ConsumerSecret));
+            this.Consumer = new WebConsumer(YahooFantasySportsService.Description, new TokenManager(tokensAndSecrets, this.ConsumerKey, this.ConsumerSecret));
         }
 
         public void BeginAuth(Uri callback)
         {
-            // TODO: This should probably redirect to a proper callback
             var request = this.Consumer.PrepareRequestUserAuthorization(callback, null, null);
             this.Consumer.Channel.Respond(request);
         }

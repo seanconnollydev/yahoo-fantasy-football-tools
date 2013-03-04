@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using DotNetOpenAuth.OAuth;
 using System.Net;
 using System.IO;
 using YahooFantasyFootballTools.Models;
 using System.Xml.Linq;
 using System.Xml;
+using YahooFantasySportsClient;
 
 namespace YahooFantasyFootballTools.Controllers
 {
@@ -34,7 +34,7 @@ namespace YahooFantasyFootballTools.Controllers
 
         public ActionResult AuthenticateWithYahoo()
         {
-            var wrapper = new OAuthWrapper(this.Session, CONSUMER_KEY, CONSUMER_SECRET);
+            var wrapper = new OAuthClient(SessionStateTokensAndSecretsStore.Current, CONSUMER_KEY, CONSUMER_SECRET);
             var callbackUri = new Uri(Request.Url.Scheme + "://" + Request.Url.Authority + "/Home/YahooOAuthCallback");
             wrapper.BeginAuth(callbackUri);
 
@@ -44,7 +44,7 @@ namespace YahooFantasyFootballTools.Controllers
 
         public ActionResult YahooOAuthCallback()
         {
-            var wrapper = new OAuthWrapper(this.Session, CONSUMER_KEY, CONSUMER_SECRET);
+            var wrapper = new OAuthClient(SessionStateTokensAndSecretsStore.Current, CONSUMER_KEY, CONSUMER_SECRET);
             this.Session[ACCESS_TOKEN_SESSION_KEY] = wrapper.CompleteAuth();
 
             ViewBag.IsUserAuthenticated = true;
@@ -55,7 +55,7 @@ namespace YahooFantasyFootballTools.Controllers
         public ActionResult ListLeagues()
         {
             var leagues = new LeagueModelList();
-            var wrapper = new OAuthWrapper(this.Session, CONSUMER_KEY, CONSUMER_SECRET);
+            var wrapper = new OAuthClient(SessionStateTokensAndSecretsStore.Current, CONSUMER_KEY, CONSUMER_SECRET);
 
             var request = wrapper.PrepareAuthorizedRequest(
                 "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues",

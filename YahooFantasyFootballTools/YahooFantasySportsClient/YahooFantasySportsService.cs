@@ -6,7 +6,7 @@ using DotNetOpenAuth.OAuth;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OAuth.ChannelElements;
 
-namespace YahooFantasyFootballTools
+namespace YahooFantasySportsClient
 {
     public static class YahooFantasySportsService
     {
