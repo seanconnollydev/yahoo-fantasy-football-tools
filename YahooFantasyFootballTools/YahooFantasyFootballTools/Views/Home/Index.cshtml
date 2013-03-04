@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2>@ViewBag.Message</h2>
+<p>
+    @Html.ActionLink("Login to Yahoo", "AuthenticateWithYahoo")
+
+    @if (ViewBag.IsUserAuthenticated)
+    {
+        @Html.ActionLink("View user leagues", "ListLeagues")
+    }
+</p>
