@@ -113,6 +113,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\DraftResult.cs" />
     <Compile Include="Domain\League.cs" />
     <Compile Include="Domain\AuthorizedUser.cs" />
     <Compile Include="Domain\Player.cs" />

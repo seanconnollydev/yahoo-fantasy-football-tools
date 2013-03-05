@@ -1,0 +1,15 @@
+﻿@model IEnumerable<YahooFantasyFootballTools.Models.EligibleKeeperModel>
+
+@{
+    ViewBag.Title = "ListEligibleKeepers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ListEligibleKeepers</h2>
+
+<ul id="keeperList">
+    @foreach (YahooFantasyFootballTools.Models.EligibleKeeperModel keeper in Model)
+    {
+        <li>Name: @keeper.PlayerName / Round: @keeper.DraftRound</li>
+    }
+</ul>

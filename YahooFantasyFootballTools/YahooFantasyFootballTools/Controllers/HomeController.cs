@@ -9,6 +9,7 @@ using YahooFantasyFootballTools.Models;
 using System.Xml.Linq;
 using System.Xml;
 using YahooFantasySportsClient;
+using YahooFantasySportsClient.Domain;
 
 namespace YahooFantasyFootballTools.Controllers
 {
@@ -67,6 +68,32 @@ namespace YahooFantasyFootballTools.Controllers
             var teams = league.GetTeams();
 
             return View(teams);
+        }
+
+        public ActionResult ListEligibleKeepers(string teamKey)
+        {
+            List<EligibleKeeperModel> keepers = new List<EligibleKeeperModel>();
+            var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
+            var team = service.GetTeam(teamKey);
+            var roster = team.GetRoster();
+            var league = service.GetLeague(team.LeagueKey);
+            var draftResults = league.GetDraftResults();
+
+            foreach (var player in roster.GetPlayers())
+            {
+                var playerDraftResult = draftResults.FirstOrDefault(d => d.PlayerKey == player.Key);
+
+                var keeper = new EligibleKeeperModel(){
+                    PlayerName = player.Name,
+                    DraftRound = playerDraftResult != null ? playerDraftResult.Round : 15
+                };
+
+                keepers.Add(keeper);
+            }
+
+            var sortedKeepers = keepers.OrderBy(k => k.DraftRound);
+
+            return View(sortedKeepers);
         }
     }
 }

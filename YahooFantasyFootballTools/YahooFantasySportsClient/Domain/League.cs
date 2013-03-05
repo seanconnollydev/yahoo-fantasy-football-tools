@@ -24,7 +24,7 @@ namespace YahooFantasySportsClient.Domain
         {
             var teams = new List<Team>();
             var request = _oAuthClient.PrepareAuthorizedRequest(
-                string.Format("http://fantasysports.yahooapis.com/fantasy/v2/league/{0}/teams", this.Key)
+                string.Format("http://fantasysports.yahooapis.com/fantasy/v2/league/{0}/teams", GetValidleagueIdentifier())
             );
 
             XDocument xmlDoc;
@@ -49,6 +49,59 @@ namespace YahooFantasySportsClient.Domain
             }
 
             return teams;
+        }
+
+        public IEnumerable<DraftResult> GetDraftResults()
+        {
+            var draftResults = new List<DraftResult>();
+
+            var request = _oAuthClient.PrepareAuthorizedRequest(
+                string.Format("http://fantasysports.yahooapis.com/fantasy/v2/league/{0}/draftresults", GetValidleagueIdentifier())
+            );
+
+            XDocument xmlDoc;
+            using (var response = request.GetResponse())
+            {
+                using (var responseStream = response.GetResponseStream())
+                {
+                    xmlDoc = XDocument.Load(responseStream);
+                }
+            }
+
+            XNamespace ns = "http://fantasysports.yahooapis.com/fantasy/v2/base.rng";
+
+            foreach (var draftResult in xmlDoc.Descendants(ns + "draft_result"))
+            {
+                draftResults.Add(new DraftResult()
+                {
+                    Pick = Convert.ToInt32(draftResult.Element(ns + "pick").Value),
+                    Round = Convert.ToInt32(draftResult.Element(ns + "round").Value),
+                    TeamKey = draftResult.Element(ns + "team_key").Value,
+                    PlayerKey = draftResult.Element(ns + "player_key").Value
+                });
+            }
+
+            return draftResults;
+        }
+
+        private string GetValidleagueIdentifier()
+        {
+            string leagueIdentifier;
+
+            if (!String.IsNullOrEmpty(this.Key))
+            {
+                leagueIdentifier = this.Key;
+            }
+            else if (this.Id != default(int))
+            {
+                leagueIdentifier = this.Id.ToString();
+            }
+            else
+            {
+                throw new Exception("Either the league Id or Key must be set to call the Yahoo API");
+            }
+
+            return leagueIdentifier;
         }
     }
 }
