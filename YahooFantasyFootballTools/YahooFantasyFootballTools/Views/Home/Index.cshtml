@@ -3,15 +3,22 @@
 }
 
 <h2>@ViewBag.Message</h2>
-<p>
-    @Html.ActionLink("Login to Yahoo", "AuthenticateWithYahoo")
-
-    @if (ViewBag.IsUserAuthenticated)
+<div>
+    @if (!ViewBag.IsUserAuthenticated)
+    {
+        @Html.ActionLink("Login to Yahoo", "AuthenticateWithYahoo")
+        
+    }
+    else
     {
         @Html.ActionLink("View user leagues", "ListLeagues")
+        <br />
         <div>
-            <span>Access Token: </span> @ViewBag.AccessToken
-            <span>Access Token Secret: </span> @ViewBag.AccessTokenSecret
+            <strong>Some debug information, pay no mind simpleton.</strong>
+            <div>
+                <span>Access Token: </span> @ViewBag.AccessToken
+                <span>Access Token Secret: </span> @ViewBag.AccessTokenSecret
+            </div>
         </div>
     }
-</p>
+</div>

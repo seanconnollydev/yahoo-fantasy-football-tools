@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<YahooFantasySportsClient.Domain.League>
 
 @{
-    ViewBag.Title = "ListLeagues";
+    ViewBag.Title = "Leagues";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,6 +12,7 @@
     <li>Id: @league.Id</li>
     <li>Key: @league.Key</li>
     <li>Name: @Html.ActionLink(league.Name, "ListTeams", new { leagueKey = league.Key })</li>
+    <li>------------------------</li>
  }
  </ul>
      

@@ -22,7 +22,7 @@ namespace YahooFantasyFootballTools.Tests.Controllers
             ViewResult result = controller.Index() as ViewResult;
 
             // Assert
-            Assert.AreEqual("Welcome to ASP.NET MVC!", result.ViewBag.Message);
+            Assert.AreEqual("Login to view your eligible keepers", result.ViewBag.Message);
         }
 
         [TestMethod]

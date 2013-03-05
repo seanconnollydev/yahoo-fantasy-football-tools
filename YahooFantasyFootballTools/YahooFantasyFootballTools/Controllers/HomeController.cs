@@ -21,7 +21,7 @@ namespace YahooFantasyFootballTools.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to ASP.NET MVC!";
+            ViewBag.Message = "Login to view your eligible keepers";
             ViewBag.IsUserAuthenticated = false;
 
             return View();
@@ -81,12 +81,22 @@ namespace YahooFantasyFootballTools.Controllers
 
             foreach (var player in roster.GetPlayers())
             {
-                var playerDraftResult = draftResults.FirstOrDefault(d => d.PlayerKey == player.Key);
-
                 var keeper = new EligibleKeeperModel(){
                     PlayerName = player.Name,
-                    DraftRound = playerDraftResult != null ? playerDraftResult.Round : 15
+                    PlayerKey = player.Key,
+                    IsEligible = true // eligible by default
                 };
+
+                if (EligibleKeeperModel.KeptByTeamInPriorSeason(team.Key, player.Key))
+                {
+                    keeper.IsEligible = false;
+                    keeper.IneligibilityReason = "This player was kept last season";
+                }
+                else
+                {
+                    var playerDraftResult = draftResults.FirstOrDefault(d => d.PlayerKey == player.Key);
+                    keeper.DraftRound = playerDraftResult != null ? playerDraftResult.Round : 15;
+                }
 
                 keepers.Add(keeper);
             }
