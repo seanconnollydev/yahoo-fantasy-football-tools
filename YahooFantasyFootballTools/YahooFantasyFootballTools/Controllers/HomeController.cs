@@ -35,7 +35,11 @@ namespace YahooFantasyFootballTools.Controllers
         public ActionResult AuthenticateWithYahoo()
         {
             var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
-            var callbackUri = new Uri(Request.Url.Scheme + "://" + Request.Url.Authority + "/Home/YahooOAuthCallback");
+
+            // TODO: Clean this up. It is a work around since AppHarbor does not support a callback redirect when a port is specified.
+            string hostOrAuthority = Request.Url.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase) ? Request.Url.Authority : Request.Url.Host;
+
+            var callbackUri = new Uri(Request.Url.Scheme + "://" + hostOrAuthority + "/Home/YahooOAuthCallback");
             service.BeginAuthorization(callbackUri);
 
             // This will not get hit
