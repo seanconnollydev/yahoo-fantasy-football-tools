@@ -38,7 +38,13 @@ namespace YahooFantasyFootballTools.Models
 
         public static bool KeptByTeamInPriorSeason(string teamKey, string playerKey)
         {
-            return _previousKeepers[teamKey].Equals(playerKey, StringComparison.OrdinalIgnoreCase);
+            string playerKeyValue;
+            if (_previousKeepers.TryGetValue(teamKey, out playerKeyValue))
+            {
+                return _previousKeepers[teamKey].Equals(playerKey, StringComparison.OrdinalIgnoreCase);
+            }
+
+            return false;
         }
     }
 
