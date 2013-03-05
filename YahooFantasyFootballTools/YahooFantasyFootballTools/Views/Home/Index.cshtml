@@ -9,5 +9,9 @@
     @if (ViewBag.IsUserAuthenticated)
     {
         @Html.ActionLink("View user leagues", "ListLeagues")
+        <div>
+            <span>Access Token: </span> @ViewBag.AccessToken
+            <span>Access Token Secret: </span> @ViewBag.AccessTokenSecret
+        </div>
     }
 </p>

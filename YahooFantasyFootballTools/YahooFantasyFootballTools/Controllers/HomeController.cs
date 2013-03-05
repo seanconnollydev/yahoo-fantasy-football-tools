@@ -46,6 +46,8 @@ namespace YahooFantasyFootballTools.Controllers
             var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
             service.CompleteAuthorization();
             ViewBag.IsUserAuthenticated = true;
+            ViewBag.AccessToken = SessionStateUserTokenStore.Current.AccessToken;
+            ViewBag.AccessTokenSecret = SessionStateUserTokenStore.Current.AccessTokenSecret;
             
             return View("Index");
         }
@@ -53,9 +55,18 @@ namespace YahooFantasyFootballTools.Controllers
         public ActionResult ListLeagues()
         {
             var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
-            var leagues = LeagueModelList.ConvertToModel(service.CurrentUser.GetLeagues());
+            var leagues = service.CurrentUser.GetLeagues();
 
             return View(leagues);
+        }
+
+        public ActionResult ListTeams(string leagueKey)
+        {
+            var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
+            var league = service.GetLeague(leagueKey);
+            var teams = league.GetTeams();
+
+            return View(teams);
         }
     }
 }

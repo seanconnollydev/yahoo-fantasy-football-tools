@@ -40,7 +40,7 @@ namespace YahooFantasySportsClient.Domain
 
             foreach (var teamElement in xmlDoc.Descendants(ns + "team"))
             {
-                teams.Add(new Team()
+                teams.Add(new Team(_oAuthClient)
                 {
                     Id = Convert.ToInt32(teamElement.Element(ns + "team_id").Value),
                     Key = teamElement.Element(ns + "team_key").Value,

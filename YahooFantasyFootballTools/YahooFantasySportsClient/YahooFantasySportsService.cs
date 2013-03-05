@@ -42,5 +42,15 @@ namespace YahooFantasySportsClient
         {
             _oAuthClient.CompleteAuth();
         }
+
+        public League GetLeague(string leagueKey)
+        {
+            return new League(_oAuthClient) { Key = leagueKey };
+        }
+
+        public Team GetTeam(string teamKey)
+        {
+            return new Team(_oAuthClient) { Key = teamKey };
+        }
     }
 }

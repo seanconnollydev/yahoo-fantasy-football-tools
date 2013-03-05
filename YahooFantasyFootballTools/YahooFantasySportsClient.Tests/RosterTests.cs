@@ -15,7 +15,13 @@ namespace YahooFantasySportsClient.Tests
         public void GetRoster()
         {
             var service = new YahooFantasySportsService(ClientTestConfiguration.CONSUMER_KEY, ClientTestConfiguration.CONSUMER_SECRET, new TestUserTokenStore());
-            Roster roster = service.CurrentUser.GetLeagues().First().GetTeams().First().GetRoster();
+            
+            string leagueKey = service.CurrentUser.GetLeagues().First().Key;
+            League league = service.GetLeague(leagueKey);
+
+            string teamKey = league.GetTeams().First().Key;
+            Team team = service.GetTeam(teamKey);
+            Roster roster = team.GetRoster();
 
             Assert.IsTrue(roster.GetPlayers().Count() > 0);
         }

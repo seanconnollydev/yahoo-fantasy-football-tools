@@ -1,4 +1,4 @@
-﻿@model YahooFantasyFootballTools.Models.LeagueModelList
+﻿@model IEnumerable<YahooFantasySportsClient.Domain.League>
 
 @{
     ViewBag.Title = "ListLeagues";
@@ -7,10 +7,11 @@
 
 <h2>ListLeagues</h2>
 <ul id="leagues">
- @foreach (YahooFantasyFootballTools.Models.LeagueModel league in Model)
+ @foreach (YahooFantasySportsClient.Domain.League league in Model)
  {
     <li>Id: @league.Id</li>
-    <li>Name: @league.Name</li>
+    <li>Key: @league.Key</li>
+    <li>Name: @Html.ActionLink(league.Name, "ListTeams", new { leagueKey = league.Key })</li>
  }
  </ul>
      
