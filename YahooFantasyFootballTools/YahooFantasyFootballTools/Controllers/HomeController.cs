@@ -19,10 +19,14 @@ namespace YahooFantasyFootballTools.Controllers
         private const string CONSUMER_KEY = "dj0yJmk9ZTAySXBKS1Z1SkJpJmQ9WVdrOU9YZGlPRmx4TXpJbWNHbzlPVEU1TnpReE9EWXkmcz1jb25zdW1lcnNlY3JldCZ4PTQx";
         private const string CONSUMER_SECRET = "85ab28cc61cd2c48a977ea19c0cf5ce352124091";
 
+        public HomeController()
+        {
+            PopulateUserAuthViewData();
+        }
+
         public ActionResult Index()
         {
             ViewBag.Message = "Login to view your eligible keepers";
-            ViewBag.IsUserAuthenticated = false;
 
             return View();
         }
@@ -50,9 +54,7 @@ namespace YahooFantasyFootballTools.Controllers
         {
             var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
             service.CompleteAuthorization();
-            ViewBag.IsUserAuthenticated = true;
-            ViewBag.AccessToken = SessionStateUserTokenStore.Current.AccessToken;
-            ViewBag.AccessTokenSecret = SessionStateUserTokenStore.Current.AccessTokenSecret;
+            PopulateUserAuthViewData();
             
             return View("Index");
         }
@@ -108,6 +110,13 @@ namespace YahooFantasyFootballTools.Controllers
             var sortedKeepers = keepers.OrderBy(k => k.DraftRound);
 
             return View(sortedKeepers);
+        }
+
+        private void PopulateUserAuthViewData()
+        {
+            ViewBag.IsUserAuthenticated = SessionStateUserTokenStore.Current.IsAuthenticated();
+            ViewBag.AccessToken = SessionStateUserTokenStore.Current.AccessToken;
+            ViewBag.AccessTokenSecret = SessionStateUserTokenStore.Current.AccessTokenSecret;
         }
     }
 }

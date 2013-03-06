@@ -58,5 +58,10 @@ namespace YahooFantasyFootballTools
                 _sessionState[ACCESS_TOKEN_SECRET_KEY] = value;
             }
         }
+
+        public bool IsAuthenticated()
+        {
+            return !string.IsNullOrEmpty(this.AccessToken) && !string.IsNullOrEmpty(this.AccessTokenSecret);
+        }
     }
 }
