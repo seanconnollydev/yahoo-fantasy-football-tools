@@ -24,7 +24,7 @@ namespace YahooFantasySportsClient.Domain
         {
             var teams = new List<Team>();
             var request = _oAuthClient.PrepareAuthorizedRequest(
-                string.Format("http://fantasysports.yahooapis.com/fantasy/v2/league/{0}/teams", GetValidleagueIdentifier())
+                string.Format("http://fantasysports.yahooapis.com/fantasy/v2/league/{0}/teams", this.Key)
             );
 
             XDocument xmlDoc;
@@ -56,7 +56,7 @@ namespace YahooFantasySportsClient.Domain
             var draftResults = new List<DraftResult>();
 
             var request = _oAuthClient.PrepareAuthorizedRequest(
-                string.Format("http://fantasysports.yahooapis.com/fantasy/v2/league/{0}/draftresults", GetValidleagueIdentifier())
+                string.Format("http://fantasysports.yahooapis.com/fantasy/v2/league/{0}/draftresults", this.Key)
             );
 
             XDocument xmlDoc;
@@ -82,26 +82,6 @@ namespace YahooFantasySportsClient.Domain
             }
 
             return draftResults;
-        }
-
-        private string GetValidleagueIdentifier()
-        {
-            string leagueIdentifier;
-
-            if (!String.IsNullOrEmpty(this.Key))
-            {
-                leagueIdentifier = this.Key;
-            }
-            else if (this.Id != default(int))
-            {
-                leagueIdentifier = this.Id.ToString();
-            }
-            else
-            {
-                throw new Exception("Either the league Id or Key must be set to call the Yahoo API");
-            }
-
-            return leagueIdentifier;
         }
     }
 }
