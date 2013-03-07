@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace YahooFantasySportsClient.Tests.Utilities
+namespace Fantasizer.Tests.Utilities
 {
     internal class TestUserTokenStore : IUserTokenStore
     {

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<YahooFantasySportsClient.Domain.League>
+﻿@model IEnumerable<Fantasizer.Domain.League>
 
 @{
     ViewBag.Title = "Leagues";
@@ -7,7 +7,7 @@
 
 <h2>ListLeagues</h2>
 <ul id="leagues">
- @foreach (YahooFantasySportsClient.Domain.League league in Model)
+ @foreach (Fantasizer.Domain.League league in Model)
  {
     <li>Id: @league.Id</li>
     <li>Key: @league.Key</li>

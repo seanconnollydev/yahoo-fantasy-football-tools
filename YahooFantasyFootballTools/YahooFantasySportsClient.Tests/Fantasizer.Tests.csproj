@@ -9,8 +9,8 @@
     <ProjectGuid>{BC5E9C07-74F6-424C-8C0F-DD287CE64267}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YahooFantasySportsClient.Tests</RootNamespace>
-    <AssemblyName>YahooFantasySportsClient.Tests</AssemblyName>
+    <RootNamespace>Fantasizer.Tests</RootNamespace>
+    <AssemblyName>Fantasizer.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -53,9 +53,9 @@
     <Compile Include="Utilities\TestUserTokenStore.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\YahooFantasySportsClient\YahooFantasySportsClient.csproj">
+    <ProjectReference Include="..\YahooFantasySportsClient\Fantasizer.csproj">
       <Project>{A4EECA87-E40D-4BD1-BA52-B0A1128739F7}</Project>
-      <Name>YahooFantasySportsClient</Name>
+      <Name>Fantasizer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

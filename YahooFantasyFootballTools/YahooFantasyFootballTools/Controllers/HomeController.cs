@@ -8,8 +8,8 @@ using System.IO;
 using YahooFantasyFootballTools.Models;
 using System.Xml.Linq;
 using System.Xml;
-using YahooFantasySportsClient;
-using YahooFantasySportsClient.Domain;
+using Fantasizer;
+using Fantasizer.Domain;
 
 namespace YahooFantasyFootballTools.Controllers
 {
@@ -110,6 +110,15 @@ namespace YahooFantasyFootballTools.Controllers
             var sortedKeepers = keepers.OrderBy(k => k.DraftRound);
 
             return View(sortedKeepers);
+        }
+
+        public ActionResult Logout()
+        {
+            SessionStateUserTokenStore.Current.AccessToken = default(string);
+            SessionStateUserTokenStore.Current.AccessTokenSecret = default(string);
+            PopulateUserAuthViewData();
+
+            return View("Index");
         }
 
         private void PopulateUserAuthViewData()

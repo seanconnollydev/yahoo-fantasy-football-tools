@@ -6,7 +6,7 @@ using DotNetOpenAuth.OAuth.ChannelElements;
 using DotNetOpenAuth.OAuth.Messages;
 using DotNetOpenAuth.OpenId.Extensions.OAuth;
 
-namespace YahooFantasySportsClient
+namespace Fantasizer
 {
     /// <summary>
     /// OAuth token manager implementation for a single user that leaves storage implementation to the client.

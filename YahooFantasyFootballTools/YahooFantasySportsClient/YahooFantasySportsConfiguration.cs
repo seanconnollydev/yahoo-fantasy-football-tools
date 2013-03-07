@@ -6,7 +6,7 @@ using DotNetOpenAuth.OAuth;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OAuth.ChannelElements;
 
-namespace YahooFantasySportsClient
+namespace Fantasizer
 {
     internal static class YahooFantasySportsConfiguration
     {

@@ -19,7 +19,7 @@
             <div id="userProfile">
                 @if (ViewBag.IsUserAuthenticated)
                 {
-                    <span>You are logged in.</span>
+                    @Html.ActionLink("Logout", "Logout", "Home")
                 }
             </div>
             @RenderBody()

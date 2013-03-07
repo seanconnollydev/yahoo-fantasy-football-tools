@@ -223,9 +223,9 @@
     <Content Include="Views\Home\ListLeagues.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\YahooFantasySportsClient\YahooFantasySportsClient.csproj">
+    <ProjectReference Include="..\YahooFantasySportsClient\Fantasizer.csproj">
       <Project>{A4EECA87-E40D-4BD1-BA52-B0A1128739F7}</Project>
-      <Name>YahooFantasySportsClient</Name>
+      <Name>Fantasizer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

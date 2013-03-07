@@ -8,7 +8,7 @@ using DotNetOpenAuth.OAuth.ChannelElements;
 using System.Net;
 using DotNetOpenAuth.Messaging;
 
-namespace YahooFantasySportsClient
+namespace Fantasizer
 {
     /// <summary>
     /// 
