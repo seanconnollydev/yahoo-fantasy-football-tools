@@ -8,13 +8,6 @@ namespace Fantasizer.Domain
 {
     public class Team
     {
-        private readonly OAuthClient _oAuthClient;
-
-        public Team(OAuthClient oAuthClient)
-        {
-            _oAuthClient = oAuthClient;
-        }
-
         public int Id { get; set; }
         public string Key { get; set; }
         public string Name { get; set; }
@@ -33,48 +26,21 @@ namespace Fantasizer.Domain
                 return _leagueKey;
             }
         }
-        
-        public Roster GetRoster()
+
+        internal static Team CreateFromXml(XElement teamElement)
         {
-            return new Roster(_oAuthClient, this);
-        }
-
-        public IEnumerable<DraftResult> GetDraftResults()
-        {
-            var draftResults = new List<DraftResult>();
-            var request = _oAuthClient.PrepareAuthorizedRequest(
-                string.Format("http://fantasysports.yahooapis.com/fantasy/v2/team/{0}/draftresults", this.Key)
-            );
-
-            XDocument xmlDoc;
-            using (var response = request.GetResponse())
+            return new Team()
             {
-                using (var responseStream = response.GetResponseStream())
-                {
-                    xmlDoc = XDocument.Load(responseStream);
-                }
-            }
-
-            XNamespace ns = "http://fantasysports.yahooapis.com/fantasy/v2/base.rng";
-
-            foreach (var draftResult in xmlDoc.Descendants(ns + "draft_result"))
-            {
-                draftResults.Add(new DraftResult()
-                {
-                    Pick = Convert.ToInt32(draftResult.Element(ns + "pick").Value),
-                    Round = Convert.ToInt32(draftResult.Element(ns + "round").Value),
-                    TeamKey = draftResult.Element(ns + "team_key").Value,
-                    PlayerKey = draftResult.Element(ns + "player_key").Value
-                });
-            }
-
-            return draftResults;
+                Id = Convert.ToInt32(teamElement.Element(YahooXml.XMLNS + "team_id").Value),
+                Key = teamElement.Element(YahooXml.XMLNS + "team_key").Value,
+                Name = teamElement.Element(YahooXml.XMLNS + "name").Value
+            };
         }
     }
 }
 
 /*
-<fantasy_content xml:lang="en-US" yahoo:uri="http://fantasysports.yahooapis.com/fantasy/v2/team/273.l.86177.t.4/draftresults" xmlns:yahoo="http://www.yahooapis.com/v1/base.rng" time="52.631139755249ms" copyright="Data provided by Yahoo! and STATS, LLC" refresh_rate="60" xmlns="http://fantasysports.yahooapis.com/fantasy/v2/base.rng">
+<fantasy_content xml:lang="en-US" yahoo:uri="http://fantasysports.yahooapis.com/fantasy/v2/team/273.l.86177.t.4" xmlns:yahoo="http://www.yahooapis.com/v1/base.rng" time="50.369024276733ms" copyright="Data provided by Yahoo! and STATS, LLC" refresh_rate="60" xmlns="http://fantasysports.yahooapis.com/fantasy/v2/base.rng">
   <team>
     <team_key>273.l.86177.t.4</team_key>
     <team_id>4</team_id>
@@ -84,7 +50,7 @@ namespace Fantasizer.Domain
     <team_logos>
       <team_logo>
         <size>medium</size>
-        <url>http://l.yimg.com/a/i/identity2/profile_48b.png</url>
+        <url>http://l.yimg.com/a/i/identity2/profile_48c.png</url>
       </team_logo>
     </team_logos>
     <division_id>2</division_id>
@@ -105,98 +71,6 @@ namespace Fantasizer.Domain
         <is_current_login>1</is_current_login>
       </manager>
     </managers>
-    <draft_results count="15">
-      <draft_result>
-        <pick>2</pick>
-        <round>1</round>
-        <team_key>273.l.86177.t.4</team_key>
-        <player_key>273.p.9317</player_key>
-      </draft_result>
-      <draft_result>
-        <pick>19</pick>
-        <round>2</round>
-        <team_key>273.l.86177.t.4</team_key>
-        <player_key>273.p.24791</player_key>
-      </draft_result>
-      <draft_result>
-        <pick>22</pick>
-        <round>3</round>
-        <team_key>273.l.86177.t.4</team_key>
-        <player_key>273.p.6783</player_key>
-      </draft_result>
-      <draft_result>
-        <pick>39</pick>
-        <round>4</round>
-        <team_key>273.l.86177.t.4</team_key>
-        <player_key>273.p.8001</player_key>
-      </draft_result>
-      <draft_result>
-        <pick>42</pick>
-        <round>5</round>
-        <team_key>273.l.86177.t.4</team_key>
-        <player_key>273.p.8504</player_key>
-      </draft_result>
-      <draft_result>
-        <pick>59</pick>
-        <round>6</round>
-        <team_key>273.l.86177.t.4</team_key>
-        <player_key>273.p.6624</player_key>
-      </draft_result>
-      <draft_result>
-        <pick>62</pick>
-        <round>7</round>
-        <team_key>273.l.86177.t.4</team_key>
-        <player_key>273.p.24892</player_key>
-      </draft_result>
-      <draft_result>
-        <pick>79</pick>
-        <round>8</round>
-        <team_key>273.l.86177.t.4</team_key>
-        <player_key>273.p.6405</player_key>
-      </draft_result>
-      <draft_result>
-        <pick>82</pick>
-        <round>9</round>
-        <team_key>273.l.86177.t.4</team_key>
-        <player_key>273.p.25715</player_key>
-      </draft_result>
-      <draft_result>
-        <pick>99</pick>
-        <round>10</round>
-        <team_key>273.l.86177.t.4</team_key>
-        <player_key>273.p.24860</player_key>
-      </draft_result>
-      <draft_result>
-        <pick>102</pick>
-        <round>11</round>
-        <team_key>273.l.86177.t.4</team_key>
-        <player_key>273.p.24846</player_key>
-      </draft_result>
-      <draft_result>
-        <pick>119</pick>
-        <round>12</round>
-        <team_key>273.l.86177.t.4</team_key>
-        <player_key>273.p.23996</player_key>
-      </draft_result>
-      <draft_result>
-        <pick>122</pick>
-        <round>13</round>
-        <team_key>273.l.86177.t.4</team_key>
-        <player_key>273.p.100009</player_key>
-      </draft_result>
-      <draft_result>
-        <pick>139</pick>
-        <round>14</round>
-        <team_key>273.l.86177.t.4</team_key>
-        <player_key>273.p.6243</player_key>
-      </draft_result>
-      <draft_result>
-        <pick>142</pick>
-        <round>15</round>
-        <team_key>273.l.86177.t.4</team_key>
-        <player_key>273.p.23997</player_key>
-      </draft_result>
-    </draft_results>
   </team>
 </fantasy_content>
 */

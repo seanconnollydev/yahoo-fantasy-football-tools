@@ -46,8 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="LeagueTests.cs" />
-    <Compile Include="RosterTests.cs" />
+    <Compile Include="ServiceTests.cs" />
     <Compile Include="TeamTests.cs" />
     <Compile Include="Utilities\ClientTestConfiguration.cs" />
     <Compile Include="Utilities\TestUserTokenStore.cs" />

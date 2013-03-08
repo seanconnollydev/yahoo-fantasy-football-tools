@@ -7,9 +7,13 @@ namespace Fantasizer.Tests.Utilities
 {
     internal class ClientTestConfiguration
     {
+        public const string USER_ACCESS_TOKEN = "A=dE0.nSbAkANX9YaCWa..b8zxYPtKPyulPcraV3UU.tVQ6YVrje1Xdf.f7t2TLwyFBnuVkn76lbytX.ChLzkvvnc6WAQZ1ZiKPWbKos7Z2yYcF72dsgy9aEtxBghd84L.VDYRML6Uw4fzuiKL0NdR0SdRUvXRLTAyA2XHnKL2NTl1Y0Epe.aOEH7ZI2JgF5y_P3u4hEgObcIhBtirtjUX0IKcNYmK8ONCHBAYCW4f7rghTavDHBEvnQjDWwGFX_PZM2xc0CsHzXDEorr5R59clVZNgOlBPBu62RkYzAkxUlmLQndu_VspKescSAVghMhMoguJ5ohUrk8Id8bCOeTzqfAkPdY0uGd5hGxEBcAHhxypVEVkC12YzJ7tsS63EMC9aA7hOCfk3gyNHc3vfsDmoW9QMExKSs.XULZJe3d5UngEdmC4pMyO50N3HUq3Efyv4hDV_QDdFTJJrX4nZn6eAUX3hAu4my2WHQG834Z5jcEbdLOYqSbfB_O7uWC6lV4akmQKjWU55TDwu7rWsIehTT3bCg3Jt4IiDWvW2fL_HmTsi8nOH8UooA04l6zLD0WDbaT42i.K_WgV2SwYyQuc5hzMjx7jwlE.yy_0Af6VvJKKj.0qBZZ_k4Phv12FJrTxiVPZ0zoJK9D9Tdi26.x5jv7FEW40nZ8waYWzTl_c6Is14YRf4Blwpum_wafu.hE4ZVgUpCkNuyRUCmyeJN6HVHE0SfR2smerhYkHesk9e45KcK8Lj1.ZQAqXt3ruYuTcIP3dU8k-";
+        public const string USER_ACCESS_TOKEN_SECRET = "1a13cbad345ad5049a53f04fe0459965750e2fb2";
+
         public const string CONSUMER_KEY = "dj0yJmk9ZTAySXBKS1Z1SkJpJmQ9WVdrOU9YZGlPRmx4TXpJbWNHbzlPVEU1TnpReE9EWXkmcz1jb25zdW1lcnNlY3JldCZ4PTQx";
         public const string CONSUMER_SECRET = "85ab28cc61cd2c48a977ea19c0cf5ce352124091";
-        public const string USER_ACCESS_TOKEN = "A=efhl_eDmlViSCEYNVIWJpxIBadn7Mi03vMwb.OyP3Dt6LJHNLqVQThlc3Xx10V0Y0is_WD.4S_mOGL1B5FpBY7AhGfpPbnCB292qevLhHpaplgEi0E.PEWpfQnuH02TfGDgNz1P7.a7zDhXzyPw8Lf_AKY3I8vz7cw86dDLNZF6odgsyoE5guu0qIAu_04K_QrRs79EKa_6DKM.lMT3WyZbzrnlyFpogZ.yFBlCdD3fd_G6X.DmrQwTjugAGVLTkTzmeai__rlr3Swvys3grde7.K3S5ebgSDvtCzEDz510mOQSi5MRN_ldug.G3frQ68Ynw6hCsnibZRJkGZFJCdlmLPez.EyBZecz652fFXGipcp1dndAfFbNGwosP493OcvkbnIywWhutemCIA5nXl0KT4PRFynMg5JYhXthBrNJ.fvtbAOlJLZd_j82Icmuz10MzY4Le4EK9lfo7Nf6VxKYR47p0sxhgOnvICbOlMFhFnCaq2K9YlSGzqOMqtZ6LiDDBpfotQC9x_2IN43hcMi8Q_ecSTmFc.elrg5IFVpaMCGaSN38fQMkGFwr06s3PvdXdNovpTkoZ8jdqobWubPH.NAPdpvSauDsERMGX7gsjrennV7tblv6qxrqtPejXjMXoXl83KXRPOYyvG2x9e_IUj7HNAn_cy7dAfl7bTXwVrVfskalm7M2w4VJ9bd980uIcLYSTT2i4oB6Kwp7nkbqk489elPrZwhScWeqTJZXiXF_TN97GZiqnqPLgUtoEaRn3WdE-";
-        public const string USER_ACCESS_TOKEN_SECRET = "36f24c2a439144fe1ab99b0b7a6db97c269e697e";
+        
+        public const string DEFAULT_LEAGUE_KEY = "273.l.86177";
+        public const string DEFAULT_TEAM_KEY = "273.l.86177.t.4"; // Wookie of the Year - 2012
     }
 }

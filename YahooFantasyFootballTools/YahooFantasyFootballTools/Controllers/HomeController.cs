@@ -62,7 +62,7 @@ namespace YahooFantasyFootballTools.Controllers
         public ActionResult ListLeagues()
         {
             var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
-            var leagues = service.CurrentUser.GetLeagues();
+            var leagues = service.GetLeagues();
 
             return View(leagues);
         }
@@ -70,22 +70,19 @@ namespace YahooFantasyFootballTools.Controllers
         public ActionResult ListTeams(string leagueKey)
         {
             var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
-            var league = service.GetLeague(leagueKey);
-            var teams = league.GetTeams();
+            var teams = service.GetTeams(leagueKey);
 
-            return View(teams);
+            return View(teams.Teams);
         }
 
         public ActionResult ListEligibleKeepers(string teamKey)
         {
             List<EligibleKeeperModel> keepers = new List<EligibleKeeperModel>();
             var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
-            var team = service.GetTeam(teamKey);
-            var roster = team.GetRoster();
-            var league = service.GetLeague(team.LeagueKey);
-            var draftResults = league.GetDraftResults();
+            var teamPlayers = service.GetPlayers(teamKey);
+            var draftResults = service.GetDraftResults(teamPlayers.Team.LeagueKey).DraftResults;
 
-            foreach (var player in roster.GetPlayers())
+            foreach (var player in teamPlayers.Players)
             {
                 var keeper = new EligibleKeeperModel(){
                     PlayerName = player.Name,
@@ -93,7 +90,7 @@ namespace YahooFantasyFootballTools.Controllers
                     IsEligible = true // eligible by default
                 };
 
-                if (EligibleKeeperModel.KeptByTeamInPriorSeason(team.Key, player.Key))
+                if (EligibleKeeperModel.KeptByTeamInPriorSeason(teamPlayers.Team.Key, player.Key))
                 {
                     keeper.IsEligible = false;
                     keeper.IneligibilityReason = "This player was kept last season";
