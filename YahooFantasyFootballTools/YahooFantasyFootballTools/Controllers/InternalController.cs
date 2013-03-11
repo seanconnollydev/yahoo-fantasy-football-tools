@@ -13,7 +13,7 @@ namespace YahooFantasyFootballTools.Controllers
             // TODO: Put this check someplace where it can be called on any "Internal" action.
             if (!Request.IsLocal)
             {
-                RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.AccessToken = SessionStateUserTokenStore.Current.AccessToken;
