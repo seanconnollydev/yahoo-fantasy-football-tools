@@ -41,13 +41,23 @@ namespace Fantasizer.Tests
         }
 
         [TestMethod]
-        public void GetPlayers()
+        public void GetRosterPlayers()
         {
             var service = new YahooFantasySportsService(ClientTestConfiguration.CONSUMER_KEY, ClientTestConfiguration.CONSUMER_SECRET, new TestUserTokenStore());
 
-            var teamPlayerResults = service.GetPlayers(ClientTestConfiguration.DEFAULT_TEAM_KEY);
+            var rosterPlayerResults = service.GetRosterPlayers(ClientTestConfiguration.DEFAULT_TEAM_KEY);
 
-            Assert.AreEqual(15, teamPlayerResults.Players.Count);
+            Assert.AreEqual(15, rosterPlayerResults.Players.Count);
+        }
+
+        [TestMethod]
+        public void GetTeamPlayerStats()
+        {
+            var service = new YahooFantasySportsService(ClientTestConfiguration.CONSUMER_KEY, ClientTestConfiguration.CONSUMER_SECRET, new TestUserTokenStore());
+
+            var teamPlayerStats = service.GetTeamPlayerStats(ClientTestConfiguration.DEFAULT_TEAM_KEY);
+
+            Assert.AreEqual(15, teamPlayerStats.Players.Count);
         }
     }
 }

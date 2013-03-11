@@ -17,6 +17,7 @@ namespace YahooFantasyFootballTools.Models
 
         public string IneligibilityReason { get; set; }
 
+        public int LastSeasonPoints { get; set; }
 
         private static Dictionary<string, string> _previousKeepers;
 

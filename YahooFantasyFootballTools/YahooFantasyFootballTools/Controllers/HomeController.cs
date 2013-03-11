@@ -79,7 +79,7 @@ namespace YahooFantasyFootballTools.Controllers
         {
             List<EligibleKeeperModel> keepers = new List<EligibleKeeperModel>();
             var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
-            var teamPlayers = service.GetPlayers(teamKey);
+            var teamPlayers = service.GetTeamPlayerStats(teamKey);
             var draftResults = service.GetDraftResults(teamPlayers.Team.LeagueKey).DraftResults;
 
             foreach (var player in teamPlayers.Players)
@@ -87,6 +87,7 @@ namespace YahooFantasyFootballTools.Controllers
                 var keeper = new EligibleKeeperModel(){
                     PlayerName = player.Name,
                     PlayerKey = player.Key,
+                    LastSeasonPoints = player.Points.Total,
                     IsEligible = true // eligible by default
                 };
 

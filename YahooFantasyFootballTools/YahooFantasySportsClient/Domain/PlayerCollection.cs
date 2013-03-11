@@ -6,17 +6,24 @@ using System.Xml.Linq;
 
 namespace Fantasizer.Domain
 {
-    public class PlayerCollection : ICollection<Player>
+    public class PlayerCollection<TPlayerType> : ICollection<TPlayerType> where TPlayerType : Player
     {
-        private readonly List<Player> _playerList;
-        private PlayerCollection()
+        private readonly List<TPlayerType> _playerList;
+        internal PlayerCollection(XDocument xml)
         {
-            _playerList = new List<Player>();
+            _playerList = new List<TPlayerType>();
+
+            foreach (var playerElement in xml.Descendants(YahooXml.XMLNS + "player"))
+            {
+                var player = (TPlayerType)Activator.CreateInstance(typeof(TPlayerType), true);
+                player.Load(playerElement);
+                this.Add(player);
+            }
         }
 
-        #region ICollection<Player> Members
+        #region ICollection<TPlayerType> Members
 
-        public void Add(Player item)
+        public void Add(TPlayerType item)
         {
             _playerList.Add(item);
         }
@@ -26,12 +33,12 @@ namespace Fantasizer.Domain
             _playerList.Clear();
         }
 
-        public bool Contains(Player item)
+        public bool Contains(TPlayerType item)
         {
             return _playerList.Contains(item);
         }
 
-        public void CopyTo(Player[] array, int arrayIndex)
+        public void CopyTo(TPlayerType[] array, int arrayIndex)
         {
             _playerList.CopyTo(array, arrayIndex);
         }
@@ -46,16 +53,16 @@ namespace Fantasizer.Domain
             get { return true; }
         }
 
-        public bool Remove(Player item)
+        public bool Remove(TPlayerType item)
         {
             return _playerList.Remove(item);
         }
 
         #endregion
 
-        #region IEnumerable<Player> Members
+        #region IEnumerable<TPlayerType> Members
 
-        public IEnumerator<Player> GetEnumerator()
+        public IEnumerator<TPlayerType> GetEnumerator()
         {
             return _playerList.GetEnumerator();
         }
@@ -70,17 +77,5 @@ namespace Fantasizer.Domain
         }
 
         #endregion
-
-        internal static PlayerCollection CreateFromXml(XDocument xml)
-        {
-            var players = new PlayerCollection();
-
-            foreach (var playerElement in xml.Descendants(YahooXml.XMLNS + "player"))
-            {
-                players.Add(Player.CreateFromXml(playerElement));
-            }
-
-            return players;
-        }
     }
 }
