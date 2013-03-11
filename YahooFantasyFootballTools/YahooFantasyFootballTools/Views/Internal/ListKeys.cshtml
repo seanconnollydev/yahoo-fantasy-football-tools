@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Keys";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Keys</h2>
+
+@if (ViewBag.IsUserAuthenticated)
+{
+    <strong>Some debug information, pay no mind simpleton.</strong>
+    <div>
+        <span>Access Token: </span> @ViewBag.AccessToken
+        <span>Access Token Secret: </span> @ViewBag.AccessTokenSecret
+    </div>
+}
+else
+{
+    <span>User not authenticated. @Html.ActionLink("Login to Yahoo", "AuthenticateWithYahoo")</span>
+}
