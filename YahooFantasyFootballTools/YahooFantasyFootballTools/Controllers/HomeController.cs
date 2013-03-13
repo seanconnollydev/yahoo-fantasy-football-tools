@@ -16,8 +16,8 @@ namespace YahooFantasyFootballTools.Controllers
     public class HomeController : Controller
     {
         // TODO: Move these some where more configurey and secure
-        private const string CONSUMER_KEY = "dj0yJmk9ZTAySXBKS1Z1SkJpJmQ9WVdrOU9YZGlPRmx4TXpJbWNHbzlPVEU1TnpReE9EWXkmcz1jb25zdW1lcnNlY3JldCZ4PTQx";
-        private const string CONSUMER_SECRET = "85ab28cc61cd2c48a977ea19c0cf5ce352124091";
+        private const string CONSUMER_KEY = "dj0yJmk9OVJXSFBMcVZyRldJJmQ9WVdrOU9XaGhiblJ5TnpJbWNHbzlNVGd3TkRRd05qRTJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD03MA--";
+        private const string CONSUMER_SECRET = "266f2c9d42e794b46aab16ce6c894986e008f3fa";
 
         public HomeController()
         {
