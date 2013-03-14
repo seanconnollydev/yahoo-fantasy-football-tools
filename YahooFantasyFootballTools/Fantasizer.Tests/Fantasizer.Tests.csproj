@@ -52,7 +52,7 @@
     <Compile Include="Utilities\TestUserTokenStore.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\YahooFantasySportsClient\Fantasizer.csproj">
+    <ProjectReference Include="..\Fantasizer\Fantasizer.csproj">
       <Project>{A4EECA87-E40D-4BD1-BA52-B0A1128739F7}</Project>
       <Name>Fantasizer</Name>
     </ProjectReference>
