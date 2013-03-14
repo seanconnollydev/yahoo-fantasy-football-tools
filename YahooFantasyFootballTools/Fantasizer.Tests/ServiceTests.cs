@@ -13,7 +13,7 @@ namespace Fantasizer.Tests
         [TestMethod]
         public void GetTeams()
         {
-            var service = new YahooFantasySportsService(ClientTestConfiguration.CONSUMER_KEY, ClientTestConfiguration.CONSUMER_SECRET, new TestUserTokenStore());
+            var service = new YahooFantasySportsService(ClientTestConfiguration.ConsumerKey, ClientTestConfiguration.ConsumerSecret, new TestUserTokenStore());
 
             var teams = service.GetTeams(ClientTestConfiguration.DEFAULT_LEAGUE_KEY);
 
@@ -23,7 +23,7 @@ namespace Fantasizer.Tests
         [TestMethod]
         public void GetLeagues()
         {
-            var service = new YahooFantasySportsService(ClientTestConfiguration.CONSUMER_KEY, ClientTestConfiguration.CONSUMER_SECRET, new TestUserTokenStore());
+            var service = new YahooFantasySportsService(ClientTestConfiguration.ConsumerKey, ClientTestConfiguration.ConsumerSecret, new TestUserTokenStore());
 
             var leagues = service.GetLeagues();
 
@@ -33,7 +33,7 @@ namespace Fantasizer.Tests
         [TestMethod]
         public void GetDraftResults()
         {
-            var service = new YahooFantasySportsService(ClientTestConfiguration.CONSUMER_KEY, ClientTestConfiguration.CONSUMER_SECRET, new TestUserTokenStore());
+            var service = new YahooFantasySportsService(ClientTestConfiguration.ConsumerKey, ClientTestConfiguration.ConsumerSecret, new TestUserTokenStore());
 
             var leagueDraftResults = service.GetDraftResults(ClientTestConfiguration.DEFAULT_LEAGUE_KEY);
 
@@ -43,7 +43,7 @@ namespace Fantasizer.Tests
         [TestMethod]
         public void GetRosterPlayers()
         {
-            var service = new YahooFantasySportsService(ClientTestConfiguration.CONSUMER_KEY, ClientTestConfiguration.CONSUMER_SECRET, new TestUserTokenStore());
+            var service = new YahooFantasySportsService(ClientTestConfiguration.ConsumerKey, ClientTestConfiguration.ConsumerSecret, new TestUserTokenStore());
 
             var rosterPlayerResults = service.GetRosterPlayers(ClientTestConfiguration.DEFAULT_TEAM_KEY);
 
@@ -53,7 +53,7 @@ namespace Fantasizer.Tests
         [TestMethod]
         public void GetTeamPlayerStats()
         {
-            var service = new YahooFantasySportsService(ClientTestConfiguration.CONSUMER_KEY, ClientTestConfiguration.CONSUMER_SECRET, new TestUserTokenStore());
+            var service = new YahooFantasySportsService(ClientTestConfiguration.ConsumerKey, ClientTestConfiguration.ConsumerSecret, new TestUserTokenStore());
 
             var teamPlayerStats = service.GetTeamPlayerStats(ClientTestConfiguration.DEFAULT_TEAM_KEY);
 

@@ -14,7 +14,7 @@ namespace Fantasizer.Tests
         [TestMethod]
         public void GetLeagueKeyFromTeam()
         {
-            var service = new YahooFantasySportsService(ClientTestConfiguration.CONSUMER_KEY, ClientTestConfiguration.CONSUMER_SECRET, new TestUserTokenStore());
+            var service = new YahooFantasySportsService(ClientTestConfiguration.ConsumerKey, ClientTestConfiguration.ConsumerSecret, new TestUserTokenStore());
             
             var team = service.GetTeam(ClientTestConfiguration.DEFAULT_TEAM_KEY);
 
