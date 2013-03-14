@@ -16,8 +16,8 @@ namespace YahooFantasyFootballTools
 
         public static string ConsumerSecret
         {
-            //get { return Get<string>("YahooConsumerSecret"); }
-            get { return "266f2c9d42e794b46aab16ce6c894986e008f3fa"; }
+            get { return Get<string>("YahooConsumerSecret"); }
+            //get { return "266f2c9d42e794b46aab16ce6c894986e008f3fa"; }
         }
 
         private static T Get<T>(string key)
