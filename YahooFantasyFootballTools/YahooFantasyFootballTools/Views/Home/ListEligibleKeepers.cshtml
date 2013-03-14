@@ -1,4 +1,4 @@
-﻿@model IEnumerable<YahooFantasyFootballTools.Models.EligibleKeeperModel>
+﻿@model IEnumerable<Tools.Analysis.Domain.EligibleKeeper>
 
 @{
     ViewBag.Title = "Eligible Keepers";
@@ -8,7 +8,7 @@
 <h2>ListEligibleKeepers</h2>
 
 <ul id="keeperList">
-    @foreach (YahooFantasyFootballTools.Models.EligibleKeeperModel keeper in Model)
+    @foreach (var keeper in Model)
     {
         <li>Name: @keeper.PlayerName</li>
         if (@keeper.IsEligible)

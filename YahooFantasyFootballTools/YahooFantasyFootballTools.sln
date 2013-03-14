@@ -16,6 +16,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fantasizer", "Fantasizer\Fa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fantasizer.Tests", "Fantasizer.Tests\Fantasizer.Tests.csproj", "{BC5E9C07-74F6-424C-8C0F-DD287CE64267}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.Analysis", "Tools.Analysis\Tools.Analysis.csproj", "{7B7AE739-29B6-47DF-8D3C-DEC4B25F631F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.Analysis.Tests", "Tools.Analysis.Tests\Tools.Analysis.Tests.csproj", "{FD5B747D-6AAC-4576-9F34-362C1AF655D2}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = YahooFantasyFootballTools.vsmdi
@@ -41,6 +45,14 @@ Global
 		{BC5E9C07-74F6-424C-8C0F-DD287CE64267}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC5E9C07-74F6-424C-8C0F-DD287CE64267}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC5E9C07-74F6-424C-8C0F-DD287CE64267}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B7AE739-29B6-47DF-8D3C-DEC4B25F631F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B7AE739-29B6-47DF-8D3C-DEC4B25F631F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B7AE739-29B6-47DF-8D3C-DEC4B25F631F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B7AE739-29B6-47DF-8D3C-DEC4B25F631F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD5B747D-6AAC-4576-9F34-362C1AF655D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD5B747D-6AAC-4576-9F34-362C1AF655D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD5B747D-6AAC-4576-9F34-362C1AF655D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD5B747D-6AAC-4576-9F34-362C1AF655D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Net;
 using System.IO;
+using DotNetOpenAuth.Messaging;
+using Tools.Analysis.Logic;
 using YahooFantasyFootballTools.Models;
 using System.Xml.Linq;
 using System.Xml;
@@ -40,7 +42,30 @@ namespace YahooFantasyFootballTools.Controllers
             string hostOrAuthority = Request.IsLocal ? Request.Url.Authority : Request.Url.Host;
 
             var callbackUri = new Uri(Request.Url.Scheme + "://" + hostOrAuthority + "/Home/YahooOAuthCallback");
-            service.BeginAuthorization(callbackUri);
+
+            try
+            {
+                service.BeginAuthorization(callbackUri);
+            }
+            catch (ProtocolException pe)
+            {
+                var webException = pe.InnerException as WebException;
+                if (webException != null)
+                {
+                    HttpWebResponse response = webException.Response as HttpWebResponse;
+                    if (response != null && response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        var appException =
+                            new ApplicationException(
+                                "Unable to authorize with Yahoo. Check YahooConsumerKey and YahooConsumerSecret environment variables.",
+                                pe);
+
+                        throw appException;
+                    }
+                }
+
+                throw;
+            }
 
             // This will not get hit
             return null;
@@ -73,34 +98,9 @@ namespace YahooFantasyFootballTools.Controllers
 
         public ActionResult ListEligibleKeepers(string teamKey)
         {
-            List<EligibleKeeperModel> keepers = new List<EligibleKeeperModel>();
             var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
-            var teamPlayers = service.GetTeamPlayerStats(teamKey);
-            var draftResults = service.GetDraftResults(teamPlayers.Team.LeagueKey).DraftResults;
-
-            foreach (var player in teamPlayers.Players)
-            {
-                var keeper = new EligibleKeeperModel(){
-                    PlayerName = player.Name,
-                    PlayerKey = player.Key,
-                    LastSeasonPoints = player.Points.Total,
-                    IsEligible = true // eligible by default
-                };
-
-                if (EligibleKeeperModel.KeptByTeamInPriorSeason(teamPlayers.Team.Key, player.Key))
-                {
-                    keeper.IsEligible = false;
-                    keeper.IneligibilityReason = "This player was kept last season";
-                }
-                else
-                {
-                    var playerDraftResult = draftResults.FirstOrDefault(d => d.PlayerKey == player.Key);
-                    keeper.DraftRound = playerDraftResult != null ? playerDraftResult.Round : 15;
-                }
-
-                keepers.Add(keeper);
-            }
-
+            var keeperAnalyzer = new KeeperAnalyzer(service);
+            var keepers = keeperAnalyzer.GetEligibleKeepers(teamKey);
             var sortedKeepers = keepers.OrderBy(k => k.DraftRound);
 
             return View(sortedKeepers);

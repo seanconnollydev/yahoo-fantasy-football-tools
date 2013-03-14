@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
 
-namespace YahooFantasyFootballTools.Models
+namespace Tools.Analysis.Domain
 {
-    public class EligibleKeeperModel
+    public class EligibleKeeper
     {
+        public string TeamName { get; set; }
+
         public string PlayerName { get; set; }
 
         public string PlayerKey { get; set; }
@@ -19,9 +21,9 @@ namespace YahooFantasyFootballTools.Models
 
         public int LastSeasonPoints { get; set; }
 
-        private static Dictionary<string, string> _previousKeepers;
+        private static readonly Dictionary<string, string> _previousKeepers;
 
-        static EligibleKeeperModel()
+        static EligibleKeeper()
         {
             _previousKeepers = new Dictionary<string, string>();
 
@@ -48,8 +50,4 @@ namespace YahooFantasyFootballTools.Models
             return false;
         }
     }
-
-    
-
-
 }

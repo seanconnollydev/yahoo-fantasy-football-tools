@@ -142,7 +142,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\EligibleKeeperModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionStateUserTokenStore.cs" />
@@ -240,6 +239,10 @@
     <ProjectReference Include="..\Fantasizer\Fantasizer.csproj">
       <Project>{A4EECA87-E40D-4BD1-BA52-B0A1128739F7}</Project>
       <Name>Fantasizer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools.Analysis\Tools.Analysis.csproj">
+      <Project>{7B7AE739-29B6-47DF-8D3C-DEC4B25F631F}</Project>
+      <Name>Tools.Analysis</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
