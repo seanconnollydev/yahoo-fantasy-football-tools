@@ -15,10 +15,6 @@ namespace YahooFantasyFootballTools.Controllers
 {
     public class HomeController : Controller
     {
-        // TODO: Move these some where more configurey and secure
-        private const string CONSUMER_KEY = "dj0yJmk9OVJXSFBMcVZyRldJJmQ9WVdrOU9XaGhiblJ5TnpJbWNHbzlNVGd3TkRRd05qRTJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD03MA--";
-        private const string CONSUMER_SECRET = "266f2c9d42e794b46aab16ce6c894986e008f3fa";
-
         public HomeController()
         {
             PopulateUserAuthViewData();
@@ -38,7 +34,7 @@ namespace YahooFantasyFootballTools.Controllers
 
         public ActionResult AuthenticateWithYahoo()
         {
-            var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
+            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
 
             // TODO: Clean this up. It is a work around since AppHarbor does not support a callback redirect when a port is specified.
             string hostOrAuthority = Request.IsLocal ? Request.Url.Authority : Request.Url.Host;
@@ -52,7 +48,7 @@ namespace YahooFantasyFootballTools.Controllers
 
         public ActionResult YahooOAuthCallback()
         {
-            var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
+            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
             service.CompleteAuthorization();
             PopulateUserAuthViewData();
             
@@ -61,7 +57,7 @@ namespace YahooFantasyFootballTools.Controllers
 
         public ActionResult ListLeagues()
         {
-            var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
+            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
             var leagues = service.GetLeagues();
 
             return View(leagues);
@@ -69,7 +65,7 @@ namespace YahooFantasyFootballTools.Controllers
 
         public ActionResult ListTeams(string leagueKey)
         {
-            var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
+            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
             var teams = service.GetTeams(leagueKey);
 
             return View(teams.Teams);
@@ -78,7 +74,7 @@ namespace YahooFantasyFootballTools.Controllers
         public ActionResult ListEligibleKeepers(string teamKey)
         {
             List<EligibleKeeperModel> keepers = new List<EligibleKeeperModel>();
-            var service = new YahooFantasySportsService(CONSUMER_KEY, CONSUMER_SECRET, SessionStateUserTokenStore.Current);
+            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
             var teamPlayers = service.GetTeamPlayerStats(teamKey);
             var draftResults = service.GetDraftResults(teamPlayers.Team.LeagueKey).DraftResults;
 
