@@ -10,6 +10,12 @@ namespace Fantasizer.Tests
     [TestClass]
     public class ServiceTests
     {
+        [ClassInitialize]
+        public static void Setup(TestContext testContext)
+        {
+            AppHarborUtil.CheckSecrets();
+        }
+
         [TestMethod]
         public void GetTeams()
         {
