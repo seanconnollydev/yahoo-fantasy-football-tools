@@ -17,8 +17,11 @@ namespace YahooFantasyFootballTools.Controllers
 {
     public class HomeController : Controller
     {
+        //protected readonly YahooFantasySportsService _yahooService;
+
         public HomeController()
         {
+            //_yahooService = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
             PopulateUserAuthViewData();
         }
 
@@ -100,7 +103,7 @@ namespace YahooFantasyFootballTools.Controllers
         {
             var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
             var keeperAnalyzer = new KeeperAnalyzer(service);
-            var keepers = keeperAnalyzer.GetEligibleKeepers(teamKey);
+            var keepers = keeperAnalyzer.GetEligibleKeepersForTeam(teamKey);
             var sortedKeepers = keepers.OrderBy(k => k.DraftRound);
 
             return View(sortedKeepers);
@@ -113,6 +116,14 @@ namespace YahooFantasyFootballTools.Controllers
             PopulateUserAuthViewData();
 
             return View("Index");
+        }
+
+        public FileResult DownloadEligibleKeepers(string leagueKey)
+        {
+            throw new NotImplementedException();
+            //var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
+            //var keepers = new KeeperAnalyzer(service);
+            //var writer = new EligibleKeeperWriter(keepers.GetEligibleKeepers();
         }
 
         private void PopulateUserAuthViewData()

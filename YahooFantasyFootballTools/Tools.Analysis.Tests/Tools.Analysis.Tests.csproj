@@ -48,9 +48,7 @@
     <Compile Include="EligibleKeeperWriterTestHarness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utilities\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Tools.Analysis\Tools.Analysis.csproj">
       <Project>{7B7AE739-29B6-47DF-8D3C-DEC4B25F631F}</Project>

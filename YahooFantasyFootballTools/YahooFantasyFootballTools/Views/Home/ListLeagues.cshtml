@@ -12,6 +12,7 @@
     <li>Id: @league.Id</li>
     <li>Key: @league.Key</li>
     <li>Name: @Html.ActionLink(league.Name, "ListTeams", new { leagueKey = league.Key })</li>
+    <li>@Html.ActionLink("Download eligible keeper list", "DownloadEligibleKeepers", new { leagueKey = league.Key })</li>
     <li>------------------------</li>
  }
  </ul>

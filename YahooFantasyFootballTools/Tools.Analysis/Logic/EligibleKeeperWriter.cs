@@ -18,16 +18,16 @@ namespace Tools.Analysis.Logic
             _keepers = keepers;
         }
 
-        public string ToCsv()
+        public byte[] ToCsvArray()
         {
             var dialect = new Dialect();
-            string csvResult;
+            byte[] result;
 
             using (var memoryStream = new MemoryStream())
             using (var textWriter = new StreamWriter(memoryStream))
             using (var csvWriter = new CSVWriter(dialect, textWriter))
             {
-                csvWriter.WriteRow(new object[] {"Team", "Player", "Eligible?", "Draft Round", "Last Season Points"});
+                csvWriter.WriteRow(new object[] { "Team", "Player", "Eligible?", "Draft Round", "Last Season Points" });
 
                 foreach (var keeper in _keepers)
                 {
@@ -38,11 +38,17 @@ namespace Tools.Analysis.Logic
                         });
                 }
 
-                Encoding encoding = Encoding.ASCII;
-                csvResult = encoding.GetString(memoryStream.ToArray());
+                result = memoryStream.ToArray();
             }
 
-            return csvResult;
+            return result;
+        }
+
+        public string ToCsvString()
+        {
+            var array = this.ToCsvArray();
+            Encoding encoding = Encoding.ASCII;
+            return encoding.GetString(array);
         }
     }
 }

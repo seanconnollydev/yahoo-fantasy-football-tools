@@ -58,6 +58,11 @@ namespace Fantasizer
             return LeagueTeamCollection.CreateFromXml(xml);
         }
 
+        public void GetLeaguePlayers(string leagueKey)
+        {
+            throw new NotImplementedException();
+        }
+
         public LeagueCollection GetLeagues()
         {
             // TODO: Make game_keys a parameter

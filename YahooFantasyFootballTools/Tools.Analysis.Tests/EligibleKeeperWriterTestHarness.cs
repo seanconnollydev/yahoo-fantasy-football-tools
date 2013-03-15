@@ -37,8 +37,9 @@ namespace Tools.Analysis.Tests
             }
 
             var writer = new EligibleKeeperWriter(keepers);
-            string csv = writer.ToCsv();
-            Assert.IsFalse(string.IsNullOrEmpty((csv)));
+            var array = writer.ToCsvArray();
+            Assert.IsNotNull(array);
+            Assert.IsTrue(array.Length > 0);
         }
     }
 }
