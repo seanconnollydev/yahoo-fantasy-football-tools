@@ -120,10 +120,11 @@ namespace YahooFantasyFootballTools.Controllers
 
         public FileResult DownloadEligibleKeepers(string leagueKey)
         {
-            throw new NotImplementedException();
-            //var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
-            //var keepers = new KeeperAnalyzer(service);
-            //var writer = new EligibleKeeperWriter(keepers.GetEligibleKeepers();
+            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
+            var keepers = new KeeperAnalyzer(service);
+            var writer = new EligibleKeeperWriter(keepers.GetEligibleKeepersForLeague(leagueKey));
+
+            return File(writer.ToCsvArray(), "text/csv", "eligible-keepers.csv");
         }
 
         private void PopulateUserAuthViewData()

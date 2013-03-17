@@ -27,14 +27,16 @@ namespace Tools.Analysis.Logic
             using (var textWriter = new StreamWriter(memoryStream))
             using (var csvWriter = new CSVWriter(dialect, textWriter))
             {
-                csvWriter.WriteRow(new object[] { "Team", "Player", "Eligible?", "Draft Round", "Last Season Points" });
+                csvWriter.WriteRow(new object[] { "Team", "Player", "Eligible?", "Draft Round" });
 
                 foreach (var keeper in _keepers)
                 {
                     csvWriter.WriteRow(new object[]
                         {
-                            keeper.TeamName, keeper.PlayerName, keeper.IsEligible ? "Yes" : "No", keeper.DraftRound,
-                            keeper.LastSeasonPoints
+                            keeper.TeamName,
+                            keeper.PlayerName,
+                            keeper.IsEligible ? "Yes" : "No",
+                            keeper.DraftRound
                         });
                 }
 

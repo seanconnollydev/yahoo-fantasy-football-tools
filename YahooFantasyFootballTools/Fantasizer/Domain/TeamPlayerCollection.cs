@@ -8,10 +8,10 @@ namespace Fantasizer.Domain
 {
     public class TeamPlayerCollection<TPlayerType> where TPlayerType : Player
     {
-        internal TeamPlayerCollection(XDocument xml)
+        internal TeamPlayerCollection(XElement teamElement)
         {
-            this.Team = Team.CreateFromXml(xml.Root.Element(YahooXml.XMLNS + "team"));
-            this.Players = new PlayerCollection<TPlayerType>(xml);
+            this.Team = Team.CreateFromXml(teamElement);
+            this.Players = new PlayerCollection<TPlayerType>(teamElement);
         }
 
         public Team Team { get; private set; }

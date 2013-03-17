@@ -130,6 +130,7 @@
     <Compile Include="Domain\TeamPlayerCollection.cs" />
     <Compile Include="Domain\TeamRosterPlayerCollection.cs" />
     <Compile Include="IUserTokenStore.cs" />
+    <Compile Include="Domain\LeagueTeamPlayerCollection.cs" />
     <Compile Include="OAuthClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserTokenManager.cs" />

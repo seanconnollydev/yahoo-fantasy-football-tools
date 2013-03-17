@@ -9,11 +9,11 @@ namespace Fantasizer.Domain
     public class PlayerCollection<TPlayerType> : ICollection<TPlayerType> where TPlayerType : Player
     {
         private readonly List<TPlayerType> _playerList;
-        internal PlayerCollection(XDocument xml)
+        internal PlayerCollection(XElement rootElement)
         {
             _playerList = new List<TPlayerType>();
 
-            foreach (var playerElement in xml.Descendants(YahooXml.XMLNS + "player"))
+            foreach (var playerElement in rootElement.Descendants(YahooXml.XMLNS + "player"))
             {
                 var player = (TPlayerType)Activator.CreateInstance(typeof(TPlayerType), true);
                 player.Load(playerElement);

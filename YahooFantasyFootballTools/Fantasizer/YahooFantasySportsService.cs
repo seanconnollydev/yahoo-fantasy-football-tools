@@ -58,9 +58,11 @@ namespace Fantasizer
             return LeagueTeamCollection.CreateFromXml(xml);
         }
 
-        public void GetLeaguePlayers(string leagueKey)
+        public LeagueTeamPlayerCollection<Player> GetLeagueTeamPlayers(string leagueKey)
         {
-            throw new NotImplementedException();
+            string requestUri = string.Format("http://fantasysports.yahooapis.com/fantasy/v2/league/{0}/teams/players", leagueKey);
+            var xml = this.ApiClient.ExecuteRequest(requestUri);
+            return new LeagueTeamPlayerCollection<Player>(xml);
         }
 
         public LeagueCollection GetLeagues()
@@ -89,7 +91,7 @@ namespace Fantasizer
         {
             string requestUri = string.Format("http://fantasysports.yahooapis.com/fantasy/v2/team/{0}/players/stats", teamKey);
             var xml = this.ApiClient.ExecuteRequest(requestUri);
-            return new TeamPlayerCollection<PlayerWithStats>(xml);
+            return new TeamPlayerCollection<PlayerWithStats>(xml.Root.Element(YahooXml.XMLNS + "team"));
         }
     }
 }

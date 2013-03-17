@@ -23,8 +23,9 @@ namespace Fantasizer.Domain
 
         internal static TeamRosterPlayerCollection CreateFromXml(XDocument xml)
         {
-            var team = Team.CreateFromXml(xml.Root.Element(YahooXml.XMLNS + "team"));
-            var players = new PlayerCollection<Player>(xml);
+            var teamElement = xml.Root.Element(YahooXml.XMLNS + "team");
+            var team = Team.CreateFromXml(teamElement);
+            var players = new PlayerCollection<Player>(teamElement);
 
             return new TeamRosterPlayerCollection(team, players);
         }

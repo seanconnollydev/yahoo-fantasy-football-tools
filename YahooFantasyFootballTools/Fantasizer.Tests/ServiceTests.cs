@@ -65,5 +65,16 @@ namespace Fantasizer.Tests
 
             Assert.AreEqual(15, teamPlayerStats.Players.Count);
         }
+
+        [TestMethod]
+        public void GetLeaguePlayers()
+        {
+            var service = new YahooFantasySportsService(ClientTestConfiguration.ConsumerKey, ClientTestConfiguration.ConsumerSecret, new TestUserTokenStore());
+
+            var leagueTeamPlayers = service.GetLeagueTeamPlayers(ClientTestConfiguration.DEFAULT_LEAGUE_KEY);
+
+            Assert.AreEqual(10, leagueTeamPlayers.Count);
+            Assert.AreEqual(150, leagueTeamPlayers.Sum(t => t.Players.Count));
+        }
     }
 }
