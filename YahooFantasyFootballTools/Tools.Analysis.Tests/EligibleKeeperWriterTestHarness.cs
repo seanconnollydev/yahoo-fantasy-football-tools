@@ -12,17 +12,44 @@ namespace Tools.Analysis.Tests
     public class EligibleKeeperWriterTestHarness
     {
         [TestMethod]
-        public void GetEligibleKeepers()
+        public void GetEligibleKeepersBytes()
+        {
+            int teams = 10;
+            int playersPerTeam = 15;
+
+            var keepers = BuildKeepers(teams, playersPerTeam);
+
+            var writer = new EligibleKeeperWriter(keepers);
+            var aResult = writer.ToCsvArray();
+            Assert.IsNotNull(aResult);
+            Assert.IsTrue(aResult.Length > 4096); // verify memory stream capacity is not exceeded.
+        }
+
+        [TestMethod]
+        public void GetEligibleKeepersString()
+        {
+            int teams = 10;
+            int playersPerTeam = 15;
+
+            var keepers = BuildKeepers(teams, playersPerTeam);
+
+            var writer = new EligibleKeeperWriter(keepers);
+            var sResult = writer.ToCsvString();
+            Assert.IsFalse(string.IsNullOrEmpty(sResult));
+            Assert.IsTrue(sResult.Length > 0);
+        }
+
+        private List<EligibleKeeper> BuildKeepers(int teams, int playersPerTeam)
         {
             var keepers = new List<EligibleKeeper>();
             var random = new Random();
-
             string teamName;
-            for (int i = 1; i <= 10; i++)
+
+            for (int i = 1; i <= teams; i++)
             {
                 teamName = "team_" + i;
 
-                for (int j = 1; j <= 15; j++)
+                for (int j = 1; j <= playersPerTeam; j++)
                 {
                     keepers.Add(new EligibleKeeper
                         {
@@ -36,10 +63,7 @@ namespace Tools.Analysis.Tests
                 }
             }
 
-            var writer = new EligibleKeeperWriter(keepers);
-            var array = writer.ToCsvArray();
-            Assert.IsNotNull(array);
-            Assert.IsTrue(array.Length > 0);
+            return keepers;
         }
     }
 }

@@ -24,20 +24,22 @@ namespace Tools.Analysis.Logic
             byte[] result;
 
             using (var memoryStream = new MemoryStream())
-            using (var textWriter = new StreamWriter(memoryStream))
-            using (var csvWriter = new CSVWriter(dialect, textWriter))
             {
-                csvWriter.WriteRow(new object[] { "Team", "Player", "Eligible?", "Draft Round" });
-
-                foreach (var keeper in _keepers)
+                using (var textWriter = new StreamWriter(memoryStream))
+                using (var csvWriter = new CSVWriter(dialect, textWriter))
                 {
-                    csvWriter.WriteRow(new object[]
+                    csvWriter.WriteRow(new object[] { "Team", "Player", "Eligible?", "Draft Round" });
+
+                    foreach (var keeper in _keepers)
+                    {
+                        csvWriter.WriteRow(new object[]
                         {
                             keeper.TeamName,
                             keeper.PlayerName,
                             keeper.IsEligible ? "Yes" : "No",
                             keeper.DraftRound
                         });
+                    }
                 }
 
                 result = memoryStream.ToArray();
