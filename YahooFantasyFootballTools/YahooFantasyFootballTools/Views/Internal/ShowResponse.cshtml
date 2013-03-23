@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "ShowResponse";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ShowResponse</h2>
+
+@using(Html.BeginForm(FormMethod.Get))
+{
+    @Html.TextBox("sUri", "http://fantasysports.yahooapis.com/fantasy/v2/", new { width = "100em" });
+    <input id="executeButton" type="submit" value="Execute" />
+}
+
+@if (ViewBag.XmlResponse != null)
+{
+    <pre>@ViewBag.XmlResponse</pre>
+}

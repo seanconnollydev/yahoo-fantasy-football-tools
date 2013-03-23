@@ -76,5 +76,15 @@ namespace Fantasizer.Tests
             Assert.AreEqual(10, leagueTeamPlayers.Count);
             Assert.AreEqual(150, leagueTeamPlayers.Sum(t => t.Players.Count));
         }
+
+        [TestMethod]
+        public void ExecuteRawRequest()
+        {
+            var service = new YahooFantasySportsService(ClientTestConfiguration.ConsumerKey, ClientTestConfiguration.ConsumerSecret, new TestUserTokenStore());
+            var xml = service.ExecuteRawRequest("http://fantasysports.yahooapis.com/fantasy/v2/game/nfl");
+
+            Assert.IsNotNull(xml);
+            Assert.IsNotNull(xml.Root.Element(ClientTestConfiguration.YahooXMLNS + "game"));
+        }
     }
 }

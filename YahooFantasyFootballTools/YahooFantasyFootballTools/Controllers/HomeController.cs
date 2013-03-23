@@ -15,16 +15,8 @@ using Fantasizer.Domain;
 
 namespace YahooFantasyFootballTools.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseAuthenticatedController
     {
-        //protected readonly YahooFantasySportsService _yahooService;
-
-        public HomeController()
-        {
-            //_yahooService = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
-            PopulateUserAuthViewData();
-        }
-
         public ActionResult Index()
         {
             ViewBag.Message = "Login to view your eligible keepers";
@@ -125,11 +117,6 @@ namespace YahooFantasyFootballTools.Controllers
             var writer = new EligibleKeeperWriter(keepers.GetEligibleKeepersForLeague(leagueKey));
 
             return File(writer.ToCsvArray(), "text/csv", "eligible-keepers.csv");
-        }
-
-        private void PopulateUserAuthViewData()
-        {
-            ViewBag.IsUserAuthenticated = SessionStateUserTokenStore.Current.IsAuthenticated();
         }
     }
 }

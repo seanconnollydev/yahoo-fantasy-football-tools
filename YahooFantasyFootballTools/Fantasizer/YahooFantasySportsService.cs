@@ -44,6 +44,11 @@ namespace Fantasizer
             _oAuthClient.CompleteAuth();
         }
 
+        public XDocument ExecuteRawRequest(string requestUri)
+        {
+            return this.ApiClient.ExecuteRequest(requestUri);
+        }
+
         public Team GetTeam(string teamKey)
         {
             string requestUri = string.Format("http://fantasysports.yahooapis.com/fantasy/v2/team/{0}", teamKey);
