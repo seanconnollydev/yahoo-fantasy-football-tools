@@ -119,12 +119,15 @@
     <Compile Include="Domain\League.cs" />
     <Compile Include="Domain\LeagueCollection.cs" />
     <Compile Include="Domain\LeagueDraftResultCollection.cs" />
+    <Compile Include="Domain\LeagueSettings.cs" />
     <Compile Include="Domain\LeagueTeamCollection.cs" />
     <Compile Include="Domain\Player.cs" />
     <Compile Include="Domain\PlayerCollection.cs" />
     <Compile Include="Domain\PlayerPoints.cs" />
     <Compile Include="Domain\PlayerStats.cs" />
     <Compile Include="Domain\PlayerWithStats.cs" />
+    <Compile Include="Domain\Position.cs" />
+    <Compile Include="Domain\RosterPosition.cs" />
     <Compile Include="Domain\Team.cs" />
     <Compile Include="Domain\TeamCollection.cs" />
     <Compile Include="Domain\TeamPlayerCollection.cs" />
