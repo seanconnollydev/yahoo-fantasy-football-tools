@@ -118,5 +118,16 @@ namespace YahooFantasyFootballTools.Controllers
 
             return File(writer.ToCsvArray(), "text/csv", "eligible-keepers.csv");
         }
+
+        public ActionResult ShowRosterDepth(string teamKey)
+        {
+            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
+            var roster = service.GetRosterPlayers(teamKey);
+            var leagueSettings = service.GetLeagueSettings(roster.Team.LeagueKey);
+
+            var depthAnalyzer = new RosterDepthAnalyzer(leagueSettings.RosterPositions, roster.Players);
+
+            return View(depthAnalyzer.GetRosterDepth());
+        }
     }
 }

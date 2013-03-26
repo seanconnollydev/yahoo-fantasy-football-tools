@@ -11,6 +11,7 @@ namespace Fantasizer.Domain
         public int Id { get; private set; }
         public string Key { get; private set; }
         public string Name { get; private set; }
+        public ICollection<Position> EligiblePositions { get; private set; }
 
         internal Player() { }
 
@@ -24,6 +25,12 @@ namespace Fantasizer.Domain
             this.Id = Convert.ToInt32(playerElement.Element(YahooXml.XMLNS + "player_id").Value);
             this.Key = playerElement.Element(YahooXml.XMLNS + "player_key").Value;
             this.Name = playerElement.Element(YahooXml.XMLNS + "name").Element(YahooXml.XMLNS + "full").Value;
+
+            this.EligiblePositions = new List<Position>();
+            foreach (var positionElement in playerElement.Elements(YahooXml.XMLNS + "eligible_positions"))
+            {
+                this.EligiblePositions.Add(new Position(positionElement));
+            }
         }
     }
 }

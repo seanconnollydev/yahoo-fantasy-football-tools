@@ -52,8 +52,13 @@ namespace Fantasizer.Tests
         public void GetRosterPlayers()
         {
             var rosterPlayerResults = _service.GetRosterPlayers(ClientTestConfiguration.DEFAULT_TEAM_KEY);
-
+            
             Assert.AreEqual(15, rosterPlayerResults.Players.Count);
+
+            foreach (var player in rosterPlayerResults.Players)
+            {
+                Assert.IsTrue(player.EligiblePositions.Count > 0);
+            }
         }
 
         [TestMethod]
@@ -86,17 +91,16 @@ namespace Fantasizer.Tests
         public void GetLeagueSettings()
         {
             var leagueSettings = _service.GetLeagueSettings(ClientTestConfiguration.DEFAULT_LEAGUE_KEY);
-            Assert.IsNotNull(leagueSettings);
 
-            // TODO: These lookups would be much easier if I used a dictionary and enums for positions
-            Assert.AreEqual(1, leagueSettings.RosterPositions.Single(rp => rp.Position.Name.Equals("QB", StringComparison.OrdinalIgnoreCase)).Count);
-            Assert.AreEqual(2, leagueSettings.RosterPositions.Single(rp => rp.Position.Name.Equals("RB", StringComparison.OrdinalIgnoreCase)).Count);
-            Assert.AreEqual(2, leagueSettings.RosterPositions.Single(rp => rp.Position.Name.Equals("WR", StringComparison.OrdinalIgnoreCase)).Count);
-            Assert.AreEqual(1, leagueSettings.RosterPositions.Single(rp => rp.Position.Name.Equals("W/R", StringComparison.OrdinalIgnoreCase)).Count);
-            Assert.AreEqual(1, leagueSettings.RosterPositions.Single(rp => rp.Position.Name.Equals("TE", StringComparison.OrdinalIgnoreCase)).Count);
-            Assert.AreEqual(1, leagueSettings.RosterPositions.Single(rp => rp.Position.Name.Equals("K", StringComparison.OrdinalIgnoreCase)).Count);
-            Assert.AreEqual(1, leagueSettings.RosterPositions.Single(rp => rp.Position.Name.Equals("DEF", StringComparison.OrdinalIgnoreCase)).Count);
-            Assert.AreEqual(6, leagueSettings.RosterPositions.Single(rp => rp.Position.Name.Equals("BN", StringComparison.OrdinalIgnoreCase)).Count);
+            Assert.IsNotNull(leagueSettings);
+            Assert.AreEqual(1, leagueSettings.RosterPositions["QB"].Count);
+            Assert.AreEqual(2, leagueSettings.RosterPositions["RB"].Count);
+            Assert.AreEqual(2, leagueSettings.RosterPositions["WR"].Count);
+            Assert.AreEqual(1, leagueSettings.RosterPositions["W/R"].Count);
+            Assert.AreEqual(1, leagueSettings.RosterPositions["TE"].Count);
+            Assert.AreEqual(1, leagueSettings.RosterPositions["K"].Count);
+            Assert.AreEqual(1, leagueSettings.RosterPositions["DEF"].Count);
+            Assert.AreEqual(6, leagueSettings.RosterPositions["BN"].Count);
         }
     }
 }

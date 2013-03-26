@@ -1,0 +1,15 @@
+﻿@model System.Collections.Generic.IDictionary<string,Tools.Analysis.Domain.RosterDepth>
+
+@{
+    ViewBag.Title = "Team Roster Depth";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Team Roster Depth</h2>
+
+<ul id="rosterDepthList">
+    @foreach (var positionDepth in Model)
+    {
+        <li>@positionDepth.Key : @positionDepth.Value</li>
+    }
+</ul>
