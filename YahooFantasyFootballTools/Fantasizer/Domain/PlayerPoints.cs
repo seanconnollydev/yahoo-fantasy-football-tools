@@ -11,10 +11,10 @@ namespace Fantasizer.Domain
         public int Season { get; private set; }
         public int Total { get; private set; }
 
-        internal PlayerPoints(XElement playerPointsElement)
+        internal PlayerPoints(int season, int total)
         {
-            this.Season = Convert.ToInt32(playerPointsElement.Element(YahooXml.XMLNS + "season").Value);
-            this.Total = Convert.ToInt32(playerPointsElement.Element(YahooXml.XMLNS + "total").Value);
+            this.Season = season;
+            this.Total = total;
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using System.Xml.Linq;
+using Fantasizer.Xml;
 
 namespace Fantasizer.Domain
 {
@@ -16,7 +17,7 @@ namespace Fantasizer.Domain
 
             foreach (var rosterPositionElement in settingElement.Descendants(YahooXml.XMLNS + "roster_position"))
             {
-                var rosterPosition = new RosterPosition(rosterPositionElement);
+                var rosterPosition = ResponseDeserializer.DeserializeRosterPosition(rosterPositionElement);
                 _rosterPositions.Add(rosterPosition.Position.Name, rosterPosition);
             }
         }

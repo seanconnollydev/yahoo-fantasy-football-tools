@@ -8,15 +8,14 @@ namespace Fantasizer.Domain
 {
     public class Position
     {
-        internal Position(XElement rosterPositionElement)
+        internal Position(string name, string positionType)
         {
-            this.Name = rosterPositionElement.Element(YahooXml.XMLNS + "position").Value;
+            this.Name = name;
+            this.PositionType = positionType;
+        }
 
-            var positionTypeElement = rosterPositionElement.Element(YahooXml.XMLNS + "position_type");
-            if (positionTypeElement != null)
-            {
-                this.PositionType = positionTypeElement.Value;
-            }
+        internal Position(string name) : this(name, null)
+        {
         }
 
         public string Name { get; private set; }

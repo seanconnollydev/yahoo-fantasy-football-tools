@@ -5,10 +5,10 @@ namespace Fantasizer.Domain
 {
     public class RosterPosition
     {
-        internal RosterPosition(XElement rosterPositionElement)
+        internal RosterPosition(Position position, int count)
         {
-            this.Position = new Position(rosterPositionElement);
-            this.Count = Convert.ToInt32(rosterPositionElement.Element(YahooXml.XMLNS + "count").Value);
+            this.Position = position;
+            this.Count = count;
         }
 
         public Position Position { get; private set; }

@@ -52,6 +52,7 @@
     <Compile Include="TeamTests.cs" />
     <Compile Include="Utilities\AppHarborUtil.cs" />
     <Compile Include="Utilities\ClientTestConfiguration.cs" />
+    <Compile Include="Utilities\TestObjectFactory.cs" />
     <Compile Include="Utilities\TestUserTokenStore.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Fantasizer.Domain;
 using Tools.Analysis.Domain;
+using Tools.Analysis;
 
 namespace Tools.Analysis.Logic
 {
@@ -25,43 +26,50 @@ namespace Tools.Analysis.Logic
         public IDictionary<string, RosterDepth> GetRosterDepth()
         {
             var rosterDepthMap = new Dictionary<string, RosterDepth>();
-            var availablePlayersMap = DetermineAvailablePlayers(_availablePlayers);
-            
-            foreach (var rosterPosition in _rosterPositions.Values)
+            var remainingPlayers = _availablePlayers.ToList();
+            var rosterPositionAvailabilityMap = new Dictionary<string, RosterPositionAvailability>();
+
+            var trimmedRosterPositions = new Dictionary<string, RosterPosition>(_rosterPositions);
+            trimmedRosterPositions.Remove("BN");
+            var sortedRosterPositions = trimmedRosterPositions.OrderBy(i => i.Value.Position, new PositionComparer());
+
+            // First fill all positions
+            foreach (var rosterPosition in sortedRosterPositions)
             {
-                int availablePlayers;
-                if (!availablePlayersMap.TryGetValue(rosterPosition.Position.Name, out availablePlayers))
+                var rosterPositionAvailability = new RosterPositionAvailability(rosterPosition.Value.Count);
+
+                for (int i = remainingPlayers.Count - 1; i >= 0; i--)
                 {
-                    availablePlayers = 0;
+                    if (rosterPosition.Value.Position.CanBeFilledBy(remainingPlayers[i]))
+                    {
+                        remainingPlayers.Remove(remainingPlayers[i]);
+                        rosterPositionAvailability.Available++;
+                    }
+
+                    if (rosterPositionAvailability.Available >= rosterPositionAvailability.Required)
+                        break;
                 }
 
-                rosterDepthMap[rosterPosition.Position.Name] = DetermineDepth(rosterPosition.Count, availablePlayers);
+                rosterPositionAvailabilityMap[rosterPosition.Key] = rosterPositionAvailability;
+            }
+
+            // Now determine what positions are left over
+            foreach (var player in remainingPlayers)
+            {
+                foreach (var eligiblePosition in player.EligiblePositions)
+                {
+                    rosterPositionAvailabilityMap[eligiblePosition.Name].Available++;
+                }
+            }
+
+            // Now determine depth
+            foreach (var rosterPosition in trimmedRosterPositions)
+            {
+                var availability = rosterPositionAvailabilityMap[rosterPosition.Key];
+                rosterDepthMap.Add(rosterPosition.Key, DetermineDepth(availability.Required, availability.Available));
             }
 
             return rosterDepthMap;
-        }
-
-        private static Dictionary<string, int> DetermineAvailablePlayers(ICollection<Player> availablePlayers)
-        {
-            // TODO: This needs to be updated to look at flex positions last (i.e. fill up RB, WR, and then RB/WR)
-            var availablePlayerMap = new Dictionary<string, int>();
-
-            foreach (var player in availablePlayers)
-            {
-                foreach (var position in player.EligiblePositions)
-                {
-                    if (!availablePlayerMap.ContainsKey(position.Name))
-                    {
-                        availablePlayerMap[position.Name] = 1;
-                    }
-                    else
-                    {
-                        availablePlayerMap[position.Name]++;
-                    }
-                }
-            }
-
-            return availablePlayerMap;
         }
 
         private static RosterDepth DetermineDepth(int required, int available)
@@ -85,6 +93,34 @@ namespace Tools.Analysis.Logic
                 ex.Data.Add("available", available);
                 throw ex;
             }
+        }
+
+        private class PositionComparer : IComparer<Position>
+        {
+            public int Compare(Position x, Position y)
+            {
+                // All I really want to do is push flex positions to the bottom
+                // TODO: At some point, update this to go from most specific (e.g. RB) to least (e.g. W/R/T)
+                if (x.Name.Equals(y.Name, StringComparison.OrdinalIgnoreCase))
+                {
+                    return 0;
+                }
+                else
+                {
+                    return x.IsFlex() ? 1 : -1;    
+                }
+            }
+        }
+
+        private class RosterPositionAvailability
+        {
+            public RosterPositionAvailability(int required)
+            {
+                this.Required = required;
+            }
+
+            public int Required { get; set; }
+            public int Available { get; set; }
         }
     }
 }
