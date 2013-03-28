@@ -13,17 +13,17 @@ namespace Fantasizer.Domain
         
         internal LeagueSettings(XElement settingElement)
         {
-            _rosterPositions = new Dictionary<string, RosterPosition>();
+            _rosterPositions = new Dictionary<PositionAbbreviation, RosterPosition>();
 
             foreach (var rosterPositionElement in settingElement.Descendants(YahooXml.XMLNS + "roster_position"))
             {
                 var rosterPosition = ResponseDeserializer.DeserializeRosterPosition(rosterPositionElement);
-                _rosterPositions.Add(rosterPosition.Position.Name, rosterPosition);
+                _rosterPositions.Add(rosterPosition.Position.Abbreviation, rosterPosition);
             }
         }
 
-        private readonly Dictionary<string, RosterPosition> _rosterPositions;
-        public IDictionary<string, RosterPosition> RosterPositions
+        private readonly Dictionary<PositionAbbreviation, RosterPosition> _rosterPositions;
+        public IDictionary<PositionAbbreviation, RosterPosition> RosterPositions
         {
             get { return _rosterPositions; }
         }

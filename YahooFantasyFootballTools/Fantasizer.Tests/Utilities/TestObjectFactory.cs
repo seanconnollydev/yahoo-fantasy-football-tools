@@ -16,11 +16,12 @@ namespace Fantasizer.Tests.Utilities
             string key = string.Format("{0}_key", id);
             string name = string.Format("{0}_name", id);
 
-            var eligiblePositions = new List<Position>();
-            eligiblePositions.Add(new Position(singlePosition));
+            throw new NotImplementedException();
+            //var eligiblePositions = new List<Position>();
+            //eligiblePositions.Add(new Position(singlePosition));
 
-            var player = new Player(id, key, name, eligiblePositions);
-            return player;
+            //var player = new Player(id, key, name, eligiblePositions);
+            //return player;
         }
     }
 }

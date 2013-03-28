@@ -36,15 +36,7 @@ namespace Fantasizer.Xml
         internal static Position DeserializePosition(XElement rosterPositionElement)
         {
             string name = rosterPositionElement.Element(YahooXml.XMLNS + "position").Value;
-
-            string positionType = null;
-            var positionTypeElement = rosterPositionElement.Element(YahooXml.XMLNS + "position_type");
-            if (positionTypeElement != null)
-            {
-                positionType = positionTypeElement.Value;
-            }
-
-            return new Position(name, positionType);
+            return Position.GetPosition(name);
         }
 
         private static Player DeserializePlayer(XElement playerElement)

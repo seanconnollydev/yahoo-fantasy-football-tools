@@ -9,7 +9,7 @@ namespace Tools.Analysis.Tests.Utilities
     public class TestObjectFactory
     {
         private static int _nextPlayerId = 1;
-        public Player CreatePlayer(string singlePosition)
+        public Player CreatePlayer(Position singlePosition)
         {
             int id = _nextPlayerId++;
             
@@ -17,32 +17,32 @@ namespace Tools.Analysis.Tests.Utilities
             string name = string.Format("{0}_name", id);
 
             var eligiblePositions = new List<Position>();
-            eligiblePositions.Add(new Position(singlePosition));
+            eligiblePositions.Add(singlePosition);
 
             var player = new Player(id, key, name, eligiblePositions);
             return player;
         }
 
-        public IDictionary<string, RosterPosition> CreateDefaultRosterPositions()
+        public IDictionary<PositionAbbreviation, RosterPosition> CreateDefaultRosterPositions()
         {
-            var rosterPositionMap = new Dictionary<string, RosterPosition>();
-            rosterPositionMap.Add("QB", new RosterPosition(new Position("QB"), 1));
-            rosterPositionMap.Add("RB", new RosterPosition(new Position("RB"), 2));
-            rosterPositionMap.Add("WR", new RosterPosition(new Position("WR"), 2));
-            rosterPositionMap.Add("W/R", new RosterPosition(new Position("W/R"), 1));
-            rosterPositionMap.Add("TE", new RosterPosition(new Position("TE"), 1));
-            rosterPositionMap.Add("DST", new RosterPosition(new Position("DST"), 1));
-            rosterPositionMap.Add("K", new RosterPosition(new Position("K"), 1));
-            rosterPositionMap.Add("BN", new RosterPosition(new Position("BN"), 6));
+            var rosterPositionMap = new Dictionary<PositionAbbreviation, RosterPosition>();
+            rosterPositionMap.Add(PositionAbbreviation.QB, new RosterPosition(Position.Quarterback, 1));
+            rosterPositionMap.Add(PositionAbbreviation.RB, new RosterPosition(Position.RunningBack, 2));
+            rosterPositionMap.Add(PositionAbbreviation.WR, new RosterPosition(Position.WideReceiver, 2));
+            rosterPositionMap.Add(PositionAbbreviation.W_R, new RosterPosition(Position.WideReceiverRunningBack, 1));
+            rosterPositionMap.Add(PositionAbbreviation.TE, new RosterPosition(Position.TightEnd, 1));
+            rosterPositionMap.Add(PositionAbbreviation.DEF, new RosterPosition(Position.Defense, 1));
+            rosterPositionMap.Add(PositionAbbreviation.K, new RosterPosition(Position.Kicker, 1));
+            rosterPositionMap.Add(PositionAbbreviation.BN, new RosterPosition(Position.Bench, 6));
             return rosterPositionMap;
         }
 
-        public ICollection<Player> CreatePlayers(params string[] positionNames)
+        public ICollection<Player> CreatePlayers(params Position[] positions)
         {
             var players = new List<Player>();
-            foreach (string positionName in positionNames)
+            foreach (var position in positions)
             {
-                players.Add(this.CreatePlayer(positionName));
+                players.Add(this.CreatePlayer(position));
             }
 
             return players;

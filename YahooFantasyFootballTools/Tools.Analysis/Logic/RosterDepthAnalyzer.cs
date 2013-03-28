@@ -10,10 +10,10 @@ namespace Tools.Analysis.Logic
 {
     public class RosterDepthAnalyzer
     {
-        private readonly IDictionary<string, RosterPosition> _rosterPositions;
+        private readonly IDictionary<PositionAbbreviation, RosterPosition> _rosterPositions;
         private readonly ICollection<Player> _availablePlayers;
-        
-        public RosterDepthAnalyzer(IDictionary<string, RosterPosition> rosterPositions, ICollection<Player> availablePlayers)
+
+        public RosterDepthAnalyzer(IDictionary<PositionAbbreviation, RosterPosition> rosterPositions, ICollection<Player> availablePlayers)
         {
             _rosterPositions = rosterPositions;
             _availablePlayers = availablePlayers;
@@ -23,14 +23,14 @@ namespace Tools.Analysis.Logic
         /// Determine roster depth by position.
         /// </summary>
         /// <returns>A dictionary keyed off of position (e.g. QB, RB, etc.)</returns>
-        public IDictionary<string, RosterDepth> GetRosterDepth()
+        public IDictionary<PositionAbbreviation, RosterDepth> GetRosterDepth()
         {
-            var rosterDepthMap = new Dictionary<string, RosterDepth>();
+            var rosterDepthMap = new Dictionary<PositionAbbreviation, RosterDepth>();
             var remainingPlayers = _availablePlayers.ToList();
-            var rosterPositionAvailabilityMap = new Dictionary<string, RosterPositionAvailability>();
+            var rosterPositionAvailabilityMap = new Dictionary<PositionAbbreviation, RosterPositionAvailability>();
 
-            var trimmedRosterPositions = new Dictionary<string, RosterPosition>(_rosterPositions);
-            trimmedRosterPositions.Remove("BN");
+            var trimmedRosterPositions = new Dictionary<PositionAbbreviation, RosterPosition>(_rosterPositions);
+            trimmedRosterPositions.Remove(PositionAbbreviation.BN);
             var sortedRosterPositions = trimmedRosterPositions.OrderBy(i => i.Value.Position, new PositionComparer());
 
             // First fill all positions
@@ -54,13 +54,24 @@ namespace Tools.Analysis.Logic
             }
 
             // Now determine what positions are left over
-            foreach (var player in remainingPlayers)
+            foreach (var rosterPosition in sortedRosterPositions)
             {
-                foreach (var eligiblePosition in player.EligiblePositions)
+                for (int i = remainingPlayers.Count - 1; i >= 0; i--)
                 {
-                    rosterPositionAvailabilityMap[eligiblePosition.Name].Available++;
+                    if (rosterPosition.Value.Position.CanBeFilledBy(remainingPlayers[i]))
+                    {
+                        remainingPlayers.Remove(remainingPlayers[i]);
+                        rosterPositionAvailabilityMap[rosterPosition.Value.Position.Abbreviation].Available++;
+                    }
                 }
             }
+            //foreach (var player in remainingPlayers)
+            //{
+            //    foreach (var eligiblePosition in player.EligiblePositions)
+            //    {
+            //        rosterPositionAvailabilityMap[eligiblePosition.Abbreviation].Available++;
+            //    }
+            //}
 
             // Now determine depth
             foreach (var rosterPosition in trimmedRosterPositions)
@@ -100,15 +111,7 @@ namespace Tools.Analysis.Logic
             public int Compare(Position x, Position y)
             {
                 // All I really want to do is push flex positions to the bottom
-                // TODO: At some point, update this to go from most specific (e.g. RB) to least (e.g. W/R/T)
-                if (x.Name.Equals(y.Name, StringComparison.OrdinalIgnoreCase))
-                {
-                    return 0;
-                }
-                else
-                {
-                    return x.IsFlex() ? 1 : -1;    
-                }
+                return x.PossiblePositions.Count - y.PossiblePositions.Count;
             }
         }
 
@@ -119,7 +122,7 @@ namespace Tools.Analysis.Logic
                 this.Required = required;
             }
 
-            public int Required { get; set; }
+            public int Required { get; private set; }
             public int Available { get; set; }
         }
     }
