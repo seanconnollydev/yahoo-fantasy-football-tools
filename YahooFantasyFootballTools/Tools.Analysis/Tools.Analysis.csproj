@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\EligibleKeeper.cs" />
-    <Compile Include="Domain\RosterDepth.cs" />
+    <Compile Include="Domain\PositionDepth.cs" />
     <Compile Include="FantasizerExtensions.cs" />
     <Compile Include="Logic\EligibleKeeperWriter.cs" />
     <Compile Include="Logic\KeeperAnalyzer.cs" />
