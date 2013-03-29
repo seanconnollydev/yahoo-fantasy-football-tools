@@ -11,18 +11,11 @@ namespace Fantasizer.Domain
         public PlayerStats Stats { get; private set; }
         public PlayerPoints Points { get; private set; }
 
-        internal PlayerWithStats() { }
-
-        internal PlayerWithStats(XElement playerElement)
-            : base(playerElement)
+        internal PlayerWithStats(Player player, PlayerStats stats, PlayerPoints points)
+            : base(player)
         {
-            Load(playerElement);   
-        }
-
-        protected internal override void Load(XElement playerElement)
-        {
-            base.Load(playerElement);
-            this.Points = new PlayerPoints(playerElement.Element(YahooXml.XMLNS + "player_points"));
+            this.Stats = stats;
+            this.Points = points;
         }
     }
 }

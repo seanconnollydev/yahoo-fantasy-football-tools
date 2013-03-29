@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Fantasizer.Xml;
 
 namespace Fantasizer.Domain
 {
@@ -13,24 +14,16 @@ namespace Fantasizer.Domain
         public string Name { get; private set; }
         public ICollection<Position> EligiblePositions { get; private set; }
 
-        internal Player() { }
-
-        internal Player(XElement playerElement)
+        internal Player(int id, string key, string name, ICollection<Position> eligiblePositions)
         {
-            Load(playerElement);
+            this.Id = id;
+            this.Key = key;
+            this.Name = name;
+            this.EligiblePositions = eligiblePositions;
         }
 
-        protected internal virtual void Load(XElement playerElement)
+        internal Player(Player player) : this(player.Id, player.Key, player.Name, player.EligiblePositions)
         {
-            this.Id = Convert.ToInt32(playerElement.Element(YahooXml.XMLNS + "player_id").Value);
-            this.Key = playerElement.Element(YahooXml.XMLNS + "player_key").Value;
-            this.Name = playerElement.Element(YahooXml.XMLNS + "name").Element(YahooXml.XMLNS + "full").Value;
-
-            this.EligiblePositions = new List<Position>();
-            foreach (var positionElement in playerElement.Elements(YahooXml.XMLNS + "eligible_positions"))
-            {
-                this.EligiblePositions.Add(new Position(positionElement));
-            }
         }
     }
 }

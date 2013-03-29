@@ -9,7 +9,7 @@ using Tools.Analysis.Logic;
 namespace Tools.Analysis.Tests
 {
     [TestClass]
-    public class EligibleKeeperWriterTestHarness
+    public class EligibleKeeperWriterTests
     {
         [TestMethod]
         public void GetEligibleKeepersBytes()

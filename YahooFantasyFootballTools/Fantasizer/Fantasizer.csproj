@@ -127,6 +127,8 @@
     <Compile Include="Domain\PlayerStats.cs" />
     <Compile Include="Domain\PlayerWithStats.cs" />
     <Compile Include="Domain\Position.cs" />
+    <Compile Include="Domain\PositionAbbreviation.cs" />
+    <Compile Include="Domain\PositionType.cs" />
     <Compile Include="Domain\RosterPosition.cs" />
     <Compile Include="Domain\Team.cs" />
     <Compile Include="Domain\TeamCollection.cs" />
@@ -137,6 +139,7 @@
     <Compile Include="OAuthClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserTokenManager.cs" />
+    <Compile Include="Xml\ResponseDeserializer.cs" />
     <Compile Include="YahooFantasySportsService.cs" />
     <Compile Include="YahooFantasySportsConfiguration.cs" />
     <Compile Include="YahooXml.cs" />

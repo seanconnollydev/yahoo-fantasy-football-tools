@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Tools.Analysis.Domain
 {
-    public enum RosterDepth
+    public enum PositionDepth
     {
         VeryShallow = 1,
         Shallow = 2,

@@ -1,4 +1,4 @@
-﻿@model System.Collections.Generic.IDictionary<string,Tools.Analysis.Domain.RosterDepth>
+﻿@model YahooFantasyFootballTools.Models.RosterDepthModel
 
 @{
     ViewBag.Title = "Team Roster Depth";
@@ -8,8 +8,8 @@
 <h2>Team Roster Depth</h2>
 
 <ul id="rosterDepthList">
-    @foreach (var positionDepth in Model)
+    @foreach (var positionDepth in Model.PositionDepths)
     {
-        <li>@positionDepth.Key : @positionDepth.Value</li>
+        <li>@positionDepth.PositionName : @positionDepth.DepthName</li>
     }
 </ul>

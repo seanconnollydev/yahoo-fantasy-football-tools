@@ -127,7 +127,10 @@ namespace YahooFantasyFootballTools.Controllers
 
             var depthAnalyzer = new RosterDepthAnalyzer(leagueSettings.RosterPositions, roster.Players);
 
-            return View(depthAnalyzer.GetRosterDepth());
+            var rosterDepthModel = new RosterDepthModel(depthAnalyzer.GetRosterDepth());
+            rosterDepthModel.SortPositionDepths();
+
+            return View(rosterDepthModel);
         }
     }
 }

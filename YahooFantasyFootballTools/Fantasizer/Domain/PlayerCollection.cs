@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Fantasizer.Xml;
 
 namespace Fantasizer.Domain
 {
@@ -15,9 +16,7 @@ namespace Fantasizer.Domain
 
             foreach (var playerElement in rootElement.Descendants(YahooXml.XMLNS + "player"))
             {
-                var player = (TPlayerType)Activator.CreateInstance(typeof(TPlayerType), true);
-                player.Load(playerElement);
-                this.Add(player);
+                this.Add(ResponseDeserializer.Deserialize<TPlayerType>(playerElement));
             }
         }
 

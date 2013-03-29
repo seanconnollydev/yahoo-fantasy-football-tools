@@ -2,6 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using Fantasizer.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Fantasizer.Tests.Utilities;
 
@@ -93,14 +94,14 @@ namespace Fantasizer.Tests
             var leagueSettings = _service.GetLeagueSettings(ClientTestConfiguration.DEFAULT_LEAGUE_KEY);
 
             Assert.IsNotNull(leagueSettings);
-            Assert.AreEqual(1, leagueSettings.RosterPositions["QB"].Count);
-            Assert.AreEqual(2, leagueSettings.RosterPositions["RB"].Count);
-            Assert.AreEqual(2, leagueSettings.RosterPositions["WR"].Count);
-            Assert.AreEqual(1, leagueSettings.RosterPositions["W/R"].Count);
-            Assert.AreEqual(1, leagueSettings.RosterPositions["TE"].Count);
-            Assert.AreEqual(1, leagueSettings.RosterPositions["K"].Count);
-            Assert.AreEqual(1, leagueSettings.RosterPositions["DEF"].Count);
-            Assert.AreEqual(6, leagueSettings.RosterPositions["BN"].Count);
+            Assert.AreEqual(1, leagueSettings.RosterPositions[PositionAbbreviation.QB].Count);
+            Assert.AreEqual(2, leagueSettings.RosterPositions[PositionAbbreviation.RB].Count);
+            Assert.AreEqual(2, leagueSettings.RosterPositions[PositionAbbreviation.WR].Count);
+            Assert.AreEqual(1, leagueSettings.RosterPositions[PositionAbbreviation.W_R].Count);
+            Assert.AreEqual(1, leagueSettings.RosterPositions[PositionAbbreviation.TE].Count);
+            Assert.AreEqual(1, leagueSettings.RosterPositions[PositionAbbreviation.K].Count);
+            Assert.AreEqual(1, leagueSettings.RosterPositions[PositionAbbreviation.DEF].Count);
+            Assert.AreEqual(6, leagueSettings.RosterPositions[PositionAbbreviation.BN].Count);
         }
     }
 }
