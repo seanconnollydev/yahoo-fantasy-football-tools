@@ -80,6 +80,9 @@ namespace YahooFantasyFootballTools.Controllers
             var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
             var leagues = service.GetLeagues();
 
+            var breadcrumbItems = new List<BreadcrumbItemModel>();
+            this.ViewBag.BreadcrumbModel = new BreadcrumbModel(breadcrumbItems);
+
             return View(leagues);
         }
 

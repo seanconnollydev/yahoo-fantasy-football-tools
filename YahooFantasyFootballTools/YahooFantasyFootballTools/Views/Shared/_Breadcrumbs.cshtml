@@ -1,0 +1,18 @@
+﻿@model YahooFantasyFootballTools.Models.BreadcrumbModel
+
+<ol id="breadcrumbs">
+@for (int i = 0; i < this.Model.Items.Count; i++)
+{
+    var item = this.Model.Items[i];
+    <li>
+        @if (item.IsCurrent)
+        {
+            <span class="current-item">@item.Text</span>
+        }
+        else
+        {
+            @Html.Raw(item.ActionLink.ToHtmlString())
+        }
+    </li>
+}
+</ol>

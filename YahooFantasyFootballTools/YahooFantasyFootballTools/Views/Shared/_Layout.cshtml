@@ -22,6 +22,9 @@
                     @Html.ActionLink("Logout", "Logout", "Home")
                 }
             </div>
+            <div id="breadcrumbContainer">
+                @Html.RenderPartial("_Breadcrumbs", ViewBag.BreadcrumbModel)
+            </div>
             @RenderBody()
         </div>
         <div id="footer"></div>
