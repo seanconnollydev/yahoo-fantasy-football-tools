@@ -19,8 +19,6 @@ namespace YahooFantasyFootballTools.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Login to view your eligible keepers";
-
             return View();
         }
 
@@ -71,8 +69,8 @@ namespace YahooFantasyFootballTools.Controllers
             var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
             service.CompleteAuthorization();
             PopulateUserAuthViewData();
-            
-            return View("Index");
+
+            return RedirectToAction("ListLeagues");
         }
 
         public ActionResult ListLeagues()
