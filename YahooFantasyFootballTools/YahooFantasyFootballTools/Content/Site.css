@@ -4,30 +4,12 @@ to use a different color start by replacing all instances of
 #5c87b2 with your new color.
 ----------------------------------------------------------*/
 body {
-    background-color: #5c87b2;
+    background-color: #d1d0ca;
     font-size: .85em;
     font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
     color: #696969;
-}
-
-a:link {
-    color: #034af3;
-    text-decoration: underline;
-}
-
-a:visited {
-    color: #505abc;
-}
-
-a:hover {
-    color: #1d60ff;
-    text-decoration: none;
-}
-
-a:active {
-    color: #12eb87;
 }
 
 p, ul {
@@ -46,7 +28,7 @@ section {
 ----------------------------------------------------------*/
 h1, h2, h3, h4, h5, h6 {
     font-size: 1.5em;
-    color: #000;
+    color: #394B5E;
 }
 
 h1 {
@@ -107,7 +89,6 @@ header h1, #header h1 {
 
 #main {
     padding: 30px 30px 15px 30px;
-    background-color: #fff;
     border-radius: 4px 0 0 0;
     -webkit-border-radius: 4px 0 0 0;
     -moz-border-radius: 4px 0 0 0;
@@ -115,8 +96,6 @@ header h1, #header h1 {
 
 footer, 
 #footer {
-    background-color: #fff;
-    color: #999;
     padding: 10px 0;
     text-align: center;
     line-height: normal;
@@ -322,6 +301,46 @@ div#title {
 
 /* Custom styles for YahooFantasyFootballTools
 ----------------------------------------------------------*/
+#mainLogin
+{
+	text-align:center;	
+}
+
 #sUri 
 {
 	width: 100%;
+}
+
+.splashButton
+{
+	background-color: #4E6073;
+	background-image: linear-gradient(180deg, #4E6073, #153344);
+	color: #ffffff;
+	cursor:pointer;
+	font-family:"Helvetica Neue", arial, sans-serif;
+	font-size: 15px;
+	height: 50px;
+	width: 200px;
+	padding: 10px;
+	text-decoration: none;
+	white-space: nowrap;
+	outline: none;
+	text-align: center;
+	text-shadow: 0 1px white;
+	-webkit-border-radius: 3px;	
+	-moz-border-radius: 3px;
+}
+
+.splashButton:hover
+{
+	border-color: #b7b7b7;
+	text-decoration: none;
+}
+
+ol#breadcrumbs {
+    list-style-type: none;
+}
+
+ol#breadcrumbs li {
+    display: inline;
+}

@@ -13,10 +13,10 @@ namespace Tools.Analysis.Tests
     [TestClass]
     public class RosterDepthAnalyzerTests
     {
-        private static TestObjectFactory _testObjectFactory;
+        private TestObjectFactory _testObjectFactory;
 
-        [ClassInitialize]
-        public static void Initialize(TestContext context)
+        [TestInitialize]
+        public void Initialize()
         {
             _testObjectFactory = new TestObjectFactory();
         }
@@ -46,7 +46,7 @@ namespace Tools.Analysis.Tests
             var results = analyzer.GetRosterDepth();
 
             // 1 QB spot required, 1 QB player. QB position should be adequate.
-            Assert.AreEqual(RosterDepth.Adequate, results[PositionAbbreviation.QB]);
+            Assert.AreEqual(PositionDepth.Adequate, results[Position.Quarterback]);
         }
 
         [TestMethod]
@@ -58,7 +58,6 @@ namespace Tools.Analysis.Tests
                 Position.Quarterback,
                 Position.RunningBack,
                 Position.RunningBack,
-                Position.WideReceiver,
                 Position.WideReceiver,
                 Position.WideReceiver,
                 Position.WideReceiver,
@@ -76,7 +75,7 @@ namespace Tools.Analysis.Tests
             var results = analyzer.GetRosterDepth();
 
             // W/R spot should be adequate, filled by 3rd WR.
-            Assert.AreEqual(RosterDepth.Adequate, results[PositionAbbreviation.W_R]);
+            Assert.AreEqual(PositionDepth.Adequate, results[Position.WideReceiverRunningBack]);
         }
 
         [TestMethod]
@@ -97,10 +96,10 @@ namespace Tools.Analysis.Tests
                 Position.Quarterback,
                 Position.RunningBack,
                 Position.RunningBack,
+                Position.RunningBack,
                 Position.WideReceiver,
                 Position.WideReceiver,
                 Position.WideReceiver,
-                Position.TightEnd,
                 Position.Kicker,
                 Position.Kicker,
                 Position.Defense,
@@ -110,13 +109,14 @@ namespace Tools.Analysis.Tests
             var analyzer = new RosterDepthAnalyzer(rosterPositions, players);
             var results = analyzer.GetRosterDepth();
 
-            Assert.AreEqual(RosterDepth.Deep, results[PositionAbbreviation.QB]);
-            Assert.AreEqual(RosterDepth.Adequate, results[PositionAbbreviation.RB]);
-            Assert.AreEqual(RosterDepth.Adequate, results[PositionAbbreviation.WR]);
-            Assert.AreEqual(RosterDepth.Adequate, results[PositionAbbreviation.W_R]);
-            Assert.AreEqual(RosterDepth.Adequate, results[PositionAbbreviation.W_T]);
-            Assert.AreEqual(RosterDepth.VeryDeep, results[PositionAbbreviation.DEF]);
-            Assert.AreEqual(RosterDepth.Deep, results[PositionAbbreviation.K]);
+            // In this case, the right thing to do is to fill the W/R spot with a RB so the WR can be used for W/T.
+            Assert.AreEqual(PositionDepth.Deep, results[Position.Quarterback]);
+            Assert.AreEqual(PositionDepth.Adequate, results[Position.RunningBack]);
+            Assert.AreEqual(PositionDepth.Adequate, results[Position.WideReceiver]);
+            Assert.AreEqual(PositionDepth.Adequate, results[Position.WideReceiverRunningBack]);
+            Assert.AreEqual(PositionDepth.Adequate, results[Position.WideReceiverTightEnd]);
+            Assert.AreEqual(PositionDepth.VeryDeep, results[Position.Defense]);
+            Assert.AreEqual(PositionDepth.Deep, results[Position.Kicker]);
         }
 
         [TestMethod]
@@ -151,13 +151,13 @@ namespace Tools.Analysis.Tests
             var analyzer = new RosterDepthAnalyzer(rosterPositions, players);
             var results = analyzer.GetRosterDepth();
 
-            Assert.AreEqual(RosterDepth.Deep, results[PositionAbbreviation.QB]);
-            Assert.AreEqual(RosterDepth.Adequate, results[PositionAbbreviation.RB]);
-            Assert.AreEqual(RosterDepth.Adequate, results[PositionAbbreviation.WR]);
-            Assert.AreEqual(RosterDepth.Adequate, results[PositionAbbreviation.W_R]);
-            Assert.AreEqual(RosterDepth.Adequate, results[PositionAbbreviation.W_R_T]);
-            Assert.AreEqual(RosterDepth.Deep, results[PositionAbbreviation.DEF]);
-            Assert.AreEqual(RosterDepth.Adequate, results[PositionAbbreviation.K]);
+            Assert.AreEqual(PositionDepth.Deep, results[Position.Quarterback]);
+            Assert.AreEqual(PositionDepth.Adequate, results[Position.RunningBack]);
+            Assert.AreEqual(PositionDepth.Adequate, results[Position.WideReceiver]);
+            Assert.AreEqual(PositionDepth.Adequate, results[Position.WideReceiverRunningBack]);
+            Assert.AreEqual(PositionDepth.VeryDeep, results[Position.WideReceiverRunningBackTightEnd]);
+            Assert.AreEqual(PositionDepth.Deep, results[Position.Defense]);
+            Assert.AreEqual(PositionDepth.Adequate, results[Position.Kicker]);
         }
 
         [TestMethod]
@@ -169,7 +169,6 @@ namespace Tools.Analysis.Tests
                 Position.Quarterback,
                 Position.RunningBack,
                 Position.RunningBack,
-                Position.WideReceiver,
                 Position.WideReceiver,
                 Position.WideReceiver,
                 Position.WideReceiver,
@@ -187,7 +186,7 @@ namespace Tools.Analysis.Tests
             var results = analyzer.GetRosterDepth();
 
             // It doesn't make sense to analyze depth for BN spots
-            Assert.IsFalse(results.ContainsKey(PositionAbbreviation.BN));
+            Assert.IsFalse(results.ContainsKey(Position.Bench));
         }
     }
 }

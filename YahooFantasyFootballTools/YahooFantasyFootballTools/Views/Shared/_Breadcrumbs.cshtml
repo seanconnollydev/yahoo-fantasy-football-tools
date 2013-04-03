@@ -1,18 +1,18 @@
 ﻿@model YahooFantasyFootballTools.Models.BreadcrumbModel
+@using YahooFantasyFootballTools.Helpers;
 
-<ol id="breadcrumbs">
-@for (int i = 0; i < this.Model.Items.Count; i++)
+@if (this.Model != null && this.Model.Items.Count > 0)
 {
-    var item = this.Model.Items[i];
-    <li>
-        @if (item.IsCurrent)
+    <ol id="breadcrumbs">
+        @for (int i = 0; i < this.Model.Items.Count; i++)
         {
-            <span class="current-item">@item.Text</span>
+            var item = this.Model.Items[i];
+            <li class="@(item.IsCurrent ? "current-item" : "previous-item")">@Html.Breadcrumb(item)
+                @if (i < this.Model.Items.Count - 1)
+                {
+                    @: >
+                }
+            </li>
         }
-        else
-        {
-            @Html.Raw(item.ActionLink.ToHtmlString())
-        }
-    </li>
+    </ol>
 }
-</ol>

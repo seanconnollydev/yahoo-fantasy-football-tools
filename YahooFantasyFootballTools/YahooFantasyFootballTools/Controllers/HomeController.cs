@@ -19,13 +19,6 @@ namespace YahooFantasyFootballTools.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Login to view your eligible keepers";
-
-            return View();
-        }
-
-        public ActionResult About()
-        {
             return View();
         }
 
@@ -71,8 +64,8 @@ namespace YahooFantasyFootballTools.Controllers
             var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
             service.CompleteAuthorization();
             PopulateUserAuthViewData();
-            
-            return View("Index");
+
+            return RedirectToAction("ListLeagues");
         }
 
         public ActionResult ListLeagues()
@@ -80,8 +73,10 @@ namespace YahooFantasyFootballTools.Controllers
             var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
             var leagues = service.GetLeagues();
 
-            var breadcrumbItems = new List<BreadcrumbItemModel>();
-            this.ViewBag.BreadcrumbModel = new BreadcrumbModel(breadcrumbItems);
+            var items = new List<BreadcrumbItemModel>();
+            items.Add(new BreadcrumbItemModel() { LinkText = "Home", ActionName = "Index", IsCurrent = false });
+            items.Add((new BreadcrumbItemModel() {LinkText = "Leagues", IsCurrent = true}));
+            this.ViewBag.BreadcrumbModel = new BreadcrumbModel(items);
 
             return View(leagues);
         }
@@ -90,6 +85,17 @@ namespace YahooFantasyFootballTools.Controllers
         {
             var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
             var teams = service.GetTeams(leagueKey);
+
+            var items = new List<BreadcrumbItemModel>();
+            items.Add(new BreadcrumbItemModel() { LinkText = "Home", ActionName = "Index", IsCurrent = false });
+            items.Add(new BreadcrumbItemModel()
+                {
+                    LinkText = "Leagues",
+                    ActionName = "ListLeagues",
+                    IsCurrent = false
+                });
+            items.Add(new BreadcrumbItemModel() {LinkText = teams.League.Name, IsCurrent = true});
+            this.ViewBag.BreadcrumbModel = new BreadcrumbModel(items);
 
             return View(teams.Teams);
         }
@@ -100,7 +106,7 @@ namespace YahooFantasyFootballTools.Controllers
             var keeperAnalyzer = new KeeperAnalyzer(service);
             var keepers = keeperAnalyzer.GetEligibleKeepersForTeam(teamKey);
             var sortedKeepers = keepers.OrderBy(k => k.DraftRound);
-
+            
             return View(sortedKeepers);
         }
 
@@ -130,7 +136,10 @@ namespace YahooFantasyFootballTools.Controllers
 
             var depthAnalyzer = new RosterDepthAnalyzer(leagueSettings.RosterPositions, roster.Players);
 
-            return View(depthAnalyzer.GetRosterDepth());
+            var rosterDepthModel = new RosterDepthModel(depthAnalyzer.GetRosterDepth());
+            rosterDepthModel.SortPositionDepths();
+
+            return View(rosterDepthModel);
         }
     }
 }

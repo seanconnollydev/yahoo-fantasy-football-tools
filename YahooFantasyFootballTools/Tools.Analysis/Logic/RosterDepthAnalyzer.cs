@@ -12,94 +12,74 @@ namespace Tools.Analysis.Logic
     {
         private readonly IDictionary<PositionAbbreviation, RosterPosition> _rosterPositions;
         private readonly ICollection<Player> _availablePlayers;
+        private readonly RosterAssignmentAnalyzer _assignmentAnalyzer;
 
         public RosterDepthAnalyzer(IDictionary<PositionAbbreviation, RosterPosition> rosterPositions, ICollection<Player> availablePlayers)
         {
             _rosterPositions = rosterPositions;
             _availablePlayers = availablePlayers;
+            _assignmentAnalyzer = new RosterAssignmentAnalyzer(_rosterPositions, _availablePlayers);
         }
 
         /// <summary>
         /// Determine roster depth by position.
         /// </summary>
         /// <returns>A dictionary keyed off of position (e.g. QB, RB, etc.)</returns>
-        public IDictionary<PositionAbbreviation, RosterDepth> GetRosterDepth()
+        public IDictionary<Position, PositionDepth> GetRosterDepth()
         {
-            var rosterDepthMap = new Dictionary<PositionAbbreviation, RosterDepth>();
-            var remainingPlayers = _availablePlayers.ToList();
-            var rosterPositionAvailabilityMap = new Dictionary<PositionAbbreviation, RosterPositionAvailability>();
+            // Determine the optimal roster assignments
+            var optimalAssignments = _assignmentAnalyzer.GetOptimalAssignment();
 
-            var trimmedRosterPositions = new Dictionary<PositionAbbreviation, RosterPosition>(_rosterPositions);
-            trimmedRosterPositions.Remove(PositionAbbreviation.BN);
-            var sortedRosterPositions = trimmedRosterPositions.OrderBy(i => i.Value.Position, new PositionComparer());
-
-            // First fill all positions
-            foreach (var rosterPosition in sortedRosterPositions)
+            var rosterDepthMap = new Dictionary<Position, PositionDepth>();
+            foreach (var rosterPosition in _rosterPositions)
             {
-                var rosterPositionAvailability = new RosterPositionAvailability(rosterPosition.Value.Count);
+                // Short circuit the bench position, we don't need to evaluate depth for this position
+                if (rosterPosition.Key == PositionAbbreviation.BN)
+                    break;
 
-                for (int i = remainingPlayers.Count - 1; i >= 0; i--)
+                int filled = optimalAssignments[rosterPosition.Value.Position].Count;
+                int required = rosterPosition.Value.Count;
+                int additionalAvailable = 0;
+
+                if (filled == required)
                 {
-                    if (rosterPosition.Value.Position.CanBeFilledBy(remainingPlayers[i]))
+                    // There may still be additional players on the bench that could fill this position and should
+                    // contribute to this position's depth.  Note that a bench player can contribute to the depth of
+                    // more than one position.
+                    foreach (var player in optimalAssignments[Position.Bench])
                     {
-                        remainingPlayers.Remove(remainingPlayers[i]);
-                        rosterPositionAvailability.Available++;
-                    }
+                        var position = rosterPosition.Value.Position;
 
-                    if (rosterPositionAvailability.Available >= rosterPositionAvailability.Required)
-                        break;
-                }
-
-                rosterPositionAvailabilityMap[rosterPosition.Key] = rosterPositionAvailability;
-            }
-
-            // Now determine what positions are left over
-            foreach (var rosterPosition in sortedRosterPositions)
-            {
-                for (int i = remainingPlayers.Count - 1; i >= 0; i--)
-                {
-                    if (rosterPosition.Value.Position.CanBeFilledBy(remainingPlayers[i]))
-                    {
-                        remainingPlayers.Remove(remainingPlayers[i]);
-                        rosterPositionAvailabilityMap[rosterPosition.Value.Position.Abbreviation].Available++;
+                        if (position.CanBeFilledBy(player))
+                        {
+                            additionalAvailable++;
+                        }
                     }
                 }
-            }
-            //foreach (var player in remainingPlayers)
-            //{
-            //    foreach (var eligiblePosition in player.EligiblePositions)
-            //    {
-            //        rosterPositionAvailabilityMap[eligiblePosition.Abbreviation].Available++;
-            //    }
-            //}
 
-            // Now determine depth
-            foreach (var rosterPosition in trimmedRosterPositions)
-            {
-                var availability = rosterPositionAvailabilityMap[rosterPosition.Key];
-                rosterDepthMap.Add(rosterPosition.Key, DetermineDepth(availability.Required, availability.Available));
+                rosterDepthMap[rosterPosition.Value.Position] = DetermineDepth(required, filled + additionalAvailable);
             }
 
             return rosterDepthMap;
         }
 
-        private static RosterDepth DetermineDepth(int required, int available)
+        private static PositionDepth DetermineDepth(int required, int available)
         {
             int delta = required - available;
 
             if (delta >= 2)
-                return RosterDepth.VeryShallow;
+                return PositionDepth.VeryShallow;
             else if (delta == 1)
-                return RosterDepth.Shallow;
+                return PositionDepth.Shallow;
             else if (delta == 0)
-                return RosterDepth.Adequate;
+                return PositionDepth.Adequate;
             else if (delta == -1)
-                return RosterDepth.Deep;
+                return PositionDepth.Deep;
             else if (delta <= 2)
-                return RosterDepth.VeryDeep;
+                return PositionDepth.VeryDeep;
             else
             {
-                var ex = new Exception("Could not determine depth based.");
+                var ex = new Exception("Could not determine depth based on inputs.");
                 ex.Data.Add("required", required);
                 ex.Data.Add("available", available);
                 throw ex;

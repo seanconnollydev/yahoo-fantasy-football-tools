@@ -10,7 +10,6 @@
         <div id="header">
             <div id="menucontainer">
                 <ul id="menu">
-                    
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                 </ul>
             </div>
@@ -22,9 +21,10 @@
                     @Html.ActionLink("Logout", "Logout", "Home")
                 }
             </div>
-            <div id="breadcrumbContainer">
-                @Html.RenderPartial("_Breadcrumbs", ViewBag.BreadcrumbModel)
-            </div>
+            @if (ViewBag.BreadcrumbModel != null)
+            {
+                @Html.Partial("_Breadcrumbs", (YahooFantasyFootballTools.Models.BreadcrumbModel) ViewBag.BreadcrumbModel)
+            }
             @RenderBody()
         </div>
         <div id="footer"></div>

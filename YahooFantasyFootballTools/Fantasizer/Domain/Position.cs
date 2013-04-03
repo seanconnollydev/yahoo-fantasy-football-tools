@@ -8,15 +8,15 @@ namespace Fantasizer.Domain
         private Position(PositionAbbreviation abbreviation, PositionType type, string displayName, bool isFlex, ICollection<Position> possiblePositions)
             :this(abbreviation, type, displayName, isFlex)
         {
-            this.Abbreviation = abbreviation;
-            this.Type = type;
-            this.DisplayName = displayName;
-            this.IsFlex = isFlex;
             this.PossiblePositions = possiblePositions;
         }
 
         private Position(PositionAbbreviation abbreviation, PositionType type, string displayName, bool isFlex)
         {
+            this.Abbreviation = abbreviation;
+            this.Type = type;
+            this.DisplayName = displayName;
+            this.IsFlex = isFlex;
             this.PossiblePositions = new List<Position>() { this };
         }
 

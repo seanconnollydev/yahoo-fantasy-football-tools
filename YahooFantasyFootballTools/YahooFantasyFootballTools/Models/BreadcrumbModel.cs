@@ -16,15 +16,8 @@ namespace YahooFantasyFootballTools.Models
 
     public class BreadcrumbItemModel
     {
-        public BreadcrumbItemModel(string text, MvcHtmlString actionLink, bool isCurrent)
-        {
-            this.Text = text;
-            this.ActionLink = actionLink;
-            this.IsCurrent = isCurrent;
-        }
-
-        public string Text { get; private set; }
-        public MvcHtmlString ActionLink { get; private set; }
-        public bool IsCurrent { get; private set; }
+        public string LinkText { get; set; }
+        public string ActionName { get; set; }
+        public bool IsCurrent { get; set; }
     }
 }

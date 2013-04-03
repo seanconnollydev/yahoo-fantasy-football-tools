@@ -44,10 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\EligibleKeeper.cs" />
-    <Compile Include="Domain\RosterDepth.cs" />
+    <Compile Include="Domain\PositionDepth.cs" />
     <Compile Include="FantasizerExtensions.cs" />
     <Compile Include="Logic\EligibleKeeperWriter.cs" />
     <Compile Include="Logic\KeeperAnalyzer.cs" />
+    <Compile Include="Logic\RosterAssignmentAnalyzer.cs" />
     <Compile Include="Logic\RosterDepthAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
