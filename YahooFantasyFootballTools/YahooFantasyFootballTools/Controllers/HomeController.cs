@@ -103,7 +103,10 @@ namespace YahooFantasyFootballTools.Controllers
         public ActionResult ListEligibleKeepers(string teamKey)
         {
             var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
-            var keeperAnalyzer = new KeeperAnalyzer(service);
+            var teamPlayers = service.GetTeamPlayerStats(teamKey);
+            var draftResults = service.GetDraftResults(teamPlayers.Team.LeagueKey);
+            
+            var keeperAnalyzer = new KeeperAnalyzer(teamPlayers, draftResults);
             var keepers = keeperAnalyzer.GetEligibleKeepersForTeam(teamKey);
             var sortedKeepers = keepers.OrderBy(k => k.DraftRound);
 
@@ -115,6 +118,12 @@ namespace YahooFantasyFootballTools.Controllers
                 ActionName = "ListLeagues",
                 IsCurrent = false
             });
+            items.Add(new BreadcrumbItemModel()
+                {
+                    LinkText = draftResults.League.Name,
+                    ActionName = "ListTeams",
+                    RouteValues = new {leagueKey = draftResults.League.Key}
+                });
             items.Add(new BreadcrumbItemModel() { LinkText = "Keepers", IsCurrent = true });
             this.ViewBag.BreadcrumbModel = new BreadcrumbModel(items);
 
@@ -133,7 +142,10 @@ namespace YahooFantasyFootballTools.Controllers
         public FileResult DownloadEligibleKeepers(string leagueKey)
         {
             var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
-            var keepers = new KeeperAnalyzer(service);
+            var leagueTeamPlayers = service.GetTeamPlayerStats(leagueKey);
+            var draftResults = service.GetDraftResults(leagueKey);
+
+            var keepers = new KeeperAnalyzer(leagueTeamPlayers, draftResults);
             var writer = new EligibleKeeperWriter(keepers.GetEligibleKeepersForLeague(leagueKey));
 
             return File(writer.ToCsvArray(), "text/csv", "eligible-keepers.csv");
@@ -158,6 +170,13 @@ namespace YahooFantasyFootballTools.Controllers
                 ActionName = "ListLeagues",
                 IsCurrent = false
             });
+            items.Add(new BreadcrumbItemModel()
+                {
+                    LinkText = leagueSettings.League.Name,
+                    ActionName = "ListTeams",
+                    IsCurrent = false,
+                    RouteValues = new {leagueKey = leagueSettings.League.Key}
+                });
             items.Add(new BreadcrumbItemModel() { LinkText = "Roster Depth", IsCurrent = true });
             this.ViewBag.BreadcrumbModel = new BreadcrumbModel(items);
 

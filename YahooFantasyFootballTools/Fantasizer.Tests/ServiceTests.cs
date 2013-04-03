@@ -94,6 +94,7 @@ namespace Fantasizer.Tests
             var leagueSettings = _service.GetLeagueSettings(ClientTestConfiguration.DEFAULT_LEAGUE_KEY);
 
             Assert.IsNotNull(leagueSettings);
+            Assert.IsNotNull(leagueSettings.League);
             Assert.AreEqual(1, leagueSettings.RosterPositions[PositionAbbreviation.QB].Count);
             Assert.AreEqual(2, leagueSettings.RosterPositions[PositionAbbreviation.RB].Count);
             Assert.AreEqual(2, leagueSettings.RosterPositions[PositionAbbreviation.WR].Count);
@@ -102,6 +103,7 @@ namespace Fantasizer.Tests
             Assert.AreEqual(1, leagueSettings.RosterPositions[PositionAbbreviation.K].Count);
             Assert.AreEqual(1, leagueSettings.RosterPositions[PositionAbbreviation.DEF].Count);
             Assert.AreEqual(6, leagueSettings.RosterPositions[PositionAbbreviation.BN].Count);
+            Assert.AreEqual(ClientTestConfiguration.DEFAULT_LEAGUE_KEY, leagueSettings.League.Key);
         }
     }
 }

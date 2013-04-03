@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Fantasizer.Xml;
 
 namespace Fantasizer.Domain
 {
@@ -77,7 +78,7 @@ namespace Fantasizer.Domain
             var leagues = new LeagueCollection();
             foreach (var leagueElement in xml.Descendants(YahooXml.XMLNS + "league"))
             {
-                leagues.Add(League.CreateFromXml(leagueElement));
+                leagues.Add(ResponseDeserializer.DeserializeLeague(leagueElement));
             }
 
             return leagues;

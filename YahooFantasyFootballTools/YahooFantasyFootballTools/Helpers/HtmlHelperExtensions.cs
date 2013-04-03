@@ -18,7 +18,7 @@ namespace YahooFantasyFootballTools.Helpers
             }
             else
             {
-                return helper.ActionLink(item.LinkText, item.ActionName);    
+                return helper.ActionLink(item.LinkText, item.ActionName, item.RouteValues);    
             }
         }
     }

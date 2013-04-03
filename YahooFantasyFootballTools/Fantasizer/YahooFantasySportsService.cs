@@ -3,6 +3,7 @@ using System.Xml;
 using Fantasizer.Domain;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Fantasizer.Xml;
 
 namespace Fantasizer
 {
@@ -102,16 +103,7 @@ namespace Fantasizer
         {
             string requestUri = string.Format("http://fantasysports.yahooapis.com/fantasy/v2/league/{0}/settings", leagueKey);
             var xml = this.ApiClient.ExecuteRequest(requestUri);
-
-            XmlNamespaceManager namespaceManager;
-            using (var reader = xml.CreateReader())
-            {
-                namespaceManager = new XmlNamespaceManager(reader.NameTable);
-            }
-
-            namespaceManager.AddNamespace("y", YahooXml.XMLNS.ToString());
-
-            return new LeagueSettings(xml.XPathSelectElement("//y:settings", namespaceManager));
+            return ResponseDeserializer.DeserializeLeagueSettings(xml.Root.Element(YahooXml.XMLNS + "league"));
         }
     }
 }

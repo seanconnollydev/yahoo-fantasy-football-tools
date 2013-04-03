@@ -19,5 +19,6 @@ namespace YahooFantasyFootballTools.Models
         public string LinkText { get; set; }
         public string ActionName { get; set; }
         public bool IsCurrent { get; set; }
+        public object RouteValues { get; set; }
     }
 }

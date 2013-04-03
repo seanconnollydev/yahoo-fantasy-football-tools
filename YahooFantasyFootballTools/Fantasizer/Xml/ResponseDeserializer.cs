@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 using Fantasizer.Domain;
 
@@ -65,8 +66,33 @@ namespace Fantasizer.Xml
         internal static PlayerPoints DeserializePlayerPoints(XElement playerPointsElement)
         {
             int season = Convert.ToInt32(playerPointsElement.Element(YahooXml.XMLNS + "season").Value);
-            int total = Convert.ToInt32(playerPointsElement.Element(YahooXml.XMLNS + "total").Value);
+            double total = Convert.ToDouble(playerPointsElement.Element(YahooXml.XMLNS + "total").Value);
             return new PlayerPoints(season, total);
+        }
+
+        internal static LeagueSettings DeserializeLeagueSettings(XElement leagueElement)
+        {
+            var settingElement = leagueElement.Element(YahooXml.XMLNS + "settings");
+
+            var rosterPositions = new Dictionary<PositionAbbreviation, RosterPosition>();
+            foreach (var rosterPositionElement in settingElement.Descendants(YahooXml.XMLNS + "roster_position"))
+            {
+                var rosterPosition = ResponseDeserializer.DeserializeRosterPosition(rosterPositionElement);
+                rosterPositions.Add(rosterPosition.Position.Abbreviation, rosterPosition);
+            }
+
+            var league = ResponseDeserializer.DeserializeLeague(leagueElement);
+
+            return new LeagueSettings(rosterPositions, league);
+        }
+
+        internal static League DeserializeLeague(XElement leagueElement)
+        {
+            int id = Convert.ToInt32(leagueElement.Element(YahooXml.XMLNS + "league_id").Value);
+            string name = leagueElement.Element(YahooXml.XMLNS + "name").Value;
+            string key = leagueElement.Element(YahooXml.XMLNS + "league_key").Value;
+
+            return new League(id, name, key);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Tools.Analysis.Domain
 
         public string IneligibilityReason { get; set; }
 
-        public int LastSeasonPoints { get; set; }
+        public double LastSeasonPoints { get; set; }
 
         private static readonly Dictionary<string, string> _previousKeepers;
 

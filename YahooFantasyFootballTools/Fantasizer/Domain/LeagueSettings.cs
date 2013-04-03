@@ -1,31 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
-using System.Xml.Linq;
-using Fantasizer.Xml;
+﻿using System.Collections.Generic;
 
 namespace Fantasizer.Domain
 {
     public class LeagueSettings
     {
-        
-        internal LeagueSettings(XElement settingElement)
+        internal LeagueSettings(IDictionary<PositionAbbreviation, RosterPosition> rosterPositions, League league)
         {
-            _rosterPositions = new Dictionary<PositionAbbreviation, RosterPosition>();
-
-            foreach (var rosterPositionElement in settingElement.Descendants(YahooXml.XMLNS + "roster_position"))
-            {
-                var rosterPosition = ResponseDeserializer.DeserializeRosterPosition(rosterPositionElement);
-                _rosterPositions.Add(rosterPosition.Position.Abbreviation, rosterPosition);
-            }
+            this.RosterPositions = rosterPositions;
+            this.League = league;
         }
 
-        private readonly Dictionary<PositionAbbreviation, RosterPosition> _rosterPositions;
-        public IDictionary<PositionAbbreviation, RosterPosition> RosterPositions
-        {
-            get { return _rosterPositions; }
-        }
+        public IDictionary<PositionAbbreviation, RosterPosition> RosterPositions { get; private set; }
+
+        public League League { get; private set; }
     }
 }
