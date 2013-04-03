@@ -17,7 +17,6 @@ p, ul {
     line-height: 1.6em;
 }
 
-header,
 footer,
 nav,
 section {
@@ -64,24 +63,6 @@ page width. Or, you can specify an exact pixel width. */
     margin-right: auto;
 }
 
-header, #header {
-    position: relative;
-    margin-bottom: 0px;
-    color: #000;
-    padding: 0;
-}
-
-header h1, #header h1 {
-    font-weight: bold;
-    padding: 5px 0;
-    margin: 0;
-    color: #fff;
-    border: none;
-    line-height: 2em;
-    font-size: 32px !important;
-    text-shadow: 1px 1px 2px #111;
-}
-
 #userProfile
 {
     float: right;
@@ -104,56 +85,6 @@ footer,
     border-radius: 0 0 4px 4px;
     -webkit-border-radius: 0 0 4px 4px;
     -moz-border-radius: 0 0 4px 4px;
-}
-
-/* TAB MENU   
-----------------------------------------------------------*/
-ul#menu {
-    border-bottom: 1px #5C87B2 solid;
-    padding: 0 0 2px;
-    position: relative;
-    margin: 0;
-    text-align: right;
-}
-
-ul#menu li {
-    display: inline;
-    list-style: none;
-}
-
-ul#menu li#greeting {
-    padding: 10px 20px;
-    font-weight: bold;
-    text-decoration: none;
-    line-height: 2.8em;
-    color: #fff;
-}
-
-ul#menu li a {
-    padding: 10px 20px;
-    font-weight: bold;
-    text-decoration: none;
-    line-height: 2.8em;
-    background-color: #e8eef4;
-    color: #034af3;
-    border-radius: 4px 4px 0 0;
-    -webkit-border-radius: 4px 4px 0 0;
-    -moz-border-radius: 4px 4px 0 0;
-}
-
-ul#menu li a:hover {
-    background-color: #fff;
-    text-decoration: none;
-}
-
-ul#menu li a:active {
-    background-color: #a6e2a6;
-    text-decoration: none;
-}
-
-ul#menu li.selected a {
-    background-color: #fff;
-    color: #000;
 }
 
 /* FORM LAYOUT ELEMENTS   
@@ -223,11 +154,6 @@ table th {
 
 .error {
     color: Red;
-}
-
-nav, 
-#menucontainer {
-    margin-top: 40px;
 }
 
 div#title {
@@ -339,6 +265,8 @@ div#title {
 
 ol#breadcrumbs {
     list-style-type: none;
+    margin: 0px;
+    padding: 0px;
 }
 
 ol#breadcrumbs li {
