@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using System.Web.SessionState;
 
 namespace YahooFantasyFootballTools.Controllers
 {
@@ -17,9 +14,23 @@ namespace YahooFantasyFootballTools.Controllers
             PopulateUserAuthViewData();
         }
 
+        private SessionStateUserTokenStore _userTokenStore;
+        protected SessionStateUserTokenStore UserTokenStore
+        {
+            get
+            {
+                if (_userTokenStore == null)
+                {
+                    _userTokenStore = new SessionStateUserTokenStore(System.Web.HttpContext.Current.Session);
+                }
+
+                return _userTokenStore;
+            }
+        }
+
         protected void PopulateUserAuthViewData()
         {
-            ViewBag.IsUserAuthenticated = SessionStateUserTokenStore.Current.IsAuthenticated();
+            ViewBag.IsUserAuthenticated = this.UserTokenStore.IsAuthenticated();
         }
     }
 }

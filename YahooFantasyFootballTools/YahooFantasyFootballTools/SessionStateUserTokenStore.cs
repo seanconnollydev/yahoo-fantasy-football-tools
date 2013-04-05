@@ -16,23 +16,9 @@ namespace YahooFantasyFootballTools
         private const string ACCESS_TOKEN_SECRET_KEY = "ACCESS_TOKEN_SECRET_KEY";
 
         private readonly HttpSessionState _sessionState;
-        private SessionStateUserTokenStore(HttpSessionState sessionState)
+        public SessionStateUserTokenStore(HttpSessionState sessionState)
         {
             _sessionState = sessionState;
-        }
-
-        private static SessionStateUserTokenStore _current;
-        internal static SessionStateUserTokenStore Current
-        {
-            get
-            {
-                if (_current == null)
-                {
-                    _current = new SessionStateUserTokenStore(HttpContext.Current.Session);
-                }
-
-                return _current;
-            }
         }
 
         public string AccessToken

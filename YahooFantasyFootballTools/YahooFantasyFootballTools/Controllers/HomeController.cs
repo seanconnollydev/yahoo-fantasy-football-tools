@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Net;
-using System.IO;
 using DotNetOpenAuth.Messaging;
-using Tools.Analysis.Logic;
-using YahooFantasyFootballTools.Models;
-using System.Xml.Linq;
-using System.Xml;
 using Fantasizer;
-using Fantasizer.Domain;
+using MvcSiteMapProvider;
 
 namespace YahooFantasyFootballTools.Controllers
 {
@@ -24,7 +16,7 @@ namespace YahooFantasyFootballTools.Controllers
 
         public ActionResult AuthenticateWithYahoo()
         {
-            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
+            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
 
             // TODO: Clean this up. It is a work around since AppHarbor does not support a callback redirect when a port is specified.
             string hostOrAuthority = Request.IsLocal ? Request.Url.Authority : Request.Url.Host;
@@ -58,129 +50,23 @@ namespace YahooFantasyFootballTools.Controllers
             // This will not get hit
             return null;
         }
-
+        
         public ActionResult YahooOAuthCallback()
         {
-            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
+            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
             service.CompleteAuthorization();
             PopulateUserAuthViewData();
 
-            return RedirectToAction("ListLeagues");
-        }
-
-        public ActionResult ListLeagues()
-        {
-            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
-            var leagues = service.GetLeagues();
-
-            var items = new List<BreadcrumbItemModel>();
-            items.Add(new BreadcrumbItemModel() { LinkText = "Home", ActionName = "Index", IsCurrent = false });
-            items.Add((new BreadcrumbItemModel() {LinkText = "Leagues", IsCurrent = true}));
-            this.ViewBag.BreadcrumbModel = new BreadcrumbModel(items);
-
-            return View(leagues);
-        }
-
-        public ActionResult ListTeams(string leagueKey)
-        {
-            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
-            var teams = service.GetTeams(leagueKey);
-
-            var items = new List<BreadcrumbItemModel>();
-            items.Add(new BreadcrumbItemModel() { LinkText = "Home", ActionName = "Index", IsCurrent = false });
-            items.Add(new BreadcrumbItemModel()
-                {
-                    LinkText = "Leagues",
-                    ActionName = "ListLeagues",
-                    IsCurrent = false
-                });
-            items.Add(new BreadcrumbItemModel() {LinkText = teams.League.Name, IsCurrent = true});
-            this.ViewBag.BreadcrumbModel = new BreadcrumbModel(items);
-
-            return View(teams.Teams);
-        }
-
-        public ActionResult ListEligibleKeepers(string teamKey)
-        {
-            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
-            var teamPlayers = service.GetTeamPlayerStats(teamKey);
-            var draftResults = service.GetDraftResults(teamPlayers.Team.LeagueKey);
-            
-            var keeperAnalyzer = new KeeperAnalyzer(teamPlayers, draftResults);
-            var keepers = keeperAnalyzer.GetEligibleKeepersForTeam(teamKey);
-            var sortedKeepers = keepers.OrderBy(k => k.DraftRound);
-
-            var items = new List<BreadcrumbItemModel>();
-            items.Add(new BreadcrumbItemModel() { LinkText = "Home", ActionName = "Index", IsCurrent = false });
-            items.Add(new BreadcrumbItemModel()
-            {
-                LinkText = "Leagues",
-                ActionName = "ListLeagues",
-                IsCurrent = false
-            });
-            items.Add(new BreadcrumbItemModel()
-                {
-                    LinkText = draftResults.League.Name,
-                    ActionName = "ListTeams",
-                    RouteValues = new {leagueKey = draftResults.League.Key}
-                });
-            items.Add(new BreadcrumbItemModel() { LinkText = "Keepers", IsCurrent = true });
-            this.ViewBag.BreadcrumbModel = new BreadcrumbModel(items);
-
-            return View(sortedKeepers);
+            return RedirectToAction("ListLeagues", "User");
         }
 
         public ActionResult Logout()
         {
-            SessionStateUserTokenStore.Current.AccessToken = default(string);
-            SessionStateUserTokenStore.Current.AccessTokenSecret = default(string);
+            this.UserTokenStore.AccessToken = default(string);
+            this.UserTokenStore.AccessTokenSecret = default(string);
             PopulateUserAuthViewData();
 
             return View("Index");
-        }
-
-        public FileResult DownloadEligibleKeepers(string leagueKey)
-        {
-            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
-            var leagueTeamPlayers = service.GetTeamPlayerStats(leagueKey);
-            var draftResults = service.GetDraftResults(leagueKey);
-
-            var keepers = new KeeperAnalyzer(leagueTeamPlayers, draftResults);
-            var writer = new EligibleKeeperWriter(keepers.GetEligibleKeepersForLeague(leagueKey));
-
-            return File(writer.ToCsvArray(), "text/csv", "eligible-keepers.csv");
-        }
-
-        public ActionResult ShowRosterDepth(string teamKey)
-        {
-            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
-            var roster = service.GetRosterPlayers(teamKey);
-            var leagueSettings = service.GetLeagueSettings(roster.Team.LeagueKey);
-
-            var depthAnalyzer = new RosterDepthAnalyzer(leagueSettings.RosterPositions, roster.Players);
-
-            var rosterDepthModel = new RosterDepthModel(depthAnalyzer.GetRosterDepth());
-            rosterDepthModel.SortPositionDepths();
-
-            var items = new List<BreadcrumbItemModel>();
-            items.Add(new BreadcrumbItemModel() { LinkText = "Home", ActionName = "Index", IsCurrent = false });
-            items.Add(new BreadcrumbItemModel()
-            {
-                LinkText = "Leagues",
-                ActionName = "ListLeagues",
-                IsCurrent = false
-            });
-            items.Add(new BreadcrumbItemModel()
-                {
-                    LinkText = leagueSettings.League.Name,
-                    ActionName = "ListTeams",
-                    IsCurrent = false,
-                    RouteValues = new {leagueKey = leagueSettings.League.Key}
-                });
-            items.Add(new BreadcrumbItemModel() { LinkText = "Roster Depth", IsCurrent = true });
-            this.ViewBag.BreadcrumbModel = new BreadcrumbModel(items);
-
-            return View(rosterDepthModel);
         }
     }
 }

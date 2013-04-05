@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Fantasizer;
+using MvcSiteMapProvider;
 
 namespace YahooFantasyFootballTools.Controllers
 {
     public class InternalController : BaseAuthenticatedController
     {
+        [MvcSiteMapNode(ParentKey="Home", Title="List Keys")]
         public ActionResult ListKeys()
         {
             // TODO: Put this check someplace where it can be called on any "Internal" action that I want to restrict.
@@ -17,9 +15,9 @@ namespace YahooFantasyFootballTools.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.AccessToken = SessionStateUserTokenStore.Current.AccessToken;
-            ViewBag.AccessTokenSecret = SessionStateUserTokenStore.Current.AccessTokenSecret;
-            ViewBag.IsUserAuthenticated = SessionStateUserTokenStore.Current.IsAuthenticated();
+            ViewBag.AccessToken = this.UserTokenStore.AccessToken;
+            ViewBag.AccessTokenSecret = this.UserTokenStore.AccessTokenSecret;
+            ViewBag.IsUserAuthenticated = this.UserTokenStore.IsAuthenticated();
 
             return View();
         }
@@ -30,11 +28,12 @@ namespace YahooFantasyFootballTools.Controllers
         /// </summary>
         /// <param name="sUri"></param>
         /// <returns></returns>
+        [MvcSiteMapNode(ParentKey="Home", Title="Show Response")]
         public ActionResult ShowResponse(string sUri)
         {
             if (!string.IsNullOrEmpty(sUri))
             {
-                var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, SessionStateUserTokenStore.Current);
+                var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
                 ViewBag.XmlResponse = service.ExecuteRawRequest(sUri).ToString();
             }
             return View();

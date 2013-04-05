@@ -14,10 +14,7 @@
                     @Html.ActionLink("Logout", "Logout", "Home")
                 }
             </div>
-            @if (ViewBag.BreadcrumbModel != null)
-            {
-                @Html.Partial("_Breadcrumbs", (YahooFantasyFootballTools.Models.BreadcrumbModel) ViewBag.BreadcrumbModel)
-            }
+            @Html.MvcSiteMap().SiteMapPath()
             @RenderBody()
         </div>
         <div id="footer"></div>

@@ -11,8 +11,8 @@
  {
     <li>Id: @team.Id</li>
     <li>Key: @team.Key</li>
-     <li>Name: @Html.ActionLink(team.Name, "ListEligibleKeepers", new {teamKey = team.Key}) </li>
-     <li>@Html.ActionLink("Analyze Depth", "ShowRosterDepth", new {teamKey = team.Key})</li>
+     <li>Name: @Html.ActionLink(team.Name, "ListEligibleKeepers", "Team", new {teamKey = team.Key}, null) </li>
+     <li>@Html.ActionLink("Analyze Depth", "ShowRosterDepth", "Team", new {teamKey = team.Key}, null)</li>
     <li>------------------------</li>
  }
  </ul>
