@@ -6,7 +6,7 @@ namespace YahooFantasyFootballTools.Controllers
 {
     public class UserController : BaseAuthenticatedController
     {
-        [MvcSiteMapNode(Key="Leagues", Title="Leagues", ParentKey="Home")]
+        [MvcSiteMapNode(Key="User", Title="Leagues", ParentKey="Home")]
         public ActionResult ListLeagues()
         {
             var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);

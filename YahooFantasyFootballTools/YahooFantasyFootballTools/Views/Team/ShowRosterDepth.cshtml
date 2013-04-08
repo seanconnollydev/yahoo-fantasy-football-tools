@@ -7,9 +7,34 @@
 
 <h2>Team Roster Depth</h2>
 
-<ul id="rosterDepthList">
-    @foreach (var positionDepth in Model.PositionDepths)
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Position</th>
+            <th>Depth Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var positionDepth in Model.PositionDepths)
+        {
+            <tr class="@DepthClass(positionDepth.DepthValue)">
+                <td>@positionDepth.PositionName</td>
+                <td>@positionDepth.DepthName</td>
+            </tr>
+        }    
+    </tbody>
+</table>
+    
+@using Tools.Analysis.Domain;
+@functions{
+    private string DepthClass(PositionDepth depth)
     {
-        <li>@positionDepth.PositionName : @positionDepth.DepthName</li>
+        switch(depth)
+        {
+            case PositionDepth.Shallow:
+            case PositionDepth.VeryShallow:
+                return "error";
+            default: return string.Empty;
+        }
     }
-</ul>
+}

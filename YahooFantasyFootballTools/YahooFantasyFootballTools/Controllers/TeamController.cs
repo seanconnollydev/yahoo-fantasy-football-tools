@@ -6,12 +6,27 @@ using MvcSiteMapProvider;
 using Tools.Analysis.Logic;
 using YahooFantasyFootballTools.Models;
 using MvcSiteMapProvider.Filters;
+using System;
+using YahooFantasyFootballTools.Filters;
 
 namespace YahooFantasyFootballTools.Controllers
 {
     public class TeamController : BaseAuthenticatedController
     {
-        [MvcSiteMapNode(Key = "Keepers", Title="Keepers", ParentKey = "Teams")]
+        [MvcSiteMapNode(Key="Team", ParentKey="League")]
+        [SiteMapTitle("TeamName")]
+        [SiteMapPreserveParameters]
+        public ActionResult ShowTeam(string teamKey)
+        {
+            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
+            var team = service.GetTeam(teamKey);
+
+            ViewData["TeamName"] = team.Name;
+
+            return View(team);
+        }
+
+        [MvcSiteMapNode(Key = "Keepers", Title="Keepers", ParentKey = "Team")]
         public ActionResult ListEligibleKeepers(string teamKey)
         {
             var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
@@ -25,7 +40,7 @@ namespace YahooFantasyFootballTools.Controllers
             return View(sortedKeepers);
         }
 
-        [MvcSiteMapNode(Key = "RosterDepth", Title = "Roster Depth", ParentKey = "Teams")]
+        [MvcSiteMapNode(Key = "RosterDepth", Title = "Roster Depth", ParentKey = "Team")]
         public ActionResult ShowRosterDepth(string teamKey)
         {
             var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);

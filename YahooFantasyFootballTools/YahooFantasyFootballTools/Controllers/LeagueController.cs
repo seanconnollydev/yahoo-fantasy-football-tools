@@ -10,7 +10,7 @@ namespace YahooFantasyFootballTools.Controllers
 {
     public class LeagueController : BaseAuthenticatedController
     {
-        [MvcSiteMapNode(Key = "Teams", ParentKey = "Leagues")]
+        [MvcSiteMapNode(Key = "League", ParentKey = "User")]
         [SiteMapTitle("LeagueName")]
         [SiteMapPreserveParameters]
         public ActionResult ListTeams(string leagueKey)
@@ -20,13 +20,13 @@ namespace YahooFantasyFootballTools.Controllers
 
             ViewData["LeagueName"] = teams.League.Name;
 
-            return View(teams.Teams);
+            return View(teams);
         }
 
         public FileResult DownloadEligibleKeepers(string leagueKey)
         {
             var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
-            var leagueTeamPlayers = service.GetTeamPlayerStats(leagueKey);
+            var leagueTeamPlayers = service.GetLeagueTeamPlayers(leagueKey);
             var draftResults = service.GetDraftResults(leagueKey);
 
             var keepers = new KeeperAnalyzer(leagueTeamPlayers, draftResults);

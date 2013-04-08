@@ -227,48 +227,18 @@ div#title {
 
 /* Custom styles for YahooFantasyFootballTools
 ----------------------------------------------------------*/
-#mainLogin
-{
-	text-align:center;	
-}
-
 #sUri 
 {
 	width: 100%;
 }
 
-.splashButton
+.btn-list-container
 {
-	background-color: #4E6073;
-	background-image: linear-gradient(180deg, #4E6073, #153344);
-	color: #ffffff;
-	cursor:pointer;
-	font-family:"Helvetica Neue", arial, sans-serif;
-	font-size: 15px;
-	height: 50px;
-	width: 200px;
-	padding: 10px;
-	text-decoration: none;
-	white-space: nowrap;
-	outline: none;
-	text-align: center;
-	text-shadow: 0 1px white;
-	-webkit-border-radius: 3px;	
-	-moz-border-radius: 3px;
+	display:inline-block;
 }
 
-.splashButton:hover
+.btn-block
 {
-	border-color: #b7b7b7;
-	text-decoration: none;
-}
-
-ol#breadcrumbs {
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
-}
-
-ol#breadcrumbs li {
-    display: inline;
+	padding-left: 5px;
+	padding-right: 5px;	
 }

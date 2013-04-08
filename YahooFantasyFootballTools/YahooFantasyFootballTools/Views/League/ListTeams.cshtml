@@ -1,18 +1,18 @@
-﻿@model IEnumerable<Fantasizer.Domain.Team>
+﻿@model Fantasizer.Domain.LeagueTeamCollection
 
 @{
-    ViewBag.Title = "Teams";
+    ViewBag.Title = Model.League.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ListTeams</h2>
-<ul id="teams">
- @foreach (Fantasizer.Domain.Team team in Model)
+<h2>Choose a team</h2>
+<ul id="teams" class="unstyled btn-list-container">
+ @foreach (Fantasizer.Domain.Team team in Model.Teams)
  {
-    <li>Id: @team.Id</li>
-    <li>Key: @team.Key</li>
-     <li>Name: @Html.ActionLink(team.Name, "ListEligibleKeepers", "Team", new {teamKey = team.Key}, null) </li>
-     <li>@Html.ActionLink("Analyze Depth", "ShowRosterDepth", "Team", new {teamKey = team.Key}, null)</li>
-    <li>------------------------</li>
+    <li>@Html.ActionLink(team.Name, "ShowTeam", "Team", new {teamKey = team.Key}, new { @class = "btn btn-large btn-block" })</li>
  }
  </ul>
+<div>
+    @Html.ActionLink("Download eligible keeper list for this league", "DownloadEligibleKeepers", "League", new { leagueKey = Model.League.Key }, null)
+</div>
+ 

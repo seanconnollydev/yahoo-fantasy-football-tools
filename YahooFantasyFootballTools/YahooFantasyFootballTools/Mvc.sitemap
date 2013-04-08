@@ -4,6 +4,6 @@
             xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-3.0 MvcSiteMapSchema.xsd"
             enableLocalization="true">
 
-    <mvcSiteMapNode title="Home" controller="Home" action="Index" key="Home" />
+    <mvcSiteMapNode title="Home" controller="Home" action="Index" key="Home" visibility="!*" />
 
 </mvcSiteMap>

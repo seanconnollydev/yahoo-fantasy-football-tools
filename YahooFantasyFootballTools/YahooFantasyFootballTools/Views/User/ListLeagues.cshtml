@@ -5,15 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ListLeagues</h2>
-<ul id="leagues">
+<h2>Choose a league</h2>
+<ul id="leagues" class="unstyled btn-list-container">
  @foreach (Fantasizer.Domain.League league in Model)
  {
-    <li>Id: @league.Id</li>
-    <li>Key: @league.Key</li>
-    <li>Name: @Html.ActionLink(league.Name, "ListTeams", "League", new { leagueKey = league.Key }, null)</li>
-    <li>@Html.ActionLink("Download eligible keeper list", "DownloadEligibleKeepers", "League", new { leagueKey = league.Key }, null)</li>
-    <li>------------------------</li>
+    <li>@Html.ActionLink(league.Name, "ListTeams", "League", new { leagueKey = league.Key }, new { @class = "btn btn-large btn-block" })</li>
  }
  </ul>
      

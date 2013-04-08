@@ -7,19 +7,29 @@
 
 <h2>ListEligibleKeepers</h2>
 
-<ul id="keeperList">
-    @foreach (var keeper in Model)
-    {
-        <li>Name: @keeper.PlayerName</li>
-        if (@keeper.IsEligible)
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Player</th>
+            <th>Draft round</th>
+            <th>Last season points</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var keeper in Model)
         {
-            <li>Draft Round: @keeper.DraftRound</li>
-            <li>Last Season Points: @keeper.LastSeasonPoints</li>
+            <tr>
+                <td>@keeper.PlayerName</td>
+                @if (keeper.IsEligible)
+                {
+                    <td>@keeper.DraftRound</td>
+                }
+                else
+                {
+                    <td>@keeper.IneligibilityReason</td>
+                }
+                <td>@keeper.LastSeasonPoints</td>
+            </tr>
         }
-        else
-        {
-            <li>@keeper.IneligibilityReason</li>   
-        }
-        <li>------------------------</li>
-    }
-</ul>
+    </tbody>
+</table>
