@@ -4,6 +4,7 @@ using Fantasizer.Domain;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Fantasizer.Xml;
+using System.Collections.Generic;
 
 namespace Fantasizer
 {
@@ -70,10 +71,21 @@ namespace Fantasizer
             return new LeagueTeamPlayerCollection<Player>(xml);
         }
 
-        public LeagueCollection GetLeagues()
+        public LeagueCollection GetLeagues(GameCode gameCode)
         {
-            // TODO: Make game_keys a parameter
-            string requestUri = "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues";
+            string gameKey = Enum.GetName(typeof(GameCode), gameCode);
+            return GetLeagues(gameKey);
+        }
+
+        public LeagueCollection GetLeagues(int gameId)
+        {
+            string gameKey = Convert.ToString(gameId);
+            return GetLeagues(gameKey);
+        }
+
+        private LeagueCollection GetLeagues(string gameKey)
+        {
+            string requestUri = string.Format("http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys={0}/leagues", gameKey);
             var xml = this.ApiClient.ExecuteRequest(requestUri);
             return LeagueCollection.CreateFromXml(xml);
         }
@@ -104,6 +116,16 @@ namespace Fantasizer
             string requestUri = string.Format("http://fantasysports.yahooapis.com/fantasy/v2/league/{0}/settings", leagueKey);
             var xml = this.ApiClient.ExecuteRequest(requestUri);
             return ResponseDeserializer.DeserializeLeagueSettings(xml.Root.Element(YahooXml.XMLNS + "league"));
+        }
+
+        public ICollection<Game> GetGames()
+        {
+            string requestUri = "http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games";
+            var xml = this.ApiClient.ExecuteRequest(requestUri);
+            return ResponseDeserializer.DeserializeGames(xml.Root
+                .Element(YahooXml.XMLNS + "users")
+                .Element(YahooXml.XMLNS + "user")
+                .Element(YahooXml.XMLNS + "games"));
         }
     }
 }

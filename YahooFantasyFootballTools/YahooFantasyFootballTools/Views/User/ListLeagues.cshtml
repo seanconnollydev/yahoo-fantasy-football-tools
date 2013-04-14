@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Fantasizer.Domain.League>
+﻿@model YahooFantasyFootballTools.Models.LeaguesViewModel
 
 @{
     ViewBag.Title = "Leagues";
@@ -7,9 +7,23 @@
 
 <h2>Choose a league</h2>
 <ul id="leagues" class="unstyled btn-list-container">
- @foreach (Fantasizer.Domain.League league in Model)
+ @foreach (Fantasizer.Domain.League league in Model.Leagues)
  {
     <li>@Html.ActionLink(league.Name, "ListTeams", "League", new { leagueKey = league.Key }, new { @class = "btn btn-large btn-block" })</li>
  }
  </ul>
-     
+ 
+<div id="gameSelector">
+    @Html.DropDownList(
+        "selectedGame",
+        Model.Games,
+        new { onchange = "changeGame($(this).val());" })
+</div>
+
+@section BottomScripts{
+    <script type="text/javascript">
+        var changeGame = function (gameId) {
+            window.location.href = "/User/ListLeagues?gameId=" + gameId;
+        };
+    </script>
+}

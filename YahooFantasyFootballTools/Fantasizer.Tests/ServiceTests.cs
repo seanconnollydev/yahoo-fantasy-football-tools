@@ -34,11 +34,20 @@ namespace Fantasizer.Tests
         }
 
         [TestMethod]
-        public void GetLeagues()
+        public void GetLeaguesByGameCode()
         {
-            var leagues = _service.GetLeagues();
+            var leagues = _service.GetLeagues(GameCode.nfl);
 
-            Assert.AreEqual(3, leagues.Count);
+            Assert.IsTrue(leagues.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetLeaguesByGameId()
+        {
+            int nfl2011 = 257;
+            var leagues = _service.GetLeagues(nfl2011);
+
+            Assert.AreEqual(2, leagues.Count);
         }
 
         [TestMethod]
@@ -104,6 +113,13 @@ namespace Fantasizer.Tests
             Assert.AreEqual(1, leagueSettings.RosterPositions[PositionAbbreviation.DEF].Count);
             Assert.AreEqual(6, leagueSettings.RosterPositions[PositionAbbreviation.BN].Count);
             Assert.AreEqual(ClientTestConfiguration.DEFAULT_LEAGUE_KEY, leagueSettings.League.Key);
+        }
+
+        [TestMethod]
+        public void GetGames()
+        {
+            var games = _service.GetGames();
+            Assert.IsTrue(games.Count > 0);
         }
     }
 }

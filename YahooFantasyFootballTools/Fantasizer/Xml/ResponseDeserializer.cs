@@ -94,5 +94,34 @@ namespace Fantasizer.Xml
 
             return new League(id, name, key);
         }
+
+        internal static ICollection<Game> DeserializeGames(XElement gamesElement)
+        {
+            var games = new List<Game>();
+            foreach (var gameElement in gamesElement.Descendants(YahooXml.XMLNS + "game"))
+            {
+                games.Add(ResponseDeserializer.DeserializeGame(gameElement));
+            }
+
+            return games;
+        }
+
+        internal static Game DeserializeGame(XElement gameElement)
+        {
+            string gameCodeStr = gameElement.Element(YahooXml.XMLNS + "code").Value;
+
+            GameCode gameCode;
+            if (!Enum.TryParse<GameCode>(gameCodeStr, out gameCode))
+            {
+                var ex = new Exception("Unrecognized game code");
+                ex.Data.Add("code", gameCodeStr);
+                throw ex;
+            }
+
+            int id = Convert.ToInt32(gameElement.Element(YahooXml.XMLNS + "game_id").Value);
+            int season = Convert.ToInt32(gameElement.Element(YahooXml.XMLNS + "season").Value);
+
+            return new Game(gameCode, id, season);
+        }
     }
 }
