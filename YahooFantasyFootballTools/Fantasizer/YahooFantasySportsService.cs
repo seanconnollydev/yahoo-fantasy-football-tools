@@ -97,9 +97,18 @@ namespace Fantasizer
             return LeagueDraftResultCollection.CreateFromXml(xml);
         }
 
-        public TeamRosterPlayerCollection GetRosterPlayers(string teamKey)
+        public TeamRosterPlayerCollection GetRosterPlayers(string teamKey, int? week)
         {
-            string requestUri = string.Format("http://fantasysports.yahooapis.com/fantasy/v2/team/{0}/roster/players", teamKey);
+            string requestUri;
+            if (week.HasValue)
+            {
+                requestUri = string.Format("http://fantasysports.yahooapis.com/fantasy/v2/team/{0}/roster;week={1}/players", teamKey, week.Value);
+            }
+            else
+            {
+                requestUri = string.Format("http://fantasysports.yahooapis.com/fantasy/v2/team/{0}/roster/players", teamKey);
+            }
+
             var xml = this.ApiClient.ExecuteRequest(requestUri);
             return TeamRosterPlayerCollection.CreateFromXml(xml);
         }

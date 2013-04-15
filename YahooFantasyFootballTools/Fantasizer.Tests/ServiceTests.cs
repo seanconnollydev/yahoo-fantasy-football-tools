@@ -61,14 +61,24 @@ namespace Fantasizer.Tests
         [TestMethod]
         public void GetRosterPlayers()
         {
-            var rosterPlayerResults = _service.GetRosterPlayers(ClientTestConfiguration.DEFAULT_TEAM_KEY);
+            var rosterPlayerResults = _service.GetRosterPlayers(ClientTestConfiguration.DEFAULT_TEAM_KEY, null);
             
             Assert.AreEqual(15, rosterPlayerResults.Players.Count);
 
             foreach (var player in rosterPlayerResults.Players)
             {
                 Assert.IsTrue(player.EligiblePositions.Count > 0);
+                Assert.IsTrue(player.ByeWeeks.Count > 0);
             }
+        }
+
+        [TestMethod]
+        public void GetRosterPlayers_ByWeek()
+        {
+            var week1Roster = _service.GetRosterPlayers(ClientTestConfiguration.DEFAULT_TEAM_KEY, 1);
+            var week2Roster = _service.GetRosterPlayers(ClientTestConfiguration.DEFAULT_TEAM_KEY, 16);
+
+            Assert.IsFalse(week1Roster.Players.SequenceEqual(week2Roster.Players));
         }
 
         [TestMethod]
@@ -113,6 +123,8 @@ namespace Fantasizer.Tests
             Assert.AreEqual(1, leagueSettings.RosterPositions[PositionAbbreviation.DEF].Count);
             Assert.AreEqual(6, leagueSettings.RosterPositions[PositionAbbreviation.BN].Count);
             Assert.AreEqual(ClientTestConfiguration.DEFAULT_LEAGUE_KEY, leagueSettings.League.Key);
+            Assert.AreEqual(1, leagueSettings.League.StartWeek);
+            Assert.AreEqual(16, leagueSettings.League.EndWeek);
         }
 
         [TestMethod]

@@ -12,23 +12,41 @@ namespace Tools.Analysis.Logic
     {
         private readonly IDictionary<PositionAbbreviation, RosterPosition> _rosterPositions;
         private readonly ICollection<Player> _availablePlayers;
-        private readonly RosterAssignmentAnalyzer _assignmentAnalyzer;
 
         public RosterDepthAnalyzer(IDictionary<PositionAbbreviation, RosterPosition> rosterPositions, ICollection<Player> availablePlayers)
         {
             _rosterPositions = rosterPositions;
             _availablePlayers = availablePlayers;
-            _assignmentAnalyzer = new RosterAssignmentAnalyzer(_rosterPositions, _availablePlayers);
         }
-
+       
         /// <summary>
         /// Determine roster depth by position.
         /// </summary>
         /// <returns>A dictionary keyed off of position (e.g. QB, RB, etc.)</returns>
-        public IDictionary<Position, PositionDepth> GetRosterDepth()
+        /// <param name="week">(Optional) A specific week to determine depth for (otherwise the team is evaluated overall).</param>
+        public IDictionary<Position, PositionDepth> GetRosterDepth(int? week)
         {
+            ICollection<Player> availablePlayers;
+            if (week.HasValue)
+            {
+                // Only consider players not on bye for the given week (if specified).
+                availablePlayers = new List<Player>();
+                foreach (var player in _availablePlayers)
+                {
+                    if (!player.ByeWeeks.Contains(week.Value))
+                    {
+                        availablePlayers.Add(player);
+                    }
+                }
+            }
+            else
+            {
+                availablePlayers = _availablePlayers;
+            }
+
             // Determine the optimal roster assignments
-            var optimalAssignments = _assignmentAnalyzer.GetOptimalAssignment();
+            var assignmentAnalyzer = new RosterAssignmentAnalyzer(_rosterPositions, availablePlayers);
+            var optimalAssignments = assignmentAnalyzer.GetOptimalAssignment();
 
             var rosterDepthMap = new Dictionary<Position, PositionDepth>();
             foreach (var rosterPosition in _rosterPositions)
@@ -61,6 +79,11 @@ namespace Tools.Analysis.Logic
             }
 
             return rosterDepthMap;
+        }
+
+        public IDictionary<Position, PositionDepth> GetRosterDepth()
+        {
+            return this.GetRosterDepth(null);
         }
 
         private static PositionDepth DetermineDepth(int required, int available)

@@ -42,8 +42,8 @@ namespace Tools.Analysis.Tests
             rosterPositions.Add(PositionAbbreviation.W_R, new RosterPosition(Position.WideReceiverRunningBack, 1));
             rosterPositions.Add(PositionAbbreviation.W_T, new RosterPosition(Position.WideReceiverTightEnd, 1));
             
-            var rb = _testObjectFactory.CreatePlayer(Position.RunningBack);
-            var wr = _testObjectFactory.CreatePlayer(Position.WideReceiver);
+            var rb = _testObjectFactory.CreatePlayer(Position.RunningBack, byeWeek: 4);
+            var wr = _testObjectFactory.CreatePlayer(Position.WideReceiver, byeWeek: 6);
             var players = new List<Player>() { rb, wr };
 
             var analyzer = new RosterAssignmentAnalyzer(rosterPositions, players);
@@ -97,7 +97,7 @@ namespace Tools.Analysis.Tests
             rosterPositions.Add(PositionAbbreviation.QB, new RosterPosition(Position.Quarterback, 1));
             rosterPositions.Add(PositionAbbreviation.BN, new RosterPosition(Position.Bench, 1));
 
-            var rb = _testObjectFactory.CreatePlayer(Position.RunningBack);
+            var rb = _testObjectFactory.CreatePlayer(Position.RunningBack, byeWeek: 4);
             var players = new List<Player>() { rb };
 
             var analyzer = new RosterAssignmentAnalyzer(rosterPositions, players);
@@ -113,8 +113,8 @@ namespace Tools.Analysis.Tests
             rosterPositions.Add(PositionAbbreviation.QB, new RosterPosition(Position.Quarterback, 1));
             rosterPositions.Add(PositionAbbreviation.BN, new RosterPosition(Position.Bench, 1));
 
-            var qb = _testObjectFactory.CreatePlayer(Position.Quarterback);
-            var rb = _testObjectFactory.CreatePlayer(Position.RunningBack);
+            var qb = _testObjectFactory.CreatePlayer(Position.Quarterback, byeWeek: 4);
+            var rb = _testObjectFactory.CreatePlayer(Position.RunningBack, byeWeek: 7);
             var players = new List<Player>() { qb, rb };
 
             var analyzer = new RosterAssignmentAnalyzer(rosterPositions, players);

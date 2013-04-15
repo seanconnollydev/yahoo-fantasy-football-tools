@@ -41,16 +41,19 @@ namespace YahooFantasyFootballTools.Controllers
         }
 
         [MvcSiteMapNode(Key = "RosterDepth", Title = "Roster Depth", ParentKey = "Team")]
-        public ActionResult ShowRosterDepth(string teamKey)
+        public ActionResult ShowRosterDepth(string teamKey, int? week)
         {
             var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
-            var roster = service.GetRosterPlayers(teamKey);
+            var roster = service.GetRosterPlayers(teamKey, week);
             var leagueSettings = service.GetLeagueSettings(roster.Team.LeagueKey);
 
             var depthAnalyzer = new RosterDepthAnalyzer(leagueSettings.RosterPositions, roster.Players);
 
-            var rosterDepthModel = new RosterDepthModel(depthAnalyzer.GetRosterDepth());
-            rosterDepthModel.SortPositionDepths();
+            var rosterDepthModel = new RosterDepthModel(
+                roster.Team,
+                depthAnalyzer.GetRosterDepth(week),
+                leagueSettings.League.EndWeek);
+            rosterDepthModel.CurrentWeek = week;
 
             return View(rosterDepthModel);
         }

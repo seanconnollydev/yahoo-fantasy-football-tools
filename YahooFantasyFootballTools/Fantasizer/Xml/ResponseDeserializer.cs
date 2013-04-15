@@ -52,7 +52,13 @@ namespace Fantasizer.Xml
                 eligiblePositions.Add(ResponseDeserializer.DeserializePosition(positionElement));
             }
 
-            return new Player(id, key, name, eligiblePositions);
+            var byeWeeks = new List<int>();
+            foreach (var weekElement in playerElement.Elements(YahooXml.XMLNS + "bye_weeks"))
+            {
+                byeWeeks.Add(Convert.ToInt32(weekElement.Value));
+            }
+
+            return new Player(id, key, name, eligiblePositions, byeWeeks);
         }
 
         private static PlayerWithStats DeserializePlayerWithStats(XElement playerElement)
@@ -91,8 +97,10 @@ namespace Fantasizer.Xml
             int id = Convert.ToInt32(leagueElement.Element(YahooXml.XMLNS + "league_id").Value);
             string name = leagueElement.Element(YahooXml.XMLNS + "name").Value;
             string key = leagueElement.Element(YahooXml.XMLNS + "league_key").Value;
+            int startWeek = Convert.ToInt32(leagueElement.Element(YahooXml.XMLNS + "start_week").Value);
+            int endWeek = Convert.ToInt32(leagueElement.Element(YahooXml.XMLNS + "end_week").Value);
 
-            return new League(id, name, key);
+            return new League(id, name, key, startWeek, endWeek);
         }
 
         internal static ICollection<Game> DeserializeGames(XElement gamesElement)

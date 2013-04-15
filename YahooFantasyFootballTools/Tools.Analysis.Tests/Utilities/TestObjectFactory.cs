@@ -9,7 +9,7 @@ namespace Tools.Analysis.Tests.Utilities
     public class TestObjectFactory
     {
         private static int _nextPlayerId = 1;
-        public Player CreatePlayer(Position singlePosition)
+        public Player CreatePlayer(Position singlePosition, int byeWeek)
         {
             int id = _nextPlayerId++;
             
@@ -19,7 +19,9 @@ namespace Tools.Analysis.Tests.Utilities
             var eligiblePositions = new List<Position>();
             eligiblePositions.Add(singlePosition);
 
-            var player = new Player(id, key, name, eligiblePositions);
+            var byeWeeks = new List<int>() { byeWeek };
+
+            var player = new Player(id, key, name, eligiblePositions, byeWeeks);
             return player;
         }
 
@@ -39,10 +41,11 @@ namespace Tools.Analysis.Tests.Utilities
 
         public ICollection<Player> CreatePlayers(params Position[] positions)
         {
+            Random random = new Random();
             var players = new List<Player>();
             foreach (var position in positions)
             {
-                players.Add(this.CreatePlayer(position));
+                players.Add(this.CreatePlayer(position, random.Next(4, 11)));
             }
 
             return players;

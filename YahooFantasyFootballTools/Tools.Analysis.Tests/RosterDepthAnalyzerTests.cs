@@ -188,5 +188,35 @@ namespace Tools.Analysis.Tests
             // It doesn't make sense to analyze depth for BN spots
             Assert.IsFalse(results.ContainsKey(Position.Bench));
         }
+
+        [TestMethod]
+        public void GetRosterDepth_WithByeWeek()
+        {
+            var rosterPositions = _testObjectFactory.CreateDefaultRosterPositions();
+
+            var players = _testObjectFactory.CreatePlayers(
+                Position.RunningBack,
+                Position.RunningBack,
+                Position.RunningBack,
+                Position.RunningBack,
+                Position.WideReceiver,
+                Position.WideReceiver,
+                Position.WideReceiver,
+                Position.WideReceiver,
+                Position.WideReceiver,
+                Position.TightEnd,
+                Position.TightEnd,
+                Position.TightEnd,
+                Position.Kicker,
+                Position.Defense);
+
+            players.Add(_testObjectFactory.CreatePlayer(Position.Quarterback, byeWeek: 6));
+
+            var analyzer = new RosterDepthAnalyzer(rosterPositions, players);
+            var results = analyzer.GetRosterDepth(week: 6);
+
+            // 1 QB spot required, 1 QB player on a bye week. QB position should be shallow.
+            Assert.AreEqual(PositionDepth.Shallow, results[Position.Quarterback]);
+        }
     }
 }
