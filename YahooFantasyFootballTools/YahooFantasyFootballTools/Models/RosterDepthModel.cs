@@ -10,11 +10,12 @@ namespace YahooFantasyFootballTools.Models
     public class RosterDepthModel
     {
         private readonly IDictionary<Position, PositionDepth> _rosterDepth;
-        public RosterDepthModel(Team team, IDictionary<Position, PositionDepth> rosterDepth, int weeks)
+        public RosterDepthModel(Team team, IDictionary<Position, PositionDepth> rosterDepth, int weeks, int selectedWeek)
         {
             this.Team = team;
             _rosterDepth = rosterDepth;
             this.Weeks = weeks;
+            this.SelectedWeek = selectedWeek;
             Initialize();
         }
 
@@ -38,7 +39,7 @@ namespace YahooFantasyFootballTools.Models
 
         public IEnumerable<PositionDepthModel> PositionDepths { get; private set; }
 
-        public int? CurrentWeek { get; set; }
+        public int SelectedWeek { get; private set; }
 
         public int Weeks { get; private set; }
 

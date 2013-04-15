@@ -54,7 +54,7 @@ namespace Fantasizer
         {
             string requestUri = string.Format("http://fantasysports.yahooapis.com/fantasy/v2/team/{0}", teamKey);
             var xml = this.ApiClient.ExecuteRequest(requestUri);
-            return Team.CreateFromXml(xml.Root.Element(YahooXml.XMLNS + "team"));
+            return ResponseDeserializer.DeserializeTeam(xml.Root.Element(YahooXml.XMLNS + "team"));
         }
 
         public LeagueTeamCollection GetTeams(string leagueKey)
@@ -68,7 +68,7 @@ namespace Fantasizer
         {
             string requestUri = string.Format("http://fantasysports.yahooapis.com/fantasy/v2/league/{0}/teams/players", leagueKey);
             var xml = this.ApiClient.ExecuteRequest(requestUri);
-            return new LeagueTeamPlayerCollection<Player>(xml);
+            return ResponseDeserializer.DeserializeLeagueTeamPlayerCollection<Player>(xml.Root.Element(YahooXml.XMLNS + "league"));
         }
 
         public LeagueCollection GetLeagues(GameCode gameCode)
@@ -110,14 +110,14 @@ namespace Fantasizer
             }
 
             var xml = this.ApiClient.ExecuteRequest(requestUri);
-            return TeamRosterPlayerCollection.CreateFromXml(xml);
+            return ResponseDeserializer.DeserializeTeamRosterPlayerCollection(xml.Root.Element(YahooXml.XMLNS + "team"));
         }
 
         public TeamPlayerCollection<PlayerWithStats> GetTeamPlayerStats(string teamKey)
         {
             string requestUri = string.Format("http://fantasysports.yahooapis.com/fantasy/v2/team/{0}/players/stats", teamKey);
             var xml = this.ApiClient.ExecuteRequest(requestUri);
-            return new TeamPlayerCollection<PlayerWithStats>(xml.Root.Element(YahooXml.XMLNS + "team"));
+            return ResponseDeserializer.DeserializeTeamPlayerCollection<PlayerWithStats>(xml.Root.Element(YahooXml.XMLNS + "team"));
         }
 
         public LeagueSettings GetLeagueSettings(string leagueKey)

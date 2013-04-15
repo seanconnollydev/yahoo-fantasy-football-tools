@@ -27,7 +27,7 @@ namespace Fantasizer.Domain
             var leagueElement = xml.Root.Element(YahooXml.XMLNS + "league");
 
             var league = ResponseDeserializer.DeserializeLeague(leagueElement);
-            var teams = TeamCollection.CreateFromXml(xml);
+            var teams = ResponseDeserializer.DeserializeTeamCollection(leagueElement);
 
             return new LeagueTeamCollection(league, teams);
         }

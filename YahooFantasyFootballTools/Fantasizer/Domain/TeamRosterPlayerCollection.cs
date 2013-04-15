@@ -9,26 +9,19 @@ namespace Fantasizer.Domain
     //TODO: Consider renaming this to TeamRoster
     public class TeamRosterPlayerCollection
     {
-        private TeamRosterPlayerCollection(Team team, PlayerCollection<Player> players)
+        internal TeamRosterPlayerCollection(Team team, PlayerCollection<Player> players, int week)
         {
             if (team == null) { throw new ArgumentNullException("team"); }
             if (players == null) { throw new ArgumentNullException("players"); }
 
             this.Team = team;
             this.Players = players;
+            this.Week = week;
         }
 
         public Team Team { get; private set; }
         public PlayerCollection<Player> Players { get; private set; }
-
-        internal static TeamRosterPlayerCollection CreateFromXml(XDocument xml)
-        {
-            var teamElement = xml.Root.Element(YahooXml.XMLNS + "team");
-            var team = Team.CreateFromXml(teamElement);
-            var players = new PlayerCollection<Player>(teamElement);
-
-            return new TeamRosterPlayerCollection(team, players);
-        }
+        public int Week { get; private set; }
     }
 }
 

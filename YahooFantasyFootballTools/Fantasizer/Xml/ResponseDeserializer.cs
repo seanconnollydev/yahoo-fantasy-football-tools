@@ -131,5 +131,67 @@ namespace Fantasizer.Xml
 
             return new Game(gameCode, id, season);
         }
+
+        internal static TeamRosterPlayerCollection DeserializeTeamRosterPlayerCollection(XElement teamElement)
+        {
+            var team = DeserializeTeam(teamElement);
+            var players = DeserializePlayerCollection<Player>(teamElement);
+
+            var rosterElement = teamElement.Element(YahooXml.XMLNS + "roster");
+            int week = Convert.ToInt32(rosterElement.Element(YahooXml.XMLNS + "week").Value);
+
+            return new TeamRosterPlayerCollection(team, players, week);
+        }
+
+        internal static Team DeserializeTeam(XElement teamElement)
+        {
+            int id = Convert.ToInt32(teamElement.Element(YahooXml.XMLNS + "team_id").Value);
+            string key = teamElement.Element(YahooXml.XMLNS + "team_key").Value;
+            string name = teamElement.Element(YahooXml.XMLNS + "name").Value;
+
+            return new Team(id, key, name);
+        }
+
+        internal static PlayerCollection<TPlayerType> DeserializePlayerCollection<TPlayerType>(XElement rootElement) where TPlayerType : Player
+        {
+            var players = new PlayerCollection<TPlayerType>();
+            foreach (var playerElement in rootElement.Descendants(YahooXml.XMLNS + "player"))
+            {
+                players.Add(ResponseDeserializer.Deserialize<TPlayerType>(playerElement));
+            }
+
+            return players;
+        }
+
+        internal static TeamPlayerCollection<TPlayerType> DeserializeTeamPlayerCollection<TPlayerType>(XElement teamElement) where TPlayerType : Player
+        {
+            var team = ResponseDeserializer.DeserializeTeam(teamElement);
+            var players = DeserializePlayerCollection<TPlayerType>(teamElement);
+
+            return new TeamPlayerCollection<TPlayerType>(team, players);
+        }
+
+        internal static LeagueTeamPlayerCollection<TPlayerType> DeserializeLeagueTeamPlayerCollection<TPlayerType>(XElement leagueElement) where TPlayerType : Player
+        {
+            var leagueTeamPlayers = new LeagueTeamPlayerCollection<TPlayerType>();
+
+            foreach (var teamElement in leagueElement.Descendants(YahooXml.XMLNS + "team"))
+            {
+                leagueTeamPlayers.Add(ResponseDeserializer.DeserializeTeamPlayerCollection<TPlayerType>(teamElement));
+            }
+
+            return leagueTeamPlayers;
+        }
+
+        internal static TeamCollection DeserializeTeamCollection(XElement leagueElement)
+        {
+            var teams = new TeamCollection();
+            foreach (var teamElement in leagueElement.Descendants(YahooXml.XMLNS + "team"))
+            {
+                teams.Add(ResponseDeserializer.DeserializeTeam(teamElement));
+            }
+
+            return teams;
+        }
     }
 }

@@ -6,7 +6,7 @@
 }
 
 <h2>Team Roster Depth</h2>
-
+<h4>Week @Model.SelectedWeek</h4>
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
@@ -29,7 +29,7 @@
     <ul>
         @for (int i = 1; i <= Model.Weeks; i++)
         {
-            <li class="@(Model.CurrentWeek == i ? "active" : string.Empty)">
+            <li class="@(Model.SelectedWeek == i ? "active" : string.Empty)">
                 @Html.ActionLink(i.ToString(), "ShowRosterDepth", "Team", new { teamKey = Model.Team.Key, week = i }, null)
             </li>
         }

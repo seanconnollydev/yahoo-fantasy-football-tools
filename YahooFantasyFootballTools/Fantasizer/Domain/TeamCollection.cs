@@ -10,7 +10,7 @@ namespace Fantasizer.Domain
     {
         private readonly List<Team> _teamList;
 
-        private TeamCollection()
+        internal TeamCollection()
         {
             _teamList = new List<Team>();
         }
@@ -71,16 +71,5 @@ namespace Fantasizer.Domain
         }
 
         #endregion
-
-        internal static TeamCollection CreateFromXml(XDocument xml)
-        {
-            var teams = new TeamCollection();
-            foreach (var teamElement in xml.Descendants(YahooXml.XMLNS + "team"))
-            {
-                teams.Add(Team.CreateFromXml(teamElement));
-            }
-
-            return teams;
-        }
     }
 }

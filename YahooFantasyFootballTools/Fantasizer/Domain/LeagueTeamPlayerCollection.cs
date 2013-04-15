@@ -10,14 +10,9 @@ namespace Fantasizer.Domain
     {
         private readonly List<TeamPlayerCollection<TPlayerType>> _teamPlayersList;
 
-        internal LeagueTeamPlayerCollection(XDocument xml)
+        internal LeagueTeamPlayerCollection()
         {
             _teamPlayersList = new List<TeamPlayerCollection<TPlayerType>>();
-
-            foreach (var teamElement in xml.Descendants(YahooXml.XMLNS + "team"))
-            {
-                this.Add(new TeamPlayerCollection<TPlayerType>(teamElement));
-            }
         }
     
         #region ICollection<TeamPlayerCollection<TPlayerType>> Members

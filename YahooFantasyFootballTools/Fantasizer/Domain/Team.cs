@@ -8,9 +8,16 @@ namespace Fantasizer.Domain
 {
     public class Team
     {
-        public int Id { get; set; }
-        public string Key { get; set; }
-        public string Name { get; set; }
+        internal Team(int id, string key, string name)
+        {
+            this.Id = id;
+            this.Key = key;
+            this.Name = name;
+        }
+
+        public int Id { get; private set; }
+        public string Key { get; private set; }
+        public string Name { get; private set; }
 
         private string _leagueKey;
         public string LeagueKey
@@ -25,16 +32,6 @@ namespace Fantasizer.Domain
 
                 return _leagueKey;
             }
-        }
-
-        internal static Team CreateFromXml(XElement teamElement)
-        {
-            return new Team()
-            {
-                Id = Convert.ToInt32(teamElement.Element(YahooXml.XMLNS + "team_id").Value),
-                Key = teamElement.Element(YahooXml.XMLNS + "team_key").Value,
-                Name = teamElement.Element(YahooXml.XMLNS + "name").Value
-            };
         }
     }
 }

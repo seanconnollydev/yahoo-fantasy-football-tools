@@ -10,14 +10,9 @@ namespace Fantasizer.Domain
     public class PlayerCollection<TPlayerType> : ICollection<TPlayerType> where TPlayerType : Player
     {
         private readonly List<TPlayerType> _playerList;
-        internal PlayerCollection(XElement rootElement)
+        internal PlayerCollection()
         {
             _playerList = new List<TPlayerType>();
-
-            foreach (var playerElement in rootElement.Descendants(YahooXml.XMLNS + "player"))
-            {
-                this.Add(ResponseDeserializer.Deserialize<TPlayerType>(playerElement));
-            }
         }
 
         #region ICollection<TPlayerType> Members
