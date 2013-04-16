@@ -12,23 +12,24 @@ namespace YahooFantasyFootballTools.Controllers
     public class UserController : BaseAuthenticatedController
     {
         private const GameCode DEFAULT_GAME_CODE = GameCode.nfl;
+        public UserController(IUserTokenStore userTokenStore, IFantasizerService fantasizer) : base(userTokenStore, fantasizer)
+        {
+        }
 
         [MvcSiteMapNode(Key="User", Title="Leagues", ParentKey="Home")]
         public ActionResult ListLeagues(int? gameId)
         {
-            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
-
             LeagueCollection leagues;
             if (gameId.HasValue)
             {
-                leagues = service.GetLeagues(gameId.Value);
+                leagues = this.Fantasizer.GetLeagues(gameId.Value);
             }
             else
             {
-                leagues = service.GetLeagues(DEFAULT_GAME_CODE);
+                leagues = this.Fantasizer.GetLeagues(DEFAULT_GAME_CODE);
             }
 
-            var games = service.GetGames();
+            var games = this.Fantasizer.GetGames();
             var gameList = new List<SelectListItem>();
 
             foreach (var game in games)

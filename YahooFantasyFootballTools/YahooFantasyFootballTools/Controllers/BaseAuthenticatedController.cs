@@ -1,5 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using System.Web.SessionState;
+using Fantasizer;
 
 namespace YahooFantasyFootballTools.Controllers
 {
@@ -8,29 +10,37 @@ namespace YahooFantasyFootballTools.Controllers
     /// </summary>
     public abstract class BaseAuthenticatedController : Controller
     {
-        public BaseAuthenticatedController()
+        public BaseAuthenticatedController(IUserTokenStore userTokenStore, IFantasizerService fantasizer)
             : base()
         {
+            _userTokenStore = userTokenStore;
+            _fantasizer = fantasizer;
             PopulateUserAuthViewData();
         }
 
-        private SessionStateUserTokenStore _userTokenStore;
-        protected SessionStateUserTokenStore UserTokenStore
+        private readonly IUserTokenStore _userTokenStore;
+        protected IUserTokenStore UserTokenStore
+        {
+            get { return _userTokenStore; }
+        }
+
+        private readonly IFantasizerService _fantasizer;
+        protected IFantasizerService Fantasizer
+        {
+            get { return _fantasizer; }
+        }
+
+        protected bool IsUserAuthenticated
         {
             get
             {
-                if (_userTokenStore == null)
-                {
-                    _userTokenStore = new SessionStateUserTokenStore(System.Web.HttpContext.Current.Session);
-                }
-
-                return _userTokenStore;
+                return !string.IsNullOrEmpty(_userTokenStore.AccessToken) && !string.IsNullOrEmpty(_userTokenStore.AccessTokenSecret);
             }
         }
 
         protected void PopulateUserAuthViewData()
         {
-            ViewBag.IsUserAuthenticated = this.UserTokenStore.IsAuthenticated();
+            ViewBag.IsUserAuthenticated = this.IsUserAuthenticated;
         }
     }
 }

@@ -10,13 +10,16 @@ namespace YahooFantasyFootballTools.Controllers
 {
     public class LeagueController : BaseAuthenticatedController
     {
+        public LeagueController(IUserTokenStore userTokenStore, IFantasizerService fantasizer) : base(userTokenStore, fantasizer)
+        {
+        }
+
         [MvcSiteMapNode(Key = "League", ParentKey = "User")]
         [SiteMapTitle("LeagueName")]
         [SiteMapPreserveParameters]
         public ActionResult ListTeams(string leagueKey)
         {
-            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
-            var teams = service.GetTeams(leagueKey);
+            var teams = this.Fantasizer.GetTeams(leagueKey);
 
             ViewData["LeagueName"] = teams.League.Name;
 
@@ -25,9 +28,8 @@ namespace YahooFantasyFootballTools.Controllers
 
         public FileResult DownloadEligibleKeepers(string leagueKey)
         {
-            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
-            var leagueTeamPlayers = service.GetLeagueTeamPlayers(leagueKey);
-            var draftResults = service.GetDraftResults(leagueKey);
+            var leagueTeamPlayers = this.Fantasizer.GetLeagueTeamPlayers(leagueKey);
+            var draftResults = this.Fantasizer.GetDraftResults(leagueKey);
 
             var keepers = new KeeperAnalyzer(leagueTeamPlayers, draftResults);
             var writer = new EligibleKeeperWriter(keepers.GetEligibleKeepersForLeague(leagueKey));

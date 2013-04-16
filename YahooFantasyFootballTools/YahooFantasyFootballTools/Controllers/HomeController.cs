@@ -9,6 +9,10 @@ namespace YahooFantasyFootballTools.Controllers
 {
     public class HomeController : BaseAuthenticatedController
     {
+        public HomeController(IUserTokenStore userTokenStore, IFantasizerService fantasizer) : base(userTokenStore, fantasizer)
+        {
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -16,8 +20,6 @@ namespace YahooFantasyFootballTools.Controllers
 
         public ActionResult AuthenticateWithYahoo()
         {
-            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
-
             // TODO: Clean this up. It is a work around since AppHarbor does not support a callback redirect when a port is specified.
             string hostOrAuthority = Request.IsLocal ? Request.Url.Authority : Request.Url.Host;
 
@@ -25,7 +27,7 @@ namespace YahooFantasyFootballTools.Controllers
 
             try
             {
-                service.BeginAuthorization(callbackUri);
+                this.Fantasizer.BeginAuthorization(callbackUri);
             }
             catch (ProtocolException pe)
             {
@@ -53,8 +55,7 @@ namespace YahooFantasyFootballTools.Controllers
         
         public ActionResult YahooOAuthCallback()
         {
-            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
-            service.CompleteAuthorization();
+            this.Fantasizer.CompleteAuthorization();
             PopulateUserAuthViewData();
 
             return RedirectToAction("ListLeagues", "User");

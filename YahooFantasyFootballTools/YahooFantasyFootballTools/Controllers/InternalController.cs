@@ -6,6 +6,10 @@ namespace YahooFantasyFootballTools.Controllers
 {
     public class InternalController : BaseAuthenticatedController
     {
+        public InternalController(IUserTokenStore userTokenStore, IFantasizerService fantasizer) : base(userTokenStore, fantasizer)
+        {
+        }
+
         [MvcSiteMapNode(ParentKey="Home", Title="List Keys")]
         public ActionResult ListKeys()
         {
@@ -17,7 +21,7 @@ namespace YahooFantasyFootballTools.Controllers
 
             ViewBag.AccessToken = this.UserTokenStore.AccessToken;
             ViewBag.AccessTokenSecret = this.UserTokenStore.AccessTokenSecret;
-            ViewBag.IsUserAuthenticated = this.UserTokenStore.IsAuthenticated();
+            ViewBag.IsUserAuthenticated = this.IsUserAuthenticated;
 
             return View();
         }
@@ -33,8 +37,7 @@ namespace YahooFantasyFootballTools.Controllers
         {
             if (!string.IsNullOrEmpty(appendedInputButton))
             {
-                var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
-                ViewBag.XmlResponse = service.ExecuteRawRequest(appendedInputButton).ToString();
+                ViewBag.XmlResponse = this.Fantasizer.ExecuteRawRequest(appendedInputButton).ToString();
             }
             return View();
         }

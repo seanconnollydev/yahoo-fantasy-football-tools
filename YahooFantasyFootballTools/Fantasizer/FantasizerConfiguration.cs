@@ -8,7 +8,7 @@ using DotNetOpenAuth.OAuth.ChannelElements;
 
 namespace Fantasizer
 {
-    internal static class YahooFantasySportsConfiguration
+    internal static class FantasizerConfiguration
     {
         internal static readonly ServiceProviderDescription Description = new ServiceProviderDescription()
         {

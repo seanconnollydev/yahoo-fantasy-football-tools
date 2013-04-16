@@ -13,13 +13,16 @@ namespace YahooFantasyFootballTools.Controllers
 {
     public class TeamController : BaseAuthenticatedController
     {
+        public TeamController(IUserTokenStore userTokenStore, IFantasizerService fantasizer) : base(userTokenStore, fantasizer)
+        {
+        }
+
         [MvcSiteMapNode(Key="Team", ParentKey="League")]
         [SiteMapTitle("TeamName")]
         [SiteMapPreserveParameters]
         public ActionResult ShowTeam(string teamKey)
         {
-            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
-            var team = service.GetTeam(teamKey);
+            var team = this.Fantasizer.GetTeam(teamKey);
 
             ViewData["TeamName"] = team.Name;
 
@@ -29,9 +32,8 @@ namespace YahooFantasyFootballTools.Controllers
         [MvcSiteMapNode(Key = "Keepers", Title="Keepers", ParentKey = "Team")]
         public ActionResult ListEligibleKeepers(string teamKey)
         {
-            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
-            var teamPlayers = service.GetTeamPlayerStats(teamKey);
-            var draftResults = service.GetDraftResults(teamPlayers.Team.LeagueKey);
+            var teamPlayers = this.Fantasizer.GetTeamPlayerStats(teamKey);
+            var draftResults = this.Fantasizer.GetDraftResults(teamPlayers.Team.LeagueKey);
 
             var keeperAnalyzer = new KeeperAnalyzer(teamPlayers, draftResults);
             var keepers = keeperAnalyzer.GetEligibleKeepersForTeam(teamKey);
@@ -43,9 +45,9 @@ namespace YahooFantasyFootballTools.Controllers
         [MvcSiteMapNode(Key = "RosterDepth", Title = "Roster Depth", ParentKey = "Team")]
         public ActionResult ShowRosterDepth(string teamKey, int? week)
         {
-            var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
-            var roster = service.GetRosterPlayers(teamKey, week);
-            var leagueSettings = service.GetLeagueSettings(roster.Team.LeagueKey);
+            var roster = this.Fantasizer.GetRosterPlayers(teamKey, week);
+            var leagueSettings = this.Fantasizer.GetLeagueSettings(roster.Team.LeagueKey);
+
 
             var depthAnalyzer = new RosterDepthAnalyzer(leagueSettings.RosterPositions, roster.Players);
 

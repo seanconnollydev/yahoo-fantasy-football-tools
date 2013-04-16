@@ -28,7 +28,7 @@ namespace Fantasizer
             this.ConsumerKey = consumerKey;
             this.ConsumerSecret = consumerSecret;
 
-            this.Consumer = new WebConsumer(YahooFantasySportsConfiguration.Description, new UserTokenManager(_userTokenStore, this.ConsumerKey, this.ConsumerSecret));
+            this.Consumer = new WebConsumer(FantasizerConfiguration.Description, new UserTokenManager(_userTokenStore, this.ConsumerKey, this.ConsumerSecret));
         }
 
         public void BeginAuth(Uri callback)

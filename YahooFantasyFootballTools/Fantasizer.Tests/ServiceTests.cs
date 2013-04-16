@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Fantasizer.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Fantasizer.Tests.Utilities;
@@ -11,7 +8,7 @@ namespace Fantasizer.Tests
     [TestClass]
     public class ServiceTests
     {
-        private YahooFantasySportsService _service;
+        private IFantasizerService _service;
 
         [ClassInitialize]
         public static void InitializeClass(TestContext testContext)
@@ -22,7 +19,9 @@ namespace Fantasizer.Tests
         [TestInitialize]
         public void InitializeTest()
         {
-            _service = new YahooFantasySportsService(ClientTestConfiguration.ConsumerKey, ClientTestConfiguration.ConsumerSecret, new TestUserTokenStore());
+            _service = ServiceFactory.CreateFantasizerClient(ClientTestConfiguration.ConsumerKey,
+                                                             ClientTestConfiguration.ConsumerSecret,
+                                                             new TestUserTokenStore());
         }
 
         [TestMethod]
