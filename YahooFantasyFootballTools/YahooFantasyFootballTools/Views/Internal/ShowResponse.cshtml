@@ -1,17 +1,23 @@
 ﻿@{
-    ViewBag.Title = "ShowResponse";
+    ViewBag.Title = "Show Response";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ShowResponse</h2>
+@section TopScripts {
+    <link href="@Url.Content("~/Content/Internal.css")" rel="stylesheet" type="text/css" />
+}
 
 @using(Html.BeginForm(FormMethod.Get))
 {
-    @Html.TextBox("sUri", "http://fantasysports.yahooapis.com/fantasy/v2/", new { width = "100em" });
-    <input id="executeButton" type="submit" value="Execute" />
+    <div class="input-append internal-request-input-container">
+        @Html.TextBox("appendedInputButton", "http://fantasysports.yahooapis.com/fantasy/v2/", new { @class = "internal-request-input" });
+        <button class="btn btn-primary" type="submit">Execute</button>
+    </div>
 }
 
 @if (ViewBag.XmlResponse != null)
 {
-    <pre>@ViewBag.XmlResponse</pre>
+    <div class="text-left">
+        <pre>@ViewBag.XmlResponse</pre>
+    </div>
 }

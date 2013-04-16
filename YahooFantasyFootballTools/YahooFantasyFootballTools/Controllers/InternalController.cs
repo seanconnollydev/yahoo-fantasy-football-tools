@@ -26,15 +26,15 @@ namespace YahooFantasyFootballTools.Controllers
         /// Action for executing raw requests to Yahoo and viewing response.  Technically this does not need to be restricted
         /// because it does not display sensitive information.
         /// </summary>
-        /// <param name="sUri"></param>
+        /// <param name="prependedAppendedInputButton"></param>
         /// <returns></returns>
         [MvcSiteMapNode(ParentKey="Home", Title="Show Response")]
-        public ActionResult ShowResponse(string sUri)
+        public ActionResult ShowResponse(string appendedInputButton)
         {
-            if (!string.IsNullOrEmpty(sUri))
+            if (!string.IsNullOrEmpty(appendedInputButton))
             {
                 var service = new YahooFantasySportsService(Configuration.ConsumerKey, Configuration.ConsumerSecret, this.UserTokenStore);
-                ViewBag.XmlResponse = service.ExecuteRawRequest(sUri).ToString();
+                ViewBag.XmlResponse = service.ExecuteRawRequest(appendedInputButton).ToString();
             }
             return View();
         }
