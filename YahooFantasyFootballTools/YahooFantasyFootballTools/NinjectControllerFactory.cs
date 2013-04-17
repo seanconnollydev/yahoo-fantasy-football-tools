@@ -25,11 +25,15 @@ namespace YahooFantasyFootballTools
             _kernel.Bind<IUserTokenStore>()
                    .ToMethod(context => new SessionStateUserTokenStore(System.Web.HttpContext.Current.Session));
 
+            _kernel.Bind<IApplicationConfiguration>().To<Configuration>();
+
             _kernel.Bind<IFantasizerService>()
                    .ToMethod(
                        context =>
-                       ServiceFactory.CreateFantasizerClient(Configuration.ConsumerKey, Configuration.ConsumerSecret,
-                                                             _kernel.Get<IUserTokenStore>()));
+                       ServiceFactory.CreateFantasizerClient(
+                            _kernel.Get<IApplicationConfiguration>().ConsumerKey,
+                            _kernel.Get<IApplicationConfiguration>().ConsumerSecret,
+                            _kernel.Get<IUserTokenStore>()));
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System.   Collections.Generic;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using Fantasizer;
 using MvcSiteMapProvider;
 using Fantasizer.Domain;
 using YahooFantasyFootballTools.Models;
-using System;
+using System.Linq;
 
 namespace YahooFantasyFootballTools.Controllers
 {
@@ -29,16 +28,19 @@ namespace YahooFantasyFootballTools.Controllers
                 leagues = this.Fantasizer.GetLeagues(DEFAULT_GAME_CODE);
             }
 
-            var games = this.Fantasizer.GetGames();
+            var games = this.Fantasizer.GetGames().OrderByDescending(g => g.Season);
             var gameList = new List<SelectListItem>();
 
+            bool firstGameInList = true;
             foreach (var game in games)
             {
                 var listItem = new SelectListItem();
                 listItem.Text = string.Format("{0} - {1}", game.GameCode, game.Season);
                 listItem.Value = game.Id.ToString();
-                listItem.Selected = gameId.HasValue ? (game.Id == gameId.Value) : (game.GameCode == DEFAULT_GAME_CODE);
+                listItem.Selected = gameId.HasValue ? (game.Id == gameId.Value) : firstGameInList;
+                
                 gameList.Add(listItem);
+                firstGameInList = false;
             }
 
             var model = new LeaguesViewModel()

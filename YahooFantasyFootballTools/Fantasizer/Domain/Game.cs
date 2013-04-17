@@ -7,7 +7,7 @@ namespace Fantasizer.Domain
 {
     public class Game
     {
-        internal Game(GameCode gamecode, int id, int season)
+        public Game(GameCode gamecode, int id, int season)
         {
             this.GameCode = gamecode;
             this.Id = id;

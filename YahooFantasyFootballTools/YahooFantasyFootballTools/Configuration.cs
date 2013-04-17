@@ -6,16 +6,33 @@ using System.Web.Configuration;
 
 namespace YahooFantasyFootballTools
 {
-    public static class Configuration
+    public class Configuration : IApplicationConfiguration
     {
-        public static string ConsumerKey
+        public string ConsumerKey
         {
             get { return Get<string>("YahooConsumerKey"); }
         }
 
-        public static string ConsumerSecret
+        public string ConsumerSecret
         {
             get { return Get<string>("YahooConsumerSecret"); }
+        }
+
+        public YahooCallbackUriType YahooCallbackUriType
+        {
+            get
+            { 
+                var configurationValue = Get<string>("YahooCallbackUriType");
+                switch (configurationValue)
+                {
+                    case "Host":
+                        return YahooCallbackUriType.Host;
+                    case "Authority":
+                        return YahooCallbackUriType.Authority;
+                    default:
+                        throw new Exception("Unrecognized YahooCallbackUriType specificed in Web.config.");
+                }
+            }
         }
 
         private static T Get<T>(string key)

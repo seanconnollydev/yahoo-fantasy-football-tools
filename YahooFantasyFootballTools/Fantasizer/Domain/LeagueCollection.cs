@@ -11,7 +11,7 @@ namespace Fantasizer.Domain
     {
         private readonly List<League> _leagueList;
 
-        private LeagueCollection()
+        public LeagueCollection()
         {
             _leagueList = new List<League>();
         }

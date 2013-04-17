@@ -14,6 +14,7 @@ namespace YahooFantasyFootballTools.Controllers
         public ActionResult ListKeys()
         {
             // TODO: Put this check someplace where it can be called on any "Internal" action that I want to restrict.
+            // TODO: Additionally, this should be an application configuration
             if (!Request.IsLocal)
             {
                 return RedirectToAction("Index", "Home");
