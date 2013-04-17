@@ -15,6 +15,9 @@ Set the values to your Yahoo application's API credentials (see [Registering you
 AppHarbor Setup
 ===========================
 
-To run the YahooFantasyFootballTools ASP.NET MVC application on AppHarbor, you need to set configuration variables for the same key/secret credentials as described in local setup.
+To run the YahooFantasyFootballTools ASP.NET MVC application on AppHarbor, you need to set a few configuration variables:
+
+* Set configuration varaibles for the same key/secret credentials as described in local setup.
+* Create a configuration variable with key "YahooCallbackUriType" and value "Host".  Otherwise you will see an error after logging into Yahoo.
 
 See AppHarbor's documentation on [managing environments](http://support.appharbor.com/kb/getting-started/managing-environments).
