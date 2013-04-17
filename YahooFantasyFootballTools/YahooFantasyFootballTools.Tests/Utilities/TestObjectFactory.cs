@@ -32,5 +32,13 @@ namespace YahooFantasyFootballTools.Tests.Utilities
 
             return leagues;
         }
+
+        public LeagueTeamCollection CreateLeagueTeamCollection(string leagueName, string leagueKey)
+        {
+            var league = new League(1, leagueName, leagueKey, 1, 16);
+            var teamCollection = new TeamCollection();
+            teamCollection.Add(new Team(1, "team_key", "team_name"));
+            return new LeagueTeamCollection(league, teamCollection);
+        }
     }
 }

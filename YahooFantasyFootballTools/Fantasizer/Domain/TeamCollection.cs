@@ -10,7 +10,7 @@ namespace Fantasizer.Domain
     {
         private readonly List<Team> _teamList;
 
-        internal TeamCollection()
+        public TeamCollection()
         {
             _teamList = new List<Team>();
         }

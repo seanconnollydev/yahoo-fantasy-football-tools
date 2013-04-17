@@ -8,7 +8,7 @@ namespace Fantasizer.Domain
 {
     public class TeamPlayerCollection<TPlayerType> where TPlayerType : Player
     {
-        internal TeamPlayerCollection(Team team, PlayerCollection<TPlayerType> players)
+        public TeamPlayerCollection(Team team, PlayerCollection<TPlayerType> players)
         {
             this.Team = team;
             this.Players = players;

@@ -10,7 +10,7 @@ namespace Fantasizer.Domain
     {
         private readonly List<TeamPlayerCollection<TPlayerType>> _teamPlayersList;
 
-        internal LeagueTeamPlayerCollection()
+        public LeagueTeamPlayerCollection()
         {
             _teamPlayersList = new List<TeamPlayerCollection<TPlayerType>>();
         }

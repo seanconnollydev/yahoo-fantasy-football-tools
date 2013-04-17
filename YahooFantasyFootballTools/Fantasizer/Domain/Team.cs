@@ -8,7 +8,7 @@ namespace Fantasizer.Domain
 {
     public class Team
     {
-        internal Team(int id, string key, string name)
+        public Team(int id, string key, string name)
         {
             this.Id = id;
             this.Key = key;

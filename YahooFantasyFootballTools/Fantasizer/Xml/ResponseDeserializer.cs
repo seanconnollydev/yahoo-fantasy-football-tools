@@ -193,5 +193,13 @@ namespace Fantasizer.Xml
 
             return teams;
         }
+
+        internal static LeagueTeamCollection DeserializeLeagueTeamCollection(XElement leagueElement)
+        {
+            var league = ResponseDeserializer.DeserializeLeague(leagueElement);
+            var teams = ResponseDeserializer.DeserializeTeamCollection(leagueElement);
+
+            return new LeagueTeamCollection(league, teams);
+        }
     }
 }

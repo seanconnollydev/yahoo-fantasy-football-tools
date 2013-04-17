@@ -59,7 +59,7 @@ namespace Fantasizer
         {
             string requestUri = string.Format("http://fantasysports.yahooapis.com/fantasy/v2/league/{0}/teams", leagueKey);
             var xml = this.ApiClient.ExecuteRequest(requestUri);
-            return LeagueTeamCollection.CreateFromXml(xml);
+            return ResponseDeserializer.DeserializeLeagueTeamCollection(xml.Root.Element(YahooXml.XMLNS + "league"));
         }
 
         public LeagueTeamPlayerCollection<Player> GetLeagueTeamPlayers(string leagueKey)

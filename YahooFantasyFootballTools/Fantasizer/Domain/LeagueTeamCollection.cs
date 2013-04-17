@@ -9,7 +9,7 @@ namespace Fantasizer.Domain
 {
     public class LeagueTeamCollection
     {
-        private LeagueTeamCollection(League league, TeamCollection teams)
+        public LeagueTeamCollection(League league, TeamCollection teams)
         {
             if (league == null) { throw new ArgumentNullException("league"); }
             if (teams == null) { throw new ArgumentNullException("teams"); }
@@ -21,16 +21,6 @@ namespace Fantasizer.Domain
         public League League { get; private set; }
 
         public TeamCollection Teams { get; private set; }
-
-        internal static LeagueTeamCollection CreateFromXml(XDocument xml)
-        {
-            var leagueElement = xml.Root.Element(YahooXml.XMLNS + "league");
-
-            var league = ResponseDeserializer.DeserializeLeague(leagueElement);
-            var teams = ResponseDeserializer.DeserializeTeamCollection(leagueElement);
-
-            return new LeagueTeamCollection(league, teams);
-        }
     }
 }
 
