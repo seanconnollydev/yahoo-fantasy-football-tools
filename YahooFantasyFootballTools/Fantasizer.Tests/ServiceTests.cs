@@ -55,6 +55,7 @@ namespace Fantasizer.Tests
             var leagueDraftResults = _service.GetDraftResults(ClientTestConfiguration.DEFAULT_LEAGUE_KEY);
 
             Assert.IsNotNull(leagueDraftResults);
+            Assert.AreEqual(150, leagueDraftResults.DraftResults.Count);
         }
 
         [TestMethod]

@@ -214,7 +214,7 @@ namespace Fantasizer.Xml
         {
             var draftResults = new DraftResultCollection();
 
-            foreach (var draftResultElement in leagueElement.Elements(YahooXml.XMLNS + "draft_result"))
+            foreach (var draftResultElement in leagueElement.Descendants(YahooXml.XMLNS + "draft_result"))
             {
                 draftResults.Add(ResponseDeserializer.DeserializeDraftResult(draftResultElement));
             }
