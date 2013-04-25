@@ -19,6 +19,7 @@ section {
 #userProfile
 {
     float: right;
+    padding: 8px 15px;
 }
 
 #main {
