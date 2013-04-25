@@ -1,11 +1,11 @@
-﻿@model IEnumerable<Tools.Analysis.Domain.EligibleKeeper>
+﻿@model YahooFantasyFootballTools.Models.EligibleKeeperModel
 
 @{
     ViewBag.Title = "Eligible Keepers";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ListEligibleKeepers</h2>
+<h2>Keeper Eligibility</h2>
 
 <table class="table table-bordered table-hover">
     <thead>
@@ -16,7 +16,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var keeper in Model)
+        @foreach (var keeper in Model.EligibleKeepers)
         {
             <tr>
                 <td>@keeper.PlayerName</td>
@@ -33,3 +33,5 @@
         }
     </tbody>
 </table>
+
+@Html.ActionLink("View keeper settings for this league", "ViewKeeperSettings", "League", new { leagueKey = Model.Team.LeagueKey }, null)

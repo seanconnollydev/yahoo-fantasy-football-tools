@@ -35,6 +35,14 @@ namespace YahooFantasyFootballTools
             }
         }
 
+        public string DbFantasizerConnectionString
+        {
+            get
+            {
+                return WebConfigurationManager.ConnectionStrings["dbfantasizer"].ConnectionString;
+            }
+        }
+
         private static T Get<T>(string key)
         {
             string configValue = WebConfigurationManager.AppSettings[key];

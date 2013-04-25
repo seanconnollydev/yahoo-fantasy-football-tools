@@ -1,0 +1,8 @@
+﻿@if (TempData["UserAlertMessage"] != null)
+{
+    <div class="alert">@TempData["UserAlertMessage"]</div>
+}
+else if (TempData["UserSuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["UserSuccessMessage"]</div>
+}

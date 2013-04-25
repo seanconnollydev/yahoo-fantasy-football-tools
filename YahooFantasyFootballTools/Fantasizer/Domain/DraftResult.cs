@@ -8,20 +8,17 @@ namespace Fantasizer.Domain
 {
     public class DraftResult
     {
-        public int Pick { get; set; }
-        public int Round { get; set; }
-        public string TeamKey { get; set; }
-        public string PlayerKey { get; set; }
-
-        internal static DraftResult CreateFromXml(XElement draftResultElement)
+        public DraftResult(int pick, int round, string teamKey, string playerKey)
         {
-            return new DraftResult()
-            {
-                Pick = Convert.ToInt32(draftResultElement.Element(YahooXml.XMLNS + "pick").Value),
-                Round = Convert.ToInt32(draftResultElement.Element(YahooXml.XMLNS + "round").Value),
-                TeamKey = draftResultElement.Element(YahooXml.XMLNS + "team_key").Value,
-                PlayerKey = draftResultElement.Element(YahooXml.XMLNS + "player_key").Value
-            };
+            this.Pick = pick;
+            this.Round = round;
+            this.TeamKey = teamKey;
+            this.PlayerKey = playerKey;
         }
+
+        public int Pick { get; private set; }
+        public int Round { get; private set; }
+        public string TeamKey { get; private set; }
+        public string PlayerKey { get; private set; }
     }
 }

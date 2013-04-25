@@ -15,7 +15,7 @@ namespace Fantasizer.Domain
         public ICollection<Position> EligiblePositions { get; private set; }
         public ICollection<int> ByeWeeks { get; private set; }
 
-        internal Player(int id, string key, string name, ICollection<Position> eligiblePositions, ICollection<int> byeWeeks)
+        public Player(int id, string key, string name, ICollection<Position> eligiblePositions, ICollection<int> byeWeeks)
         {
             this.Id = id;
             this.Key = key;

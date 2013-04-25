@@ -201,5 +201,35 @@ namespace Fantasizer.Xml
 
             return new LeagueTeamCollection(league, teams);
         }
+
+        internal static LeagueDraftResultCollection DeserializeLeagueDraftResultCollection(XElement leagueElement)
+        {
+            var league = ResponseDeserializer.DeserializeLeague(leagueElement);
+            var draftResults = ResponseDeserializer.DeserializeDraftResultCollection(leagueElement);
+
+            return new LeagueDraftResultCollection(league, draftResults);
+        }
+
+        internal static DraftResultCollection DeserializeDraftResultCollection(XElement leagueElement)
+        {
+            var draftResults = new DraftResultCollection();
+
+            foreach (var draftResultElement in leagueElement.Elements(YahooXml.XMLNS + "draft_result"))
+            {
+                draftResults.Add(ResponseDeserializer.DeserializeDraftResult(draftResultElement));
+            }
+
+            return draftResults;
+        }
+
+        internal static DraftResult DeserializeDraftResult(XElement draftResultElement)
+        {
+            return new DraftResult(
+                Convert.ToInt32(draftResultElement.Element(YahooXml.XMLNS + "pick").Value),
+                Convert.ToInt32(draftResultElement.Element(YahooXml.XMLNS + "round").Value),
+                draftResultElement.Element(YahooXml.XMLNS + "team_key").Value,
+                draftResultElement.Element(YahooXml.XMLNS + "player_key").Value
+            );
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace YahooFantasyFootballTools
         string ConsumerKey { get; }
         string ConsumerSecret { get; }
         YahooCallbackUriType YahooCallbackUriType { get; }
+        string DbFantasizerConnectionString { get; }
     }
 }

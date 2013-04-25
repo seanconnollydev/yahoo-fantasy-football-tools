@@ -33,8 +33,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Web.Mvc">
+      <HintPath>..\packages\Mvc2Futures.2.0.50217.0\lib\Microsoft.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcContrib.TestHelper">
+      <HintPath>..\packages\MvcContrib.Mvc3.TestHelper-ci.3.0.100.0\lib\MvcContrib.TestHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="Rhino.Mocks">
       <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
     </Reference>
@@ -66,6 +78,10 @@
     <ProjectReference Include="..\Fantasizer\Fantasizer.csproj">
       <Project>{A4EECA87-E40D-4BD1-BA52-B0A1128739F7}</Project>
       <Name>Fantasizer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools.Analysis.Data\Tools.Analysis.Data.csproj">
+      <Project>{8164F672-A0F6-4E1B-BE35-EF3008A68DE1}</Project>
+      <Name>Tools.Analysis.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\YahooFantasyFootballTools\YahooFantasyFootballTools.csproj">
       <Project>{495AC215-D4B1-444C-B6FE-A25C8B71EE61}</Project>

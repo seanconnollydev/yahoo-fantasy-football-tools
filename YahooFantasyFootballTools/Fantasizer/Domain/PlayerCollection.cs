@@ -10,7 +10,7 @@ namespace Fantasizer.Domain
     public class PlayerCollection<TPlayerType> : ICollection<TPlayerType> where TPlayerType : Player
     {
         private readonly List<TPlayerType> _playerList;
-        internal PlayerCollection()
+        public PlayerCollection()
         {
             _playerList = new List<TPlayerType>();
         }

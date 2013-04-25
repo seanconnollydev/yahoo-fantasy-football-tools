@@ -9,7 +9,7 @@ namespace Fantasizer.Domain
     public class DraftResultCollection : ICollection<DraftResult>
     {
         private readonly List<DraftResult> _draftResultList;
-        private DraftResultCollection()
+        public DraftResultCollection()
         {
             _draftResultList = new List<DraftResult>();
         }
@@ -70,17 +70,5 @@ namespace Fantasizer.Domain
         }
 
         #endregion
-
-        internal static DraftResultCollection CreateFromXml(XDocument xml)
-        {
-            var draftResults = new DraftResultCollection();
-
-            foreach (var draftResultElement in xml.Descendants(YahooXml.XMLNS + "draft_result"))
-            {
-                draftResults.Add(DraftResult.CreateFromXml(draftResultElement));
-            }
-
-            return draftResults;
-        }
     }
 }

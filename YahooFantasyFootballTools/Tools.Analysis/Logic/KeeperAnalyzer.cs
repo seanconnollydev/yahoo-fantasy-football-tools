@@ -12,18 +12,22 @@ namespace Tools.Analysis.Logic
         private readonly LeagueTeamPlayerCollection<Player> _leagueTeamPlayers;
         private readonly LeagueDraftResultCollection _draftResults;
         private readonly TeamPlayerCollection<PlayerWithStats> _teamPlayers;
+        private readonly bool _allowKeepersFromPriorSeason;
 
-        public KeeperAnalyzer(LeagueTeamPlayerCollection<Player> leagueTeamPlayers, LeagueDraftResultCollection draftResults)
+        public KeeperAnalyzer(LeagueTeamPlayerCollection<Player> leagueTeamPlayers, LeagueDraftResultCollection draftResults, bool allowKeepersFromPriorSeason)
         {
             _leagueTeamPlayers = leagueTeamPlayers;
             _draftResults = draftResults;
+            _allowKeepersFromPriorSeason = allowKeepersFromPriorSeason;
         }
 
         public KeeperAnalyzer(TeamPlayerCollection<PlayerWithStats> teamPlayers,
-                              LeagueDraftResultCollection draftResults)
+                              LeagueDraftResultCollection draftResults,
+                              bool allowKeepersFromPriorSeason)
         {
             _teamPlayers = teamPlayers;
             _draftResults = draftResults;
+            _allowKeepersFromPriorSeason = allowKeepersFromPriorSeason;
         }
 
         public List<EligibleKeeper> GetEligibleKeepersForLeague(string leagueKey)
@@ -42,7 +46,7 @@ namespace Tools.Analysis.Logic
                         IsEligible = true // eligible by default
                     };
 
-                    if (EligibleKeeper.KeptByTeamInPriorSeason(team.Team.Key, player.Key))
+                    if (!_allowKeepersFromPriorSeason && EligibleKeeper.KeptByTeamInPriorSeason(team.Team.Key, player.Key))
                     {
                         keeper.IsEligible = false;
                         keeper.IneligibilityReason = "This player was kept last season";
@@ -75,7 +79,7 @@ namespace Tools.Analysis.Logic
                     IsEligible = true // eligible by default
                 };
 
-                if (EligibleKeeper.KeptByTeamInPriorSeason(_teamPlayers.Team.Key, player.Key))
+                if (!_allowKeepersFromPriorSeason && EligibleKeeper.KeptByTeamInPriorSeason(_teamPlayers.Team.Key, player.Key))
                 {
                     keeper.IsEligible = false;
                     keeper.IneligibilityReason = "This player was kept last season";

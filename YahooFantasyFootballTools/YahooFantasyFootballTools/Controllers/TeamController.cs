@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Fantasizer;
 using MvcSiteMapProvider;
 using Tools.Analysis.Logic;
@@ -8,13 +9,21 @@ using YahooFantasyFootballTools.Models;
 using MvcSiteMapProvider.Filters;
 using System;
 using YahooFantasyFootballTools.Filters;
+using NHibernate;
+using Tools.Analysis.Data.Entities;
 
 namespace YahooFantasyFootballTools.Controllers
 {
     public class TeamController : BaseAuthenticatedController
     {
-        public TeamController(IUserTokenStore userTokenStore, IFantasizerService fantasizer) : base(userTokenStore, fantasizer)
+        private readonly ISessionFactory _sessionFactory;
+
+        public TeamController(
+            IUserTokenStore userTokenStore,
+            IFantasizerService fantasizer,
+            ISessionFactory sessionFactory) : base(userTokenStore, fantasizer)
         {
+            _sessionFactory = sessionFactory;
         }
 
         [MvcSiteMapNode(Key="Team", ParentKey="League")]
@@ -35,11 +44,29 @@ namespace YahooFantasyFootballTools.Controllers
             var teamPlayers = this.Fantasizer.GetTeamPlayerStats(teamKey);
             var draftResults = this.Fantasizer.GetDraftResults(teamPlayers.Team.LeagueKey);
 
-            var keeperAnalyzer = new KeeperAnalyzer(teamPlayers, draftResults);
+            // TODO: This block is mostly duplicated with the LeagueController's DownloadEligibleKeepers action.
+            LeagueDao leagueData;
+            using (var session = _sessionFactory.OpenSession())
+            {
+                leagueData = session.Get<LeagueDao>(draftResults.League.Key);
+                if (leagueData == null || !leagueData.AllowKeepersFromPriorSeason.HasValue)
+                {
+                    TempData["UserAlertMessage"] = "You must specify your league's keeper settings before proceeding.";
+                    return RedirectToAction("ViewKeeperSettings", "League", new { leagueKey = draftResults.League.Key});
+                }
+            }
+
+            var keeperAnalyzer = new KeeperAnalyzer(teamPlayers, draftResults, leagueData.AllowKeepersFromPriorSeason.Value);
             var keepers = keeperAnalyzer.GetEligibleKeepersForTeam(teamKey);
             var sortedKeepers = keepers.OrderBy(k => k.DraftRound);
 
-            return View(sortedKeepers);
+            var model = new EligibleKeeperModel()
+            {
+                Team = teamPlayers.Team,
+                EligibleKeepers = sortedKeepers
+            };
+
+            return View(model);
         }
 
         [MvcSiteMapNode(Key = "RosterDepth", Title = "Roster Depth", ParentKey = "Team")]
@@ -47,7 +74,6 @@ namespace YahooFantasyFootballTools.Controllers
         {
             var roster = this.Fantasizer.GetRosterPlayers(teamKey, week);
             var leagueSettings = this.Fantasizer.GetLeagueSettings(roster.Team.LeagueKey);
-
 
             var depthAnalyzer = new RosterDepthAnalyzer(leagueSettings.RosterPositions, roster.Players);
 

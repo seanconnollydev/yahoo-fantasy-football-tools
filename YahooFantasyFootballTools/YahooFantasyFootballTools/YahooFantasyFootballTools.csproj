@@ -103,9 +103,15 @@
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.4.1.10331.0\lib\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MvcSiteMapProvider">
       <HintPath>..\packages\MvcSiteMapProvider.3.3.4.0\lib\net40\MvcSiteMapProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
@@ -142,6 +148,8 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="IApplicationConfiguration.cs" />
+    <Compile Include="Models\EligibleKeeperModel.cs" />
+    <Compile Include="Models\KeeperSettingsModel.cs" />
     <Compile Include="NinjectControllerFactory.cs" />
     <Compile Include="Controllers\BaseAuthenticatedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -291,6 +299,10 @@
       <Project>{A4EECA87-E40D-4BD1-BA52-B0A1128739F7}</Project>
       <Name>Fantasizer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tools.Analysis.Data\Tools.Analysis.Data.csproj">
+      <Project>{8164F672-A0F6-4E1B-BE35-EF3008A68DE1}</Project>
+      <Name>Tools.Analysis.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tools.Analysis\Tools.Analysis.csproj">
       <Project>{7B7AE739-29B6-47DF-8D3C-DEC4B25F631F}</Project>
       <Name>Tools.Analysis</Name>
@@ -327,6 +339,9 @@
     </None>
     <None Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Team\ShowTeam.cshtml" />
+    <Content Include="Views\League\UpdateKeeperSettings.cshtml" />
+    <Content Include="Views\League\ViewKeeperSettings.cshtml" />
+    <Content Include="Views\Shared\_UserMessages.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

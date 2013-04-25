@@ -11,7 +11,7 @@ namespace Fantasizer.Domain
         public int Season { get; private set; }
         public double Total { get; private set; }
 
-        internal PlayerPoints(int season, double total)
+        public PlayerPoints(int season, double total)
         {
             this.Season = season;
             this.Total = total;

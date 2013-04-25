@@ -8,6 +8,10 @@ using Fantasizer;
 using Rhino.Mocks;
 using Fantasizer.Domain;
 using System.Web.Mvc;
+using NHibernate;
+using Tools.Analysis.Data.Entities;
+using YahooFantasyFootballTools.Tests.Utilities;
+using MvcContrib.TestHelper;
 
 namespace YahooFantasyFootballTools.Tests.Controllers
 {
@@ -16,6 +20,8 @@ namespace YahooFantasyFootballTools.Tests.Controllers
     {
         private IUserTokenStore _mockUserTokenStore;
         private IFantasizerService _mockFantasizer;
+        private ISessionFactory _mockSessionFactory;
+        private TestObjectFactory _testObjectFactory;
         private TeamController _teamController;
 
         [TestInitialize]
@@ -23,7 +29,9 @@ namespace YahooFantasyFootballTools.Tests.Controllers
         {
             _mockUserTokenStore = MockRepository.GenerateMock<IUserTokenStore>();
             _mockFantasizer = MockRepository.GenerateMock<IFantasizerService>();
-            _teamController = new TeamController(_mockUserTokenStore, _mockFantasizer);
+            _mockSessionFactory = MockRepository.GenerateMock<ISessionFactory>();
+            _testObjectFactory = new TestObjectFactory();
+            _teamController = new TeamController(_mockUserTokenStore, _mockFantasizer, _mockSessionFactory);
         }
 
         [TestMethod]
@@ -40,6 +48,74 @@ namespace YahooFantasyFootballTools.Tests.Controllers
             Assert.IsNotNull(result);
             Assert.AreEqual(teamName, result.ViewData["TeamName"]);
             _mockFantasizer.VerifyAllExpectations();
+        }
+
+        [TestMethod]
+        public void ListEligibleKeepers_KeeperSettingNull_Redirects()
+        {
+            // team key format is {game_key}.l.{league_id}.t.{team_id}
+            const string teamKey = "1.l.2.t.3";
+
+            // league key format is {game_key}.l.{league_id}
+            const string leagueKey = "1.l.2";
+            const int leagueId = 2;
+
+            _mockFantasizer
+                .Expect(f => f.GetTeamPlayerStats(teamKey))
+                .Return(_testObjectFactory.CreateTeamPlayerCollection(teamKey));
+
+            _mockFantasizer
+                .Expect(f => f.GetDraftResults(leagueKey))
+                .Return(_testObjectFactory.CreateLeagueDraftResultCollection(leagueId, leagueKey));
+
+            ISession mockSession = MockRepository.GenerateMock<ISession>();
+            _mockSessionFactory.Expect(f => f.OpenSession()).Return(mockSession);
+            mockSession
+                .Expect(s => s.Get<LeagueDao>(leagueKey))
+                .Return(new LeagueDao() { Key = leagueKey, AllowKeepersFromPriorSeason = null });
+
+            RedirectToRouteResult result = _teamController.ListEligibleKeepers(teamKey) as RedirectToRouteResult;
+
+            Assert.IsNotNull(result, "Incorrect action result type returned.");
+            result.AssertActionRedirect().ToAction<LeagueController>(c => c.ViewKeeperSettings(leagueKey));
+            
+            _mockFantasizer.VerifyAllExpectations();
+            _mockSessionFactory.VerifyAllExpectations();
+            mockSession.VerifyAllExpectations();
+        }
+
+        [TestMethod]
+        public void ListEligibleKeepers_LeagueNull_Redirects()
+        {
+            // team key format is {game_key}.l.{league_id}.t.{team_id}
+            const string teamKey = "1.l.2.t.3";
+
+            // league key format is {game_key}.l.{league_id}
+            const string leagueKey = "1.l.2";
+            const int leagueId = 2;
+
+            _mockFantasizer
+                .Expect(f => f.GetTeamPlayerStats(teamKey))
+                .Return(_testObjectFactory.CreateTeamPlayerCollection(teamKey));
+
+            _mockFantasizer
+                .Expect(f => f.GetDraftResults(leagueKey))
+                .Return(_testObjectFactory.CreateLeagueDraftResultCollection(leagueId, leagueKey));
+
+            ISession mockSession = MockRepository.GenerateMock<ISession>();
+            _mockSessionFactory.Expect(f => f.OpenSession()).Return(mockSession);
+            mockSession
+                .Expect(s => s.Get<LeagueDao>(leagueKey))
+                .Return(null);
+
+            RedirectToRouteResult result = _teamController.ListEligibleKeepers(teamKey) as RedirectToRouteResult;
+
+            Assert.IsNotNull(result, "Incorrect action result type returned.");
+            result.AssertActionRedirect().ToAction<LeagueController>(c => c.ViewKeeperSettings(leagueKey));
+            
+            _mockFantasizer.VerifyAllExpectations();
+            _mockSessionFactory.VerifyAllExpectations();
+            mockSession.VerifyAllExpectations();
         }
     }
 }

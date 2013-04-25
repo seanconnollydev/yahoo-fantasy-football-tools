@@ -1,0 +1,22 @@
+﻿@model YahooFantasyFootballTools.Models.KeeperSettingsModel
+
+@{
+    ViewBag.Title = "Keeper Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Keeper Settings</h2>
+
+<div id="keeperSettingsContainer">
+    @using (Html.BeginForm("UpdateKeeperSettings", "League", FormMethod.Post))
+    {
+        <label class="checkbox">
+            @Html.CheckBoxFor(m => m.AllowKeepersFromPriorSeason)
+            <text>Can players be kept that were kept in the previous season?</text>
+        </label>
+
+        @Html.HiddenFor(m => m.LeagueKey)
+        @Html.ActionLink("Cancel", "ListTeams", "League", new { leagueKey = Model.LeagueKey }, new { @class = "btn" })
+        <button class="btn-primary" type="submit">Save</button>
+    }
+</div>

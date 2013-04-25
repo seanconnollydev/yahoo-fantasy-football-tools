@@ -2,6 +2,8 @@
 using System.Web.Mvc;
 using Fantasizer;
 using Ninject;
+using NHibernate;
+using Tools.Analysis.Data;
 
 namespace YahooFantasyFootballTools
 {
@@ -34,6 +36,12 @@ namespace YahooFantasyFootballTools
                             _kernel.Get<IApplicationConfiguration>().ConsumerKey,
                             _kernel.Get<IApplicationConfiguration>().ConsumerSecret,
                             _kernel.Get<IUserTokenStore>()));
+
+            _kernel.Bind<ISessionFactory>()
+                .ToMethod(
+                    context =>
+                        AnalysisDataSessionFactory.CreateMsSqlServer2008SessionFactory(
+                            _kernel.Get<IApplicationConfiguration>().DbFantasizerConnectionString));
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Fantasizer.Domain
         public PlayerStats Stats { get; private set; }
         public PlayerPoints Points { get; private set; }
 
-        internal PlayerWithStats(Player player, PlayerStats stats, PlayerPoints points)
+        public PlayerWithStats(Player player, PlayerStats stats, PlayerPoints points)
             : base(player)
         {
             this.Stats = stats;
