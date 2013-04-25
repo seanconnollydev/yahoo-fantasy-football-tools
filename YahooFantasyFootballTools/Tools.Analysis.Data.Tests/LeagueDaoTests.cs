@@ -7,6 +7,7 @@ using Tools.Analysis.Data.Entities;
 using NHibernate;
 using System.IO;
 using Tools.Analysis.Data.Tests.Utilities;
+using System.Configuration;
 
 namespace Tools.Analysis.Data.Tests
 {
@@ -18,14 +19,12 @@ namespace Tools.Analysis.Data.Tests
         [TestInitialize]
         public void InitializeTest()
         {
-            try
+            if (ConfigurationManager.AppSettings["Environment"].Equals("Test", StringComparison.OrdinalIgnoreCase))
             {
-                _sessionFactory = AnalysisDataSessionFactory.CreateMsSqlServer2008SessionFactory(DataTestConfiguration.LOCAL_CONNECTION_STRING);
+                Assert.Inconclusive("Skipping test, we do not run DB tests in AppHarbor.");
             }
-            catch
-            {
-                Assert.Inconclusive("Skipping test, unable to configure database. This is expected to happen on AppHarbor.");
-            }
+
+            _sessionFactory = AnalysisDataSessionFactory.CreateMsSqlServer2008SessionFactory(DataTestConfiguration.LOCAL_CONNECTION_STRING);
         }
 
         [TestMethod]
