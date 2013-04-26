@@ -65,5 +65,18 @@ namespace YahooFantasyFootballTools.Tests.Controllers
             
             _mockFantasizer.VerifyAllExpectations();
         }
+
+        [TestMethod]
+        public void ListLeagues_NoLeaguesReturned_ExcludesEmptyleagues()
+        {
+            var emptyLeagueCollection = new LeagueCollection();
+            _mockFantasizer.Expect(f => f.GetLeagues(Arg<GameCode>.Is.Anything)).Return(emptyLeagueCollection);
+            _mockFantasizer.Expect(f => f.GetGames()).Return(_testObjectFactory.CreateGames());
+
+            ViewResult result = _userController.ListLeagues(null) as ViewResult;
+            Assert.IsNotNull(result);
+
+
+        }
     }
 }

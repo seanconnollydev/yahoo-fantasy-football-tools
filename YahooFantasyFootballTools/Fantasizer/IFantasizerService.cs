@@ -33,5 +33,8 @@ namespace Fantasizer
         LeagueSettings GetLeagueSettings(string leagueKey);
 
         ICollection<Game> GetGames();
+
+        // TODO: Proposed
+        dynamic Get(Proposed.IResource resource);
     }
 }
