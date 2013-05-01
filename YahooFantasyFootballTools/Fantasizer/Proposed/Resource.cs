@@ -5,18 +5,21 @@ using System.Text;
 
 namespace Fantasizer.Proposed
 {
-    public static class Resource<T> where T : IResource, new()
+    // TODO: Consider renaming this to a request.
+    public abstract class Resource
     {
-        // TODO: Add where constraints
-        public static T WithKey(string key)
+        internal string Key { get; set; }
+
+        public virtual T Includes<T>()
         {
-            IResource resource = new T();
-            resource.Key = key;
-            return (T)resource;
+            throw new NotImplementedException();
         }
-        //public static Game Game(string key)
-        //{
-        //    return new Game(key);
-        //}
+
+        public virtual T Includes<T>(params string[] keys)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal abstract string ToRequest();
     }
 }

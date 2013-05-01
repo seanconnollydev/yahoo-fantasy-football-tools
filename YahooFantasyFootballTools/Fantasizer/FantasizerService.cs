@@ -136,6 +136,16 @@ namespace Fantasizer
         }
 
         // TODO: Proposed
+        dynamic IFantasizerService.Get<T>(string key)
+        {
+            var resource = new T();
+            resource.Key = key;
+
+            string requestUri = "http://fantasysports.yahooapis.com/fantasy/v2" + resource.ToRequest();
+            var xml = this.ApiClient.ExecuteRequest(requestUri);
+            return xml;  // TODO: Need to figure out how to convert this to an appropriate object.
+        }
+
         public dynamic Get(Proposed.IResource resource)
         {
             string requestUri = "http://fantasysports.yahooapis.com/fantasy/v2" + resource.ToRequest();

@@ -27,14 +27,15 @@ namespace Fantasizer.Tests
         public void GetGame()
         {
             //var response = _service.Get(Resource.Game("nfl"));
-            var response = _service.Get(Resource<Game>.WithKey("nfl"));
+            //var response = _service.Get(Resource<Game>.WithKey("nfl"));
+            var response = _service.Get<Game>("nfl");
             Assert.IsTrue(response.Id > 0);
         }
 
         [TestMethod]
         public void GetGameLeagues()
         {
-            var response = _service.Get(Resource<Game>.WithKey("nfl").Leagues);
+            //var response = _service.Get(Resource<Game>.WithKey("nfl").Leagues);
         }
     }
 }

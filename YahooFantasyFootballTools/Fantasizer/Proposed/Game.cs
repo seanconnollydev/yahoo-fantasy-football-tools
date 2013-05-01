@@ -5,25 +5,11 @@ using System.Text;
 
 namespace Fantasizer.Proposed
 {
-    public class Game : IResource
+    public class Game : Resource
     {
-        public Leagues Leagues
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        #region IResource Members
-
-        public string Key { get; set; }
-
-        public string ToRequest()
+        internal override string ToRequest()
         {
             return "/game/" + this.Key;
         }
-
-        #endregion
     }
 }
