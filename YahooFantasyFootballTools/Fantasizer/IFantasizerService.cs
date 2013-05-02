@@ -35,6 +35,6 @@ namespace Fantasizer
         ICollection<Game> GetGames();
 
         // TODO: Proposed
-        dynamic Get<T>(string key) where T : Proposed.Resource, new();
+        T Get<T>(string key) where T : Proposed.Resource, new();
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Fantasizer.Proposed
 {
-    // TODO: Consider renaming this to a request.
+    // TODO: Consider renaming this to a ResourceRequest.
     public abstract class Resource
     {
         internal string Key { get; set; }

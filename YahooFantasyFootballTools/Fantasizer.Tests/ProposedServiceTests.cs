@@ -36,6 +36,12 @@ namespace Fantasizer.Tests
         public void GetGameLeagues()
         {
             //var response = _service.Get(Resource<Game>.WithKey("nfl").Leagues);
+            //var leagues = _service.Get<Game>("nfl").Includes<Leagues<Game>>();
+            //int gameId = leagues.Parent.Id;
+
+            //var leagues = _service.Get<Leagues<Game>>("leagueKey");
+
+            
         }
     }
 }

@@ -5,8 +5,10 @@ using System.Text;
 
 namespace Fantasizer.Proposed
 {
-    public class Leagues : IResource
+    public class Leagues<TParent> : IResource
     {
+        public TParent Parent { get; set; }
+
         #region IResource Members
 
         public string Key
