@@ -344,6 +344,7 @@
     <Content Include="Views\League\UpdateKeeperSettings.cshtml" />
     <Content Include="Views\League\ViewKeeperSettings.cshtml" />
     <Content Include="Views\Shared\_UserMessages.cshtml" />
+    <Content Include="Views\Shared\_Pathful.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
