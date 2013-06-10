@@ -7,7 +7,12 @@
     
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    @*<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/compass/stylesheets/screen.css")" media="screen, projection" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/compass/stylesheets/print.css")" media="print" rel="stylesheet" type="text/css" />
+    <!--[if IE]>
+      <link href="@Url.Content("~/Content/compass/stylesheets/ie.css")" media="screen, projection" rel="stylesheet" type="text/css" />
+    <![endif]-->
     @RenderSection("TopScripts", required: false)
 </head>
 <body>

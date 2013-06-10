@@ -1,4 +1,11 @@
-﻿body {
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass";
+
+body {
     background-color: #d1d0ca;
     font-size: .85em;
     font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
@@ -24,9 +31,7 @@ section {
 
 #main {
     padding: 30px 30px 15px 30px;
-    border-radius: 4px 0 0 0;
-    -webkit-border-radius: 4px 0 0 0;
-    -moz-border-radius: 4px 0 0 0;
+	@include border-radius (4px 0 0 0);
 }
 
 footer, 
@@ -36,11 +41,8 @@ footer,
     line-height: normal;
     margin: 0 0 30px 0;
     font-size: .9em;
-    border-radius: 0 0 4px 4px;
-    -webkit-border-radius: 0 0 4px 4px;
-    -moz-border-radius: 0 0 4px 4px;
+	@include border-radius (0 0 4px 4px);    
 }
-
 
 
 /* Custom styles for YahooFantasyFootballTools
