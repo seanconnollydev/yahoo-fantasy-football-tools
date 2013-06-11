@@ -65,5 +65,14 @@ namespace YahooFantasyFootballTools.Tests.Controllers
             
             _mockFantasizer.VerifyAllExpectations();
         }
+
+        [TestMethod]
+        public void ListLeagues_Empty_Redirects()
+        {
+            _mockFantasizer.Expect(f => f.GetLeagues(Arg<GameCode>.Is.Anything)).Return(new LeagueCollection());
+            _mockFantasizer.Expect(f => f.GetGames()).Return(_testObjectFactory.CreateGames());
+            RedirectToRouteResult result = _userController.ListLeagues(null) as RedirectToRouteResult;
+            Assert.IsNotNull(result, "Expected a redirect result.");
+        }
     }
 }

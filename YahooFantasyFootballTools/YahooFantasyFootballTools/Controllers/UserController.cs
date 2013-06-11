@@ -26,6 +26,12 @@ namespace YahooFantasyFootballTools.Controllers
             else
             {
                 leagues = this.Fantasizer.GetLeagues(DEFAULT_GAME_CODE);
+                if (leagues.Count == 0)
+                {
+                    return RedirectToAction(
+                        "ListLeagues",
+                        new { gameId = this.Fantasizer.GetGames().OrderByDescending(g => g.Season).Skip<Game>(1).First<Game>().Id });
+                }
             }
 
             var games = this.Fantasizer.GetGames().OrderByDescending(g => g.Season);
