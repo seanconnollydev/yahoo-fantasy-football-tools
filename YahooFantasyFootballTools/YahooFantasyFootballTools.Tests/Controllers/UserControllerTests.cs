@@ -29,23 +29,7 @@ namespace YahooFantasyFootballTools.Tests.Controllers
             _userController = new UserController(_mockUserTokenStore, _mockFantasizer);
             _testObjectFactory = new TestObjectFactory();
         }
-
-        [TestMethod]
-        public void ListLeagues_NullGameId_Succeeds()
-        {
-            _mockFantasizer.Expect(f => f.GetLeagues(Arg<GameCode>.Is.Anything)).Return(_testObjectFactory.CreateLeagueCollection());
-            _mockFantasizer.Expect(f => f.GetGames()).Return(_testObjectFactory.CreateGames());
-            
-            ViewResult result = _userController.ListLeagues(null) as ViewResult;
-            Assert.IsNotNull(result);
-
-            LeaguesViewModel model = result.Model as LeaguesViewModel;
-            Assert.IsNotNull(model);
-            Assert.AreEqual(1, model.Games.Count(g => g.Selected), "Only 1 game should be selected.");
-
-            _mockFantasizer.VerifyAllExpectations();
-        }
-
+                
         [TestMethod]
         public void ListLeagues_ValidGameID_Succeeds()
         {
@@ -72,7 +56,12 @@ namespace YahooFantasyFootballTools.Tests.Controllers
             _mockFantasizer.Expect(f => f.GetGames()).Return(_testObjectFactory.CreateGames());
             _mockFantasizer.Expect(f => f.GetLeagues(0)).Return(_testObjectFactory.CreateLeagueCollection());
 
-            _userController.ListLeagues(null);
+            ViewResult result = _userController.ListLeagues(null) as ViewResult;
+            Assert.IsNotNull(result);
+
+            LeaguesViewModel model = result.Model as LeaguesViewModel;
+            Assert.IsNotNull(model);
+            Assert.AreEqual(1, model.Games.Count(g => g.Selected), "Only 1 game should be selected.");
 
             _mockFantasizer.VerifyAllExpectations();
         }
