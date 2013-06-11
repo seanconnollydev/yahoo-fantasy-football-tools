@@ -30,7 +30,7 @@ namespace YahooFantasyFootballTools.Controllers
                 {
                     return RedirectToAction(
                         "ListLeagues",
-                        new { gameId = this.Fantasizer.GetGames().OrderByDescending(g => g.Season).Skip<Game>(1).First<Game>().Id });
+                        new { gameId = this.Fantasizer.GetGames().OrderByDescending(g => g.Season).First<Game>().Id });
                 }
             }
 
