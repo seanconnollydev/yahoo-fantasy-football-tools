@@ -18,19 +18,10 @@ namespace YahooFantasyFootballTools.Controllers
         [MvcSiteMapNode(Key="User", Title="Leagues", ParentKey="Home")]
         public ActionResult ListLeagues(int? gameId)
         {
-            LeagueCollection leagues;
-            if (gameId.HasValue)
-            {
-                leagues = this.Fantasizer.GetLeagues(gameId.Value);
-            }
-            else
-            {
-                leagues = this.Fantasizer.GetLeagues(DEFAULT_GAME_CODE);
-            }
-
             var games = this.Fantasizer.GetGames().OrderByDescending(g => g.Season);
-            var gameList = new List<SelectListItem>();
+            LeagueCollection leagues = this.Fantasizer.GetLeagues(gameId ?? games.First<Game>().Id);
 
+            var gameList = new List<SelectListItem>();
             bool firstGameInList = true;
             foreach (var game in games)
             {

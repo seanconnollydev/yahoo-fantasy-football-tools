@@ -65,5 +65,16 @@ namespace YahooFantasyFootballTools.Tests.Controllers
             
             _mockFantasizer.VerifyAllExpectations();
         }
+
+        [TestMethod]
+        public void ListLeagues_NullGameId_DefaultsToMostRecent()
+        {
+            _mockFantasizer.Expect(f => f.GetGames()).Return(_testObjectFactory.CreateGames());
+            _mockFantasizer.Expect(f => f.GetLeagues(0)).Return(_testObjectFactory.CreateLeagueCollection());
+
+            _userController.ListLeagues(null);
+
+            _mockFantasizer.VerifyAllExpectations();
+        }
     }
 }
