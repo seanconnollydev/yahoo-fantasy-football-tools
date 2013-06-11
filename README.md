@@ -12,6 +12,8 @@ To run the YahooFantasyFootballTools ASP.NET MVC application and the Fantasizer 
 
 Set the values to your Yahoo application's API credentials (see [Registering your app](http://developer.yahoo.com/fantasysports/guide/GettingStarted.html#GettingStarted-register)).
 
+Install compass manually: http://awordpress.net/install-sass-compass-manually-windows/
+
 Visual Studio Setup
 ===================
 
