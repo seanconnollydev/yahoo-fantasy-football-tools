@@ -45,9 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnalysisService.cs" />
     <Compile Include="Domain\EligibleKeeper.cs" />
     <Compile Include="Domain\PositionDepth.cs" />
+    <Compile Include="Domain\RosterAssignmentResult.cs" />
+    <Compile Include="Domain\RosterDepthResult.cs" />
     <Compile Include="FantasizerExtensions.cs" />
+    <Compile Include="IAnalysisService.cs" />
     <Compile Include="Logic\EligibleKeeperWriter.cs" />
     <Compile Include="Logic\KeeperAnalyzer.cs" />
     <Compile Include="Logic\RosterAssignmentAnalyzer.cs" />

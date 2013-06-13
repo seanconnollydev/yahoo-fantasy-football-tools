@@ -9,8 +9,8 @@ namespace YahooFantasyFootballTools.Models
 {
     public class RosterDepthModel
     {
-        private readonly IDictionary<Position, PositionDepth> _rosterDepth;
-        public RosterDepthModel(Team team, IDictionary<Position, PositionDepth> rosterDepth, int weeks, int selectedWeek)
+        private readonly RosterDepthResult _rosterDepth;
+        public RosterDepthModel(Team team, RosterDepthResult rosterDepth, int weeks, int selectedWeek)
         {
             this.Team = team;
             _rosterDepth = rosterDepth;
@@ -23,13 +23,21 @@ namespace YahooFantasyFootballTools.Models
         {
             var depthList = new List<PositionDepthModel>();
 
-            foreach (var positionDepth in _rosterDepth)
+            foreach (var positionDepth in _rosterDepth.PositionDepthResults)
             {
-                depthList.Add(new PositionDepthModel
+                var positionDepthModel = new PositionDepthModel
                 {
                     PositionName = positionDepth.Key.DisplayName,
-                    DepthName = positionDepth.Value.ToString(),
-                    DepthValue = positionDepth.Value});
+                    DepthName = positionDepth.Value.Depth.ToString(),
+                    DepthValue = positionDepth.Value.Depth
+                };
+
+                foreach (var playerAssignmentResult in positionDepth.Value.PlayerAssignmentResults)
+                {
+                    positionDepthModel.PlayerAssignments.Add(new PlayerAssignmentModel(playerAssignmentResult));
+                }
+
+                depthList.Add(positionDepthModel);
             }
 
             this.PositionDepths = depthList;
@@ -51,8 +59,26 @@ namespace YahooFantasyFootballTools.Models
 
     public class PositionDepthModel
     {
+        public PositionDepthModel()
+        {
+            this.PlayerAssignments = new List<PlayerAssignmentModel>();
+        }
+
         public string PositionName { get; set; }
         public string DepthName { get; set; }
         public PositionDepth DepthValue { get; set; }
+        public IList<PlayerAssignmentModel> PlayerAssignments { get; private set; }
+    }
+
+    public class PlayerAssignmentModel
+    {
+        public PlayerAssignmentModel(PlayerAssignmentResult playerAssignmentResult)
+        {
+            this.PlayerName = playerAssignmentResult.Player.Name;
+            this.Reason = playerAssignmentResult.Reason.ToString();
+        }
+
+        public string PlayerName { get; private set; }
+        public string Reason { get; private set; }
     }
 }

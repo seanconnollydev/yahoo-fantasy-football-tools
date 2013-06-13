@@ -20,6 +20,12 @@
             <tr class="@DepthClass(positionDepth.DepthValue)">
                 <td>@positionDepth.PositionName</td>
                 <td>@positionDepth.DepthName</td>
+                <td>
+                    @foreach (var playerAssignment in positionDepth.PlayerAssignments)
+                    {
+                        <span>@String.Format("{0} ({1})", playerAssignment.PlayerName, playerAssignment.Reason)</span>
+                    }
+                </td>
             </tr>
         }    
     </tbody>

@@ -24,38 +24,21 @@ namespace Tools.Analysis.Logic
         /// </summary>
         /// <returns>A dictionary keyed off of position (e.g. QB, RB, etc.)</returns>
         /// <param name="week">(Optional) A specific week to determine depth for (otherwise the team is evaluated overall).</param>
-        public IDictionary<Position, PositionDepth> GetRosterDepth(int? week)
+        public RosterDepthResult GetRosterDepth(int? week)
         {
-            ICollection<Player> availablePlayers;
-            if (week.HasValue)
-            {
-                // Only consider players not on bye for the given week (if specified).
-                availablePlayers = new List<Player>();
-                foreach (var player in _availablePlayers)
-                {
-                    if (!player.ByeWeeks.Contains(week.Value))
-                    {
-                        availablePlayers.Add(player);
-                    }
-                }
-            }
-            else
-            {
-                availablePlayers = _availablePlayers;
-            }
-
             // Determine the optimal roster assignments
-            var assignmentAnalyzer = new RosterAssignmentAnalyzer(_rosterPositions, availablePlayers);
+            var assignmentAnalyzer = new RosterAssignmentAnalyzer(_rosterPositions, _availablePlayers, week);
             var optimalAssignments = assignmentAnalyzer.GetOptimalAssignment();
 
-            var rosterDepthMap = new Dictionary<Position, PositionDepth>();
+            var rosterDepthResult = new RosterDepthResult();
             foreach (var rosterPosition in _rosterPositions)
             {
                 // Short circuit the bench position, we don't need to evaluate depth for this position
                 if (rosterPosition.Key == PositionAbbreviation.BN)
                     break;
 
-                int filled = optimalAssignments[rosterPosition.Value.Position].Count;
+                var positionAssignmentResult = optimalAssignments.PositionAssignmentResults[rosterPosition.Value.Position];
+                int filled = positionAssignmentResult.Filled;
                 int required = rosterPosition.Value.Count;
                 int additionalAvailable = 0;
 
@@ -64,24 +47,31 @@ namespace Tools.Analysis.Logic
                     // There may still be additional players on the bench that could fill this position and should
                     // contribute to this position's depth.  Note that a bench player can contribute to the depth of
                     // more than one position.
-                    foreach (var player in optimalAssignments[Position.Bench])
+                    foreach (var playerAssignment in optimalAssignments.PositionAssignmentResults[Position.Bench].PlayerAssignmentResults)
                     {
                         var position = rosterPosition.Value.Position;
 
-                        if (position.CanBeFilledBy(player))
+                        if (position.CanBeFilledBy(playerAssignment.Player))
                         {
                             additionalAvailable++;
                         }
                     }
                 }
 
-                rosterDepthMap[rosterPosition.Value.Position] = DetermineDepth(required, filled + additionalAvailable);
+                var positionDepthResult = new PositionDepthResult()
+                {
+                    Position = rosterPosition.Value.Position,
+                    Depth = DetermineDepth(required, filled + additionalAvailable),
+                    PlayerAssignmentResults = positionAssignmentResult.PlayerAssignmentResults
+                };
+                
+                rosterDepthResult.PositionDepthResults[rosterPosition.Value.Position] = positionDepthResult;
             }
-
-            return rosterDepthMap;
+            
+            return rosterDepthResult;
         }
 
-        public IDictionary<Position, PositionDepth> GetRosterDepth()
+        public RosterDepthResult GetRosterDepth()
         {
             return this.GetRosterDepth(null);
         }

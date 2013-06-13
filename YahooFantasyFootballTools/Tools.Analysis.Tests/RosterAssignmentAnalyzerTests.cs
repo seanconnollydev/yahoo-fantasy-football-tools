@@ -29,10 +29,10 @@ namespace Tools.Analysis.Tests
             var players = _testObjectFactory.CreatePlayers(Position.RunningBack);
             var rb = players.First();
 
-            var analyzer = new RosterAssignmentAnalyzer(rosterPositions, players);
+            var analyzer = new RosterAssignmentAnalyzer(rosterPositions, players, null);
             var result = analyzer.GetOptimalAssignment();
 
-            Assert.AreEqual(rb.Id, result[Position.WideReceiverRunningBack].Single().Id);
+            Assert.AreEqual(rb.Id, result.PositionAssignmentResults[Position.WideReceiverRunningBack].PlayerAssignmentResults.Single().Player.Id);
         }
 
         [TestMethod]
@@ -46,11 +46,11 @@ namespace Tools.Analysis.Tests
             var wr = _testObjectFactory.CreatePlayer(Position.WideReceiver, byeWeek: 6);
             var players = new List<Player>() { rb, wr };
 
-            var analyzer = new RosterAssignmentAnalyzer(rosterPositions, players);
+            var analyzer = new RosterAssignmentAnalyzer(rosterPositions, players, null);
             var result = analyzer.GetOptimalAssignment();
 
-            Assert.AreEqual(rb.Id, result[Position.WideReceiverRunningBack].Single().Id);
-            Assert.AreEqual(wr.Id, result[Position.WideReceiverTightEnd].Single().Id);
+            Assert.AreEqual(rb.Id, result.PositionAssignmentResults[Position.WideReceiverRunningBack].PlayerAssignmentResults.Single().Player.Id);
+            Assert.AreEqual(wr.Id, result.PositionAssignmentResults[Position.WideReceiverTightEnd].PlayerAssignmentResults.Single().Player.Id);
         }
 
         [TestMethod]
@@ -66,12 +66,12 @@ namespace Tools.Analysis.Tests
                 Position.RunningBack,
                 Position.WideReceiver);
 
-            var analyzer = new RosterAssignmentAnalyzer(rosterPositions, players);
+            var analyzer = new RosterAssignmentAnalyzer(rosterPositions, players, null);
             var result = analyzer.GetOptimalAssignment();
 
-            Assert.IsNotNull(result[Position.RunningBack]);
-            Assert.IsNotNull(result[Position.WideReceiverRunningBack]);
-            Assert.IsNotNull(result[Position.WideReceiverTightEnd]);
+            Assert.IsTrue(result.PositionAssignmentResults[Position.RunningBack].PlayerAssignmentResults.Count > 0);
+            Assert.IsTrue(result.PositionAssignmentResults[Position.WideReceiverRunningBack].PlayerAssignmentResults.Count > 0);
+            Assert.IsTrue(result.PositionAssignmentResults[Position.WideReceiverTightEnd].PlayerAssignmentResults.Count > 0);
         }
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace Tools.Analysis.Tests
                 Position.RunningBack,
                 Position.RunningBack);
 
-            var analyzer = new RosterAssignmentAnalyzer(rosterPositions, players);
+            var analyzer = new RosterAssignmentAnalyzer(rosterPositions, players, null);
             analyzer.GetOptimalAssignment();
         }
 
@@ -100,10 +100,10 @@ namespace Tools.Analysis.Tests
             var rb = _testObjectFactory.CreatePlayer(Position.RunningBack, byeWeek: 4);
             var players = new List<Player>() { rb };
 
-            var analyzer = new RosterAssignmentAnalyzer(rosterPositions, players);
+            var analyzer = new RosterAssignmentAnalyzer(rosterPositions, players, null);
             var result = analyzer.GetOptimalAssignment();
 
-            Assert.AreEqual(0, result[Position.Quarterback].Count);
+            Assert.AreEqual(0, result.PositionAssignmentResults[Position.Quarterback].PlayerAssignmentResults.Count);
         }
 
         [TestMethod]
@@ -117,10 +117,10 @@ namespace Tools.Analysis.Tests
             var rb = _testObjectFactory.CreatePlayer(Position.RunningBack, byeWeek: 7);
             var players = new List<Player>() { qb, rb };
 
-            var analyzer = new RosterAssignmentAnalyzer(rosterPositions, players);
+            var analyzer = new RosterAssignmentAnalyzer(rosterPositions, players, null);
             var result = analyzer.GetOptimalAssignment();
 
-            Assert.AreEqual(rb.Id, result[Position.Bench].Single().Id);
+            Assert.AreEqual(rb.Id, result.PositionAssignmentResults[Position.Bench].PlayerAssignmentResults.Single().Player.Id);
 
         }
     }

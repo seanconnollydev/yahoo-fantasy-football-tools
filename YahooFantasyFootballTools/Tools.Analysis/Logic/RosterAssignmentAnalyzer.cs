@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Fantasizer.Domain;
+using Tools.Analysis.Domain;
 
 namespace Tools.Analysis.Logic
 {
@@ -10,8 +11,13 @@ namespace Tools.Analysis.Logic
     {
         private readonly IDictionary<PositionAbbreviation, RosterPosition> _rosterPositions;
         private readonly ICollection<Player> _availablePlayers;
+        private readonly int? _week;
+        private RosterAssignmentResult _result;
 
-        public RosterAssignmentAnalyzer(IDictionary<PositionAbbreviation, RosterPosition> rosterPositions, ICollection<Player> availablePlayers)
+        public RosterAssignmentAnalyzer(
+            IDictionary<PositionAbbreviation, RosterPosition> rosterPositions,
+            ICollection<Player> availablePlayers,
+            int? week)
         {
             if (availablePlayers.Count > rosterPositions.Sum(rp => rp.Value.Count))
             {
@@ -20,9 +26,11 @@ namespace Tools.Analysis.Logic
 
             _rosterPositions = rosterPositions;
             _availablePlayers = availablePlayers;
+            _week = week;
+            _result = new RosterAssignmentResult();
         }
 
-        public IDictionary<Position, ICollection<Player>> GetOptimalAssignment()
+        public RosterAssignmentResult GetOptimalAssignment()
         {
             // Determine possible players for each position
             var assignments = DeterminePossiblePlayerAssignments();
@@ -45,7 +53,26 @@ namespace Tools.Analysis.Logic
                 {
                     if (rosterPosition.Value.Position.CanBeFilledBy(player))
                     {
-                        possiblePlayers.Enqueue(player);
+                        if (_week.HasValue && player.ByeWeeks.Contains(_week.Value))
+                        {
+                            var playerAssignmentResult = new PlayerAssignmentResult()
+                            {
+                                Player = player,
+                                Reason = PlayerAssignmentResultReason.ByeWeek
+                            };
+
+                            // TODO: I need to change this logic so that this position result does not get overwritten later.
+                            var positionAssignmentResult = new PositionAssignmentResult();
+                            positionAssignmentResult.Position = rosterPosition.Value.Position;
+                            positionAssignmentResult.PlayerAssignmentResults.Add(playerAssignmentResult);
+
+                            _result.PositionAssignmentResults[rosterPosition.Value.Position] = positionAssignmentResult;
+                                
+                        }
+                        else
+                        {
+                            possiblePlayers.Enqueue(player);
+                        }
                     }
                 }
 
@@ -61,18 +88,17 @@ namespace Tools.Analysis.Logic
             return assignments.OrderBy(kv => kv.Value.Count - kv.Key.Count);
         }
 
-        private IDictionary<Position, ICollection<Player>> AssignPlayers(
+        private RosterAssignmentResult AssignPlayers(
             IOrderedEnumerable<KeyValuePair<RosterPosition, Queue<Player>>> orderedAssignments)
         {
-            var finalAssignments = new Dictionary<Position, ICollection<Player>>();
             List<Player> availablePlayers = _availablePlayers.ToList();
 
             foreach (var assignment in orderedAssignments)
             {
+                var positionAssignmentResult = new PositionAssignmentResult();
+
                 var rosterPosition = assignment.Key;
                 var playerQueue = assignment.Value;
-                var assignedPlayers = new List<Player>();
-
                 int required = rosterPosition.Count;
 
                 while(required > 0 && playerQueue.Count > 0)
@@ -80,22 +106,33 @@ namespace Tools.Analysis.Logic
                     var player = playerQueue.Dequeue();
                     if (availablePlayers.Contains(player))
                     {
-                        assignedPlayers.Add(player);
+                        positionAssignmentResult.PlayerAssignmentResults.Add(
+                            new PlayerAssignmentResult()
+                            {
+                                Player = player,
+                                Reason = PlayerAssignmentResultReason.Optimal
+                            });
+
                         availablePlayers.Remove(player);
                         required--;
                     }
                 }
 
-                finalAssignments[rosterPosition.Position] = assignedPlayers;
+                _result.PositionAssignmentResults[rosterPosition.Position] = positionAssignmentResult;
             }
 
             // Remaining players go on the bench
             foreach (var player in availablePlayers)
             {
-                finalAssignments[Position.Bench].Add(player);
+                _result.PositionAssignmentResults[Position.Bench].PlayerAssignmentResults.Add(
+                    new PlayerAssignmentResult()
+                    {
+                        Player = player,
+                        Reason = PlayerAssignmentResultReason.Optimal
+                    });
             }
 
-            return finalAssignments;
+            return _result;
         }
     }
 }
