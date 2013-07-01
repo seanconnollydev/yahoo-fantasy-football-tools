@@ -2,6 +2,7 @@
 using System.Linq;
 using Fantasizer.Domain;
 using Tools.Analysis.Domain;
+using Tools.Analysis.External;
 
 namespace Tools.Analysis.Logic
 {
@@ -13,21 +14,30 @@ namespace Tools.Analysis.Logic
         private readonly LeagueDraftResultCollection _draftResults;
         private readonly TeamPlayerCollection<PlayerWithStats> _teamPlayers;
         private readonly bool _allowKeepersFromPriorSeason;
+        private readonly PreDraftRankingList _externalDraftResults;
 
-        public KeeperAnalyzer(LeagueTeamPlayerCollection<Player> leagueTeamPlayers, LeagueDraftResultCollection draftResults, bool allowKeepersFromPriorSeason)
+        public KeeperAnalyzer(
+            LeagueTeamPlayerCollection<Player> leagueTeamPlayers,
+            LeagueDraftResultCollection draftResults,
+            bool allowKeepersFromPriorSeason,
+            PreDraftRankingList externalDraftResults)
         {
             _leagueTeamPlayers = leagueTeamPlayers;
             _draftResults = draftResults;
             _allowKeepersFromPriorSeason = allowKeepersFromPriorSeason;
+            _externalDraftResults = externalDraftResults;
         }
 
-        public KeeperAnalyzer(TeamPlayerCollection<PlayerWithStats> teamPlayers,
-                              LeagueDraftResultCollection draftResults,
-                              bool allowKeepersFromPriorSeason)
+        public KeeperAnalyzer(
+            TeamPlayerCollection<PlayerWithStats> teamPlayers,
+            LeagueDraftResultCollection draftResults,
+            bool allowKeepersFromPriorSeason,
+            PreDraftRankingList externalDraftResults)
         {
             _teamPlayers = teamPlayers;
             _draftResults = draftResults;
             _allowKeepersFromPriorSeason = allowKeepersFromPriorSeason;
+            _externalDraftResults = externalDraftResults;
         }
 
         public List<EligibleKeeper> GetEligibleKeepersForLeague(string leagueKey)

@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EligibleKeeperWriterTests.cs" />
+    <Compile Include="EspnTests.cs" />
+    <Compile Include="PreDraftRankingListTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RosterAssignmentAnalyzerTests.cs" />
     <Compile Include="RosterDepthAnalyzerTests.cs" />

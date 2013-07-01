@@ -15,6 +15,8 @@ namespace Tools.Analysis.Domain
 
         public int DraftRound { get; set; }
 
+        public double DraftAuctionValue { get; set; }
+
         public bool IsEligible { get; set; }
 
         public string IneligibilityReason { get; set; }
