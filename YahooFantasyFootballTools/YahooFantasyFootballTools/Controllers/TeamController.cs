@@ -11,6 +11,7 @@ using System;
 using YahooFantasyFootballTools.Filters;
 using NHibernate;
 using Tools.Analysis.Data.Entities;
+using Tools.Analysis.External;
 
 namespace YahooFantasyFootballTools.Controllers
 {
@@ -56,7 +57,10 @@ namespace YahooFantasyFootballTools.Controllers
                 }
             }
 
-            var keeperAnalyzer = new KeeperAnalyzer(teamPlayers, draftResults, leagueData.AllowKeepersFromPriorSeason.Value);
+            var espn = new Espn();
+            var externalRankings = espn.Get2012PprPreDraftRankings();
+
+            var keeperAnalyzer = new KeeperAnalyzer(teamPlayers, draftResults, leagueData.AllowKeepersFromPriorSeason.Value, externalRankings);
             var keepers = keeperAnalyzer.GetEligibleKeepersForTeam(teamKey);
             var sortedKeepers = keepers.OrderBy(k => k.DraftRound);
 

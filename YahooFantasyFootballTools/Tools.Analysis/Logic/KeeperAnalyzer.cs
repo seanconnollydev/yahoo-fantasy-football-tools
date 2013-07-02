@@ -14,30 +14,30 @@ namespace Tools.Analysis.Logic
         private readonly LeagueDraftResultCollection _draftResults;
         private readonly TeamPlayerCollection<PlayerWithStats> _teamPlayers;
         private readonly bool _allowKeepersFromPriorSeason;
-        private readonly PreDraftRankingList _externalDraftResults;
+        private readonly PreDraftRankingList _externalRankings;
 
         public KeeperAnalyzer(
             LeagueTeamPlayerCollection<Player> leagueTeamPlayers,
             LeagueDraftResultCollection draftResults,
             bool allowKeepersFromPriorSeason,
-            PreDraftRankingList externalDraftResults)
+            PreDraftRankingList externalRankings)
         {
             _leagueTeamPlayers = leagueTeamPlayers;
             _draftResults = draftResults;
             _allowKeepersFromPriorSeason = allowKeepersFromPriorSeason;
-            _externalDraftResults = externalDraftResults;
+            _externalRankings = externalRankings;
         }
 
         public KeeperAnalyzer(
             TeamPlayerCollection<PlayerWithStats> teamPlayers,
             LeagueDraftResultCollection draftResults,
             bool allowKeepersFromPriorSeason,
-            PreDraftRankingList externalDraftResults)
+            PreDraftRankingList externalRankings)
         {
             _teamPlayers = teamPlayers;
             _draftResults = draftResults;
             _allowKeepersFromPriorSeason = allowKeepersFromPriorSeason;
-            _externalDraftResults = externalDraftResults;
+            _externalRankings = externalRankings;
         }
 
         public List<EligibleKeeper> GetEligibleKeepersForLeague(string leagueKey)
@@ -65,6 +65,15 @@ namespace Tools.Analysis.Logic
                     {
                         var playerDraftResult = _draftResults.DraftResults.FirstOrDefault(d => d.PlayerKey == player.Key);
                         keeper.DraftRound = playerDraftResult != null ? playerDraftResult.Round : 15;
+
+                        if (_externalRankings != null)
+                        {
+                            var ranking = _externalRankings.GetPlayer(player.Name);
+                            if (ranking != null)
+                            {
+                                keeper.DraftAuctionValue = ranking.AuctionValue;
+                            }
+                        }
                     }
 
                     keepers.Add(keeper);
@@ -98,6 +107,15 @@ namespace Tools.Analysis.Logic
                 {
                     var playerDraftResult = _draftResults.DraftResults.FirstOrDefault(d => d.PlayerKey == player.Key);
                     keeper.DraftRound = playerDraftResult != null ? playerDraftResult.Round : 15;
+
+                    if (_externalRankings != null)
+                    {
+                        var ranking = _externalRankings.GetPlayer(player.Name);
+                        if (ranking != null)
+                        {
+                            keeper.DraftAuctionValue = ranking.AuctionValue;
+                        }
+                    }
                 }
 
                 keepers.Add(keeper);

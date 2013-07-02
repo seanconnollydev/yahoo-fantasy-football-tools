@@ -12,6 +12,7 @@
         <tr>
             <th>Player</th>
             <th>Draft round</th>
+            <th>Draft auction value</th>
             <th>Last season points</th>
         </tr>
     </thead>
@@ -23,10 +24,11 @@
                 @if (keeper.IsEligible)
                 {
                     <td>@keeper.DraftRound</td>
+                    <td>$@keeper.DraftAuctionValue</td>
                 }
                 else
                 {
-                    <td>@keeper.IneligibilityReason</td>
+                    <td colspan="2">@keeper.IneligibilityReason</td>
                 }
                 <td>@keeper.LastSeasonPoints</td>
             </tr>

@@ -28,7 +28,7 @@ namespace Tools.Analysis.Logic
                 using (var textWriter = new StreamWriter(memoryStream))
                 using (var csvWriter = new CSVWriter(dialect, textWriter))
                 {
-                    csvWriter.WriteRow(new object[] { "Team", "Player", "Eligible?", "Draft Round" });
+                    csvWriter.WriteRow(new object[] { "Team", "Player", "Eligible?", "Draft Round", "Draft Auction Value" });
 
                     foreach (var keeper in _keepers)
                     {
@@ -37,7 +37,8 @@ namespace Tools.Analysis.Logic
                             keeper.TeamName,
                             keeper.PlayerName,
                             keeper.IsEligible ? "Yes" : "No",
-                            keeper.DraftRound
+                            keeper.DraftRound,
+                            string.Format("${0}", keeper.DraftAuctionValue)
                         });
                     }
                 }

@@ -9,10 +9,15 @@ namespace Tools.Analysis.Domain
     {
         public PreDraftRanking GetPlayer(string playerName)
         {
-            // TODO: Build a few hash tables that store supported formats of strings:
-            // FirstName LastName
-            // LastName, FirstName
-            throw new NotImplementedException();
+            foreach (var ranking in this)
+            {
+                if (ranking.PlayerName.Contains(playerName))
+                {
+                    return ranking;
+                }
+            }
+
+            return null;
         }
     }
 }

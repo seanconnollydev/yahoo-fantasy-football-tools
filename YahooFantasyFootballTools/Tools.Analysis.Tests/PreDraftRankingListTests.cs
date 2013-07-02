@@ -19,13 +19,10 @@ namespace Tools.Analysis.Tests
             rankings.Add(new PreDraftRanking("Ray Rice, BAL", 2, 59, 8));
             rankings.Add(new PreDraftRanking("Calvin Johnson, DET", 3, 59, 5));
             rankings.Add(new PreDraftRanking("Wes Welker", 4, 55, 9));
-            rankings.Add(new PreDraftRanking("LeSean McCoy, PHO", 5, 53, 7));
+            rankings.Add(new PreDraftRanking("LeSean McCoy, PHI", 5, 53, 7));
 
             var arianFoster = rankings.GetPlayer("Arian Foster");
             Assert.IsNotNull(arianFoster);
-
-            var fosterArian = rankings.GetPlayer("Foster, Arian");
-            Assert.IsNotNull(fosterArian);
         }
     }
 }
