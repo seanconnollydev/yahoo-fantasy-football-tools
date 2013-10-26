@@ -6,8 +6,18 @@
 }
 
 <h2>Team Roster Depth</h2>
-<h4>Week @Model.SelectedWeek</h4>
-<table class="table table-bordered table-hover">
+<h4>
+    @if (Model.SelectedWeek > 1)
+    {
+        @Html.ActionLink("Prev", "ShowRosterDepth", "Team", new { teamKey = Model.Team.Key, week = Model.SelectedWeek - 1 }, null)
+    }
+    Week @Model.SelectedWeek
+    @if (Model.SelectedWeek < Model.Weeks)
+    {
+        @Html.ActionLink("Next", "ShowRosterDepth", "Team", new { teamKey = Model.Team.Key, week = Model.SelectedWeek + 1 }, null)
+    }
+</h4>
+<table class="table table-bordered">
     <thead>
         <tr>
             <th>Position</th>
@@ -25,6 +35,35 @@
     </tbody>
 </table>
 
+<h4>Roster</h4>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Player Name</th>
+            <th>Position</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var player in Model.Players)
+        {
+            <tr class="@StatusClass(player)">
+                <td>@player.Name</td>
+                <td>@string.Join(",", player.EligiblePositions.Select(p => p.Abbreviation))</td>
+                <td>@if(player.ByeWeeks.Contains(Model.SelectedWeek))
+                    {
+                        <text>Bye</text>
+                    }
+                    else
+                    {
+                        <text>@player.Status</text>
+                    }
+                </td>
+            </tr>
+        }    
+    </tbody>
+</table>
+
 <div class="pagination">
     <ul>
         @for (int i = 1; i <= Model.Weeks; i++)
@@ -37,6 +76,7 @@
 </div>
     
 @using Tools.Analysis.Domain;
+@using Fantasizer.Domain;
 @functions{
     private string DepthClass(PositionDepth depth)
     {
@@ -46,6 +86,25 @@
             case PositionDepth.VeryShallow:
                 return "error";
             default: return string.Empty;
+        }
+    }
+    
+    private string StatusClass(Player player)
+    {
+        if(player.ByeWeeks.Contains(Model.SelectedWeek))
+        {
+            return "error";    
+        }
+        
+        switch(player.Status)
+        {
+            case "O":
+            case "D":
+            case "IR":
+                return "error";
+            case "Q":
+                return "warning";
+            default: return string.Empty;   
         }
     }
 }

@@ -12,19 +12,21 @@ namespace Fantasizer.Domain
         public int Id { get; private set; }
         public string Key { get; private set; }
         public string Name { get; private set; }
+        public string Status { get; private set; }
         public ICollection<Position> EligiblePositions { get; private set; }
         public ICollection<int> ByeWeeks { get; private set; }
 
-        public Player(int id, string key, string name, ICollection<Position> eligiblePositions, ICollection<int> byeWeeks)
+        public Player(int id, string key, string name, string status, ICollection<Position> eligiblePositions, ICollection<int> byeWeeks)
         {
             this.Id = id;
             this.Key = key;
             this.Name = name;
+            this.Status = status;
             this.EligiblePositions = eligiblePositions;
             this.ByeWeeks = byeWeeks;
         }
 
-        internal Player(Player player) : this(player.Id, player.Key, player.Name, player.EligiblePositions, player.ByeWeeks)
+        internal Player(Player player) : this(player.Id, player.Key, player.Name, player.Status, player.EligiblePositions, player.ByeWeeks)
         {
         }
 

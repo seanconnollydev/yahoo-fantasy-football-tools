@@ -7,6 +7,6 @@
 
 <h2>@Model.Name</h2>
 <ul class="unstyled btn-list-container">
-    <li>@Html.ActionLink("Keeper Eligibility", "ListEligibleKeepers", "Team", new {teamKey = Model.Key}, new { @class = "btn btn-large btn-block" })</li>
     <li>@Html.ActionLink("Analyze Depth", "ShowRosterDepth", "Team", new { teamKey = Model.Key }, new { @class = "btn btn-large btn-block" })</li>
+    <li>@Html.ActionLink("Keeper Eligibility", "ListEligibleKeepers", "Team", new {teamKey = Model.Key}, new { @class = "btn btn-large btn-block" })</li>
 </ul>

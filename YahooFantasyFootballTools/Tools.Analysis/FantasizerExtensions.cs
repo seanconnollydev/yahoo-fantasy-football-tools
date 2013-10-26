@@ -10,9 +10,14 @@ namespace Tools.Analysis
     {
         public static bool CanBeFilledBy(this Position position, Player player)
         {
-            foreach (var possiblePosition in position.PossiblePositions)
+            foreach (var eligiblePosition in player.EligiblePositions)
             {
-                foreach (var eligiblePosition in player.EligiblePositions)
+                if (eligiblePosition.Equals(position))
+                {
+                    return true;
+                }
+
+                foreach (var possiblePosition in position.PossiblePositions)
                 {
                     if (eligiblePosition.Equals(possiblePosition))
                     {

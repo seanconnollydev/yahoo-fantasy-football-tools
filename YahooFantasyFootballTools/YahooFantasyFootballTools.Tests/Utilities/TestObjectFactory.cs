@@ -69,7 +69,7 @@ namespace YahooFantasyFootballTools.Tests.Utilities
 
             for (int i = 0; i < 15; i++)
             {
-                players.Add(new Player(i, "PlayerKey_" + i, "Player " + i, null, null));
+                players.Add(new Player(i, "PlayerKey_" + i, "Player " + i, "Status_" + i, null, null));
             }
 
             return players;

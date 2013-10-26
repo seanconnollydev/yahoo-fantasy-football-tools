@@ -1,16 +1,23 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooFantasyFootballTools", "YahooFantasyFootballTools\YahooFantasyFootballTools.csproj", "{495AC215-D4B1-444C-B6FE-A25C8B71EE61}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooFantasyFootballTools.Tests", "YahooFantasyFootballTools.Tests\YahooFantasyFootballTools.Tests.csproj", "{D8CF513C-782D-4AE4-A675-157A571B487B}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{17AD1B8E-0C49-4049-BF6F-24CE49AC5ED8}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 		YahooFantasyFootballTools.vsmdi = YahooFantasyFootballTools.vsmdi
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6A07C0D2-02BF-4E90-B890-30B17A94E2B8}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooFantasyFootballTools", "YahooFantasyFootballTools\YahooFantasyFootballTools.csproj", "{495AC215-D4B1-444C-B6FE-A25C8B71EE61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooFantasyFootballTools.Tests", "YahooFantasyFootballTools.Tests\YahooFantasyFootballTools.Tests.csproj", "{D8CF513C-782D-4AE4-A675-157A571B487B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fantasizer", "Fantasizer\Fantasizer.csproj", "{A4EECA87-E40D-4BD1-BA52-B0A1128739F7}"
 EndProject
@@ -23,13 +30,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.Analysis.Data", "Tools.Analysis.Data\Tools.Analysis.Data.csproj", "{8164F672-A0F6-4E1B-BE35-EF3008A68DE1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.Analysis.Data.Tests", "Tools.Analysis.Data.Tests\Tools.Analysis.Data.Tests.csproj", "{738F98F5-4EB6-4257-AC76-184BBD93EB61}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6A07C0D2-02BF-4E90-B890-30B17A94E2B8}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

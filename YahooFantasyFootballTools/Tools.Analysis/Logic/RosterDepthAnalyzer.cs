@@ -26,22 +26,18 @@ namespace Tools.Analysis.Logic
         /// <param name="week">(Optional) A specific week to determine depth for (otherwise the team is evaluated overall).</param>
         public IDictionary<Position, PositionDepth> GetRosterDepth(int? week)
         {
-            ICollection<Player> availablePlayers;
-            if (week.HasValue)
+            ICollection<Player> availablePlayers = new List<Player>();
+
+            foreach (var player in _availablePlayers)
             {
-                // Only consider players not on bye for the given week (if specified).
-                availablePlayers = new List<Player>();
-                foreach (var player in _availablePlayers)
+                if (!(week.HasValue && player.ByeWeeks.Contains(week.Value)) && // Player is not on bye
+                    (player.Status == null || // Player is not Out or on Injured Reserve
+                        (!player.Status.Equals("O", StringComparison.OrdinalIgnoreCase) &&
+                        !player.Status.Equals("IR", StringComparison.OrdinalIgnoreCase) &&
+                        !player.Status.Equals("D", StringComparison.OrdinalIgnoreCase))))
                 {
-                    if (!player.ByeWeeks.Contains(week.Value))
-                    {
-                        availablePlayers.Add(player);
-                    }
+                    availablePlayers.Add(player);
                 }
-            }
-            else
-            {
-                availablePlayers = _availablePlayers;
             }
 
             // Determine the optimal roster assignments

@@ -78,10 +78,9 @@ namespace YahooFantasyFootballTools.Controllers
             var depthAnalyzer = new RosterDepthAnalyzer(leagueSettings.RosterPositions, roster.Players);
 
             var rosterDepthModel = new RosterDepthModel(
-                roster.Team,
-                depthAnalyzer.GetRosterDepth(week),
-                leagueSettings.League.EndWeek,
-                roster.Week);
+                roster,
+                depthAnalyzer.GetRosterDepth(roster.Week),
+                leagueSettings.League.EndWeek);
 
             return View(rosterDepthModel);
         }

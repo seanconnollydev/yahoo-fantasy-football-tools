@@ -46,6 +46,9 @@ namespace Fantasizer.Xml
             string key = playerElement.Element(YahooXml.XMLNS + "player_key").Value;
             string name = playerElement.Element(YahooXml.XMLNS + "name").Element(YahooXml.XMLNS + "full").Value;
 
+            var statusElement = playerElement.Element(YahooXml.XMLNS + "status");
+            string status = statusElement != null ? statusElement.Value : null;
+
             var eligiblePositions = new List<Position>();
             foreach (var positionElement in playerElement.Elements(YahooXml.XMLNS + "eligible_positions"))
             {
@@ -58,7 +61,7 @@ namespace Fantasizer.Xml
                 byeWeeks.Add(Convert.ToInt32(weekElement.Value));
             }
 
-            return new Player(id, key, name, eligiblePositions, byeWeeks);
+            return new Player(id, key, name, status, eligiblePositions, byeWeeks);
         }
 
         private static PlayerWithStats DeserializePlayerWithStats(XElement playerElement)

@@ -15,13 +15,14 @@ namespace Tools.Analysis.Tests.Utilities
             
             string key = string.Format("{0}_key", id);
             string name = string.Format("{0}_name", id);
+            string status = string.Format("{0}_status", id);
 
             var eligiblePositions = new List<Position>();
             eligiblePositions.Add(singlePosition);
 
             var byeWeeks = new List<int>() { byeWeek };
 
-            var player = new Player(id, key, name, eligiblePositions, byeWeeks);
+            var player = new Player(id, key, name, status, eligiblePositions, byeWeeks);
             return player;
         }
 
