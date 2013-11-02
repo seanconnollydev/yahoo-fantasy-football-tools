@@ -133,5 +133,16 @@ namespace Fantasizer.Tests
             var games = _service.GetGames();
             Assert.IsTrue(games.Count > 0);
         }
+
+        [TestMethod]
+        public void GetMatchups()
+        {
+            var matchups = _service.GetMatchups(ClientTestConfiguration.DEFAULT_TEAM_KEY);
+            Assert.IsNotNull(matchups);
+            Assert.IsTrue(matchups.Count > 0);
+            Assert.IsTrue(matchups.First().Week > 0);
+            Assert.IsTrue(matchups.First().TeamKeySelf == ClientTestConfiguration.DEFAULT_TEAM_KEY);
+            Assert.IsFalse(string.IsNullOrEmpty(matchups.First().TeamKeyOpponent));
+        }
     }
 }

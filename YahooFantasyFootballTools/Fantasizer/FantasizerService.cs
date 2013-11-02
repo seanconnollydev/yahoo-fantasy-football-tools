@@ -134,5 +134,12 @@ namespace Fantasizer
                 .Element(YahooXml.XMLNS + "user")
                 .Element(YahooXml.XMLNS + "games"));
         }
+
+        public ICollection<Matchup> GetMatchups(string teamKey)
+        {
+            string requestUri = string.Format("http://fantasysports.yahooapis.com/fantasy/v2/team/{0}/matchups", teamKey);
+            var xml = this.ApiClient.ExecuteRequest(requestUri);
+            return ResponseDeserializer.DeserializeMatchups(xml.Root.Element(YahooXml.XMLNS + "team"));
+        }
     }
 }

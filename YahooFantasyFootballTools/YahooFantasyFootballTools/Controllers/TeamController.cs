@@ -11,6 +11,8 @@ using System;
 using YahooFantasyFootballTools.Filters;
 using NHibernate;
 using Tools.Analysis.Data.Entities;
+using System.Collections.Generic;
+using Fantasizer.Domain;
 
 namespace YahooFantasyFootballTools.Controllers
 {
@@ -83,6 +85,66 @@ namespace YahooFantasyFootballTools.Controllers
                 leagueSettings.League.EndWeek);
 
             return View(rosterDepthModel);
+        }
+
+        [MvcSiteMapNode(Key = "WeeklyRosterDepth", Title = "Weekly Roster Depth", ParentKey = "Team")]
+        public ActionResult ShowWeeklyRosterDepth(string teamKey)
+        {
+            var matchups = this.Fantasizer.GetMatchups(teamKey);
+            LeagueSettings leagueSettings = null;
+
+            var weeklyRosterDepthModels = new List<WeeklyRosterDepthModel>();
+            foreach (var matchup in matchups)
+            {
+                var weeklyModel = new WeeklyRosterDepthModel();
+                weeklyModel.Week = matchup.Week;
+                
+                var rosterSelf = this.Fantasizer.GetRosterPlayers(matchup.TeamKeySelf, matchup.Week);
+                if (leagueSettings == null)
+                {
+                    leagueSettings = this.Fantasizer.GetLeagueSettings(rosterSelf.Team.LeagueKey);
+                }
+                var depthAnalyzerSelf = new RosterDepthAnalyzer(leagueSettings.RosterPositions, rosterSelf.Players);
+                weeklyModel.TeamSelf = new WeeklyTeamRosterDepthModel();
+                weeklyModel.TeamSelf.TeamName = rosterSelf.Team.Name;
+                weeklyModel.TeamSelf.TeamKey = rosterSelf.Team.Key;
+                var positionDepths = new List<PositionDepthModel>();
+                foreach (var positionDepth in depthAnalyzerSelf.GetRosterDepth(matchup.Week))
+                {
+                    if ((int)positionDepth.Value < 3)
+                    {
+                        var pdModel = new PositionDepthModel();
+                        pdModel.PositionName = positionDepth.Key.DisplayName;
+                        pdModel.DepthName = positionDepth.Value.ToString();
+                        pdModel.DepthValue = positionDepth.Value;
+                        positionDepths.Add(pdModel);
+                    }
+                }
+                weeklyModel.TeamSelf.PositionDepths = positionDepths;
+                
+                var rosterOpponent = this.Fantasizer.GetRosterPlayers(matchup.TeamKeyOpponent, matchup.Week);
+                var depthAnalyzerOpponent = new RosterDepthAnalyzer(leagueSettings.RosterPositions, rosterOpponent.Players);
+
+                weeklyModel.TeamOpponent = new WeeklyTeamRosterDepthModel();
+                weeklyModel.TeamOpponent.TeamName = rosterOpponent.Team.Name;
+                weeklyModel.TeamOpponent.TeamKey = rosterOpponent.Team.Key;
+                var positionDepthsOpponent = new List<PositionDepthModel>();
+                foreach (var positionDepth in depthAnalyzerOpponent.GetRosterDepth(matchup.Week))
+                {
+                    if ((int)positionDepth.Value < 3)
+                    {
+                        var pdModel = new PositionDepthModel();
+                        pdModel.PositionName = positionDepth.Key.DisplayName;
+                        pdModel.DepthName = positionDepth.Value.ToString();
+                        pdModel.DepthValue = positionDepth.Value;
+                        positionDepthsOpponent.Add(pdModel);
+                    }
+                }
+                weeklyModel.TeamOpponent.PositionDepths = positionDepthsOpponent;
+                weeklyRosterDepthModels.Add(weeklyModel);
+            }
+
+            return View(weeklyRosterDepthModels);
         }
     }
 }

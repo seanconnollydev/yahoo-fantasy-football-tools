@@ -33,5 +33,7 @@ namespace Fantasizer
         LeagueSettings GetLeagueSettings(string leagueKey);
 
         ICollection<Game> GetGames();
+
+        ICollection<Matchup> GetMatchups(string teamKey);
     }
 }

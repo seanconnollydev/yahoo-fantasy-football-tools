@@ -234,5 +234,35 @@ namespace Fantasizer.Xml
                 draftResultElement.Element(YahooXml.XMLNS + "player_key").Value
             );
         }
+
+        internal static ICollection<Matchup> DeserializeMatchups(XElement teamElement)
+        {
+            var matchups = new List<Matchup>();
+            var matchupsElement = teamElement.Element(YahooXml.XMLNS + "matchups");
+
+            foreach (var matchupElement in matchupsElement.Elements(YahooXml.XMLNS + "matchup"))
+            {
+                string teamKeySelf = string.Empty;
+                string teamKeyOpponent = string.Empty;
+                int week = Convert.ToInt32(matchupElement.Element(YahooXml.XMLNS + "week").Value);
+
+                foreach (var matchupTeamElement in matchupElement.Element(YahooXml.XMLNS + "teams").Elements(YahooXml.XMLNS + "team"))
+                {
+                    var isOwnedByCurrentLogin = matchupTeamElement.Element(YahooXml.XMLNS + "is_owned_by_current_login");
+                    if (isOwnedByCurrentLogin != null)
+                    {
+                        teamKeySelf = matchupTeamElement.Element(YahooXml.XMLNS + "team_key").Value;
+                    }
+                    else
+                    {
+                        teamKeyOpponent = matchupTeamElement.Element(YahooXml.XMLNS + "team_key").Value;
+                    }
+                }
+                
+                matchups.Add(new Matchup(week, teamKeySelf, teamKeyOpponent));
+            }
+
+            return matchups;
+        }
     }
 }

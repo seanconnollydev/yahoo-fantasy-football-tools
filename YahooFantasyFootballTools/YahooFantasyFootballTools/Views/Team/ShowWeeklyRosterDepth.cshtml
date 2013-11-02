@@ -1,0 +1,60 @@
+﻿@model IEnumerable<YahooFantasyFootballTools.Models.WeeklyRosterDepthModel>
+
+@{
+    ViewBag.Title = "Weekly Team Roster Depth";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Weekly Team Roster Depth</h2>
+@foreach (var depthModel in Model)
+{
+    if (depthModel.TeamSelf.PositionDepths.Any() || depthModel.TeamOpponent.PositionDepths.Any())
+    {
+        <h4>Week @depthModel.Week</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Team</th>
+                    <th>Positions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.ActionLink(depthModel.TeamSelf.TeamName, "ShowRosterDepth", "Team", new { teamKey = depthModel.TeamSelf.TeamKey, week = depthModel.Week }, null)</td>
+                    <td>
+                        @foreach (var positionDepth in depthModel.TeamSelf.PositionDepths)
+                        {
+                            @string.Format("{0} - {1}", positionDepth.PositionName, positionDepth.DepthName)
+                            <br />
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.ActionLink(depthModel.TeamOpponent.TeamName, "ShowRosterDepth", "Team", new { teamKey = depthModel.TeamOpponent.TeamKey, week = depthModel.Week }, null)</td>
+                    <td>
+                        @foreach (var positionDepth in depthModel.TeamOpponent.PositionDepths)
+                        {
+                            @string.Format("{0} - {1}", positionDepth.PositionName, positionDepth.DepthName)
+                            <br />
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+}
+
+@using Tools.Analysis.Domain;
+@using Fantasizer.Domain;
+@functions{
+    private string DepthClass(PositionDepth depth)
+    {
+        switch(depth)
+        {
+            case PositionDepth.Shallow:
+            case PositionDepth.VeryShallow:
+                return "error";
+            default: return string.Empty;
+        }
+    }
+}

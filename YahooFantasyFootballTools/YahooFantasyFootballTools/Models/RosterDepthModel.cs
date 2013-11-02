@@ -58,4 +58,18 @@ namespace YahooFantasyFootballTools.Models
         public string DepthName { get; set; }
         public PositionDepth DepthValue { get; set; }
     }
+
+    public class WeeklyRosterDepthModel
+    {
+        public int Week { get; set; }
+        public WeeklyTeamRosterDepthModel TeamSelf { get; set; }
+        public WeeklyTeamRosterDepthModel TeamOpponent { get; set; }
+    }
+
+    public class WeeklyTeamRosterDepthModel
+    {
+        public string TeamName { get; set; }
+        public string TeamKey { get; set; }
+        public IEnumerable<PositionDepthModel> PositionDepths { get; set; }
+    }
 }

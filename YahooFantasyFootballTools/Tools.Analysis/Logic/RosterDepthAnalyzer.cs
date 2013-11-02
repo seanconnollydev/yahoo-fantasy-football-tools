@@ -24,7 +24,7 @@ namespace Tools.Analysis.Logic
         /// </summary>
         /// <returns>A dictionary keyed off of position (e.g. QB, RB, etc.)</returns>
         /// <param name="week">(Optional) A specific week to determine depth for (otherwise the team is evaluated overall).</param>
-        public IDictionary<Position, PositionDepth> GetRosterDepth(int? week)
+        public RosterDepthResult GetRosterDepth(int? week)
         {
             ICollection<Player> availablePlayers = new List<Player>();
 
@@ -44,7 +44,7 @@ namespace Tools.Analysis.Logic
             var assignmentAnalyzer = new RosterAssignmentAnalyzer(_rosterPositions, availablePlayers);
             var optimalAssignments = assignmentAnalyzer.GetOptimalAssignment();
 
-            var rosterDepthMap = new Dictionary<Position, PositionDepth>();
+            var rosterDepthMap = new RosterDepthResult();
             foreach (var rosterPosition in _rosterPositions)
             {
                 // Short circuit the bench position, we don't need to evaluate depth for this position

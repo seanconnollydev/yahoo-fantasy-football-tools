@@ -125,6 +125,7 @@
     <Compile Include="Domain\LeagueDraftResultCollection.cs" />
     <Compile Include="Domain\LeagueSettings.cs" />
     <Compile Include="Domain\LeagueTeamCollection.cs" />
+    <Compile Include="Domain\Matchup.cs" />
     <Compile Include="Domain\Player.cs" />
     <Compile Include="Domain\PlayerCollection.cs" />
     <Compile Include="Domain\PlayerPoints.cs" />
