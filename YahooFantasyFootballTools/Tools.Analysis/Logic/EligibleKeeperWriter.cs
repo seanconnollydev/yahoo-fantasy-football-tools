@@ -28,7 +28,7 @@ namespace Tools.Analysis.Logic
                 using (var textWriter = new StreamWriter(memoryStream))
                 using (var csvWriter = new CSVWriter(dialect, textWriter))
                 {
-                    csvWriter.WriteRow(new object[] { "Team", "Player", "Eligible?", "Draft Round" });
+                    csvWriter.WriteRow(new object[] { "Team", "Player", "Eligible?", "Draft Round", "Auction Cost" });
 
                     foreach (var keeper in _keepers)
                     {
