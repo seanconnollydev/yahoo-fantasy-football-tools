@@ -226,12 +226,20 @@ namespace Fantasizer.Xml
         }
 
         internal static DraftResult DeserializeDraftResult(XElement draftResultElement)
-        {
+        {            
+            var costElement = draftResultElement.Element(YahooXml.XMLNS + "cost");
+            int? cost = null;
+            if (costElement != null)
+            {
+                cost = Convert.ToInt32(costElement.Value);
+            }
+
             return new DraftResult(
                 Convert.ToInt32(draftResultElement.Element(YahooXml.XMLNS + "pick").Value),
                 Convert.ToInt32(draftResultElement.Element(YahooXml.XMLNS + "round").Value),
                 draftResultElement.Element(YahooXml.XMLNS + "team_key").Value,
-                draftResultElement.Element(YahooXml.XMLNS + "player_key").Value
+                draftResultElement.Element(YahooXml.XMLNS + "player_key").Value,
+                cost
             );
         }
 

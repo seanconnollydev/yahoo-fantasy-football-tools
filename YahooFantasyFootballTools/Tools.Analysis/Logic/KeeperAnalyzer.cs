@@ -55,6 +55,7 @@ namespace Tools.Analysis.Logic
                     {
                         var playerDraftResult = _draftResults.DraftResults.FirstOrDefault(d => d.PlayerKey == player.Key);
                         keeper.DraftRound = playerDraftResult != null ? playerDraftResult.Round : 15;
+                        keeper.Cost = playerDraftResult != null ? playerDraftResult.Cost.GetValueOrDefault(0) : 0;
                     }
 
                     keepers.Add(keeper);
@@ -71,7 +72,7 @@ namespace Tools.Analysis.Logic
             foreach (var player in _teamPlayers.Players)
             {
                 var keeper = new EligibleKeeper()
-                {
+                {                    
                     TeamName = _teamPlayers.Team.Name,
                     PlayerName = player.Name,
                     PlayerKey = player.Key,
@@ -88,6 +89,7 @@ namespace Tools.Analysis.Logic
                 {
                     var playerDraftResult = _draftResults.DraftResults.FirstOrDefault(d => d.PlayerKey == player.Key);
                     keeper.DraftRound = playerDraftResult != null ? playerDraftResult.Round : 15;
+                    keeper.Cost = playerDraftResult != null ? playerDraftResult.Cost.GetValueOrDefault(0) : 0;
                 }
 
                 keepers.Add(keeper);

@@ -104,7 +104,7 @@ namespace YahooFantasyFootballTools.Tests.Utilities
 
             for (int i = 1; i <= 150; i++)
             {
-                draftResults.Add(new DraftResult(i, (i % 15) + 1, "TeamKey_" + i, "PlayerKey_" + (i * 10)));
+                draftResults.Add(new DraftResult(i, (i % 15) + 1, "TeamKey_" + i, "PlayerKey_" + (i * 10), (i % 15) + 1));
             }
 
             return draftResults;

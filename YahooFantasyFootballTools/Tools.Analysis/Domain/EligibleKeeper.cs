@@ -21,6 +21,8 @@ namespace Tools.Analysis.Domain
 
         public double LastSeasonPoints { get; set; }
 
+        public int Cost { get; set; }
+
         private static readonly Dictionary<string, string> _previousKeepers;
 
         static EligibleKeeper()

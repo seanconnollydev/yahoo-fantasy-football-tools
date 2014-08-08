@@ -37,7 +37,8 @@ namespace Tools.Analysis.Logic
                             keeper.TeamName,
                             keeper.PlayerName,
                             keeper.IsEligible ? "Yes" : "No",
-                            keeper.DraftRound
+                            keeper.DraftRound,
+                            keeper.Cost
                         });
                     }
                 }

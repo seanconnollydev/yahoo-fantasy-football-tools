@@ -59,6 +59,19 @@ namespace Fantasizer.Tests
         }
 
         [TestMethod]
+        public void GetDraftResults_WithCost()
+        {
+            var leagueDraftResults = _service.GetDraftResults(ClientTestConfiguration.LEAGUE_SCALLYWAGS_2013);
+
+            Assert.IsNotNull(leagueDraftResults);
+            foreach (var draftResult in leagueDraftResults.DraftResults)
+            {
+                Assert.IsNotNull(draftResult.Cost);
+                Assert.IsTrue(draftResult.Cost.Value > 0);
+            }
+        }
+
+        [TestMethod]
         public void GetRosterPlayers()
         {
             var rosterPlayerResults = _service.GetRosterPlayers(ClientTestConfiguration.DEFAULT_TEAM_KEY, null);
